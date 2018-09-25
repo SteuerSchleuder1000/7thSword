@@ -6,10 +6,14 @@ html(lang='en')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         meta(http-equiv='X-UA-Compatible', content='ie=edge')
 
+        // Apple stuff
         link(rel='manifest', href='/manifest.json')
         meta(name='apple-mobile-web-app-capable', content='yes')
-
         link(rel='icon' href='assets/logo.png')
+        link(rel="apple-touch-icon", href='assets/logo.png')
+        link(rel="apple-touch-startup-image", href="assets/island.png")
+        meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent")
+
 
 
         script(src='scripts/pixi.js')
@@ -23,10 +27,11 @@ html(lang='en')
         script(src='scripts/init.js')
         script(src='scripts/interface.js')
         script(src='scripts/level.js')
+        script(src='scripts/levels/level001.js')   
+        script(src='scripts/levels/level002.js')       
+        script(src='scripts/levelManager.js')
         script(src='scripts/menu.js')
-        script(src='scripts/statemachine.js')        
-        //script(src='scripts/world.js')
-
+        script(src='scripts/statemachine.js') 
 
 
         
@@ -34,7 +39,6 @@ html(lang='en')
 
 
         //script(src='animationLib.js')
-        //script(src='script.js')
         link(rel='stylesheet', href='css/stylus.css')
     body
         .main

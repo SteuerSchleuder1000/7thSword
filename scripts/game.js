@@ -6,9 +6,10 @@
 
 
 let e_gameStates = {
-    mainMenu: 0,
-    world: 1,
-    worldMenu:2,
+    loading: 0,
+    mainMenu: 1,
+    world: 2,
+    worldMenu:3,
     properties: {}
 
 }
@@ -26,17 +27,17 @@ class Game {
         this.scene.name = 'Game'
         app.stage.addChild(this.scene)
         
+        this.loaded = false 
 
         this.state = new Statemachine(this)
         this.state.add( e_gameStates.mainMenu,   new MenuManager(this, this.scene))
         this.state.add( e_gameStates.world,      new LevelManager(this, this.scene))
 
 
-        this.hero =  new Hero(this)
 
 
-
-        this.transition(e_gameStates.mainMenu, e_menues.introScreen)
+        this.load()
+        
 
         let update = delta => { this.update(delta) }
         app.ticker.add(update.bind(this))
@@ -44,9 +45,32 @@ class Game {
     } // constructor
 
 
+    load() {
+        // load & display loading screen
+        // load data
+        // -> story progress
+        // -> hero
+        //  -> items, abilities etc.
+        // transition to mainscreen
+
+        this.loadingScreen(true)
+        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menues.introScreen); }
+
+        this.hero = new Hero(this) // !!! load from save state
+        this.story = null // load from save state
+
+        callback()
+
+    }
 
 
 
+    loadingScreen(b) {
+        // turn on/off
+    }
+
+    printoutSpriteTree() {
+    }
 
     transition(state, option) {
         this.state.change(state)

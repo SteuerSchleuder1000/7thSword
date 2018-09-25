@@ -28,13 +28,12 @@ class Menu extends Scene {
 
 
 
-
-
 class MenuManager extends Manager { 
 
     constructor(manager, superScene) {
         super(manager, superScene)
         this.scene.name = 'menuManager'
+        this.assets = []
         
         this.state.add(e_menues.introScreen, new M_introScreen(this, this.scene))
         this.state.add(e_menues.levelSelect, new M_levelSelect(this, this.scene))
@@ -44,9 +43,33 @@ class MenuManager extends Manager {
 
     progress(e,p) { } // load next menu if e.progress == 100
 
+    preload() {
+        
+        for (let menu of this.state.states) {
+            for (let asset of menu.assets) {
+                if (this.assets.index(asset) == -1) {
+                    this.assets.push(asset)
+                }
+            }
+        }
+
+
+        let setup = _=> { this.setup(callback) }
+        let progress = (e,p) => { this.progress(e,p)}
+        PIXI.loader
+            .add(this.assets)
+            .on('progress', progress.bind(this))
+            .load(setup.bind(this))
+    }
+
+    setup() { 
+        for (let menu of this.state.states) {
+            menu.loaded = true
+        }
+    }
+
     
     transition(menu) {
-        console.log('menuManager transition')
         this.state.change(menu)
     }
 
@@ -122,7 +145,6 @@ class M_introScreen extends Menu {
     }
 
     transition(e) {
-        console.log('transition',e, this)
         this.manager.transition(e_menues.levelSelect)
     }
 
@@ -172,13 +194,11 @@ class M_levelSelect extends Menu {
         this.scene.addChild(text)
 
         super.setup(callback)
-        // this.loaded = true
-        // if (callback) { callback() }
     }
 
     transition() {
         // Level 1
-        this.manager.loadLevel(e_levels.lv_001)
+        this.manager.loadLevel(e_levels.lv_002)
     }
 }
 
