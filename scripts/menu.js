@@ -77,6 +77,7 @@ class M_introScreen extends Menu {
 
         super(manager, superScene)
         this.scene.name = 'introScreen'
+        this.menuID = e_menues.mainscreen
         this.fontSize = 50
         this.text = 'Tap To Enter'
         this.assets = ['assets/menuscreen.png']
@@ -136,7 +137,8 @@ class M_introScreen extends Menu {
 class M_levelSelect extends Menu {
     constructor(manager, superScene) {
         super(manager, superScene)
-        this.scene.name = 'levelSelect'
+        this.scene.name = 'levelSelect' // !!! delete eventually
+        this.menuID = e_menues.levelSelect
         this.back = e_menues.introScreen
         this.assets = ['assets/grass.png'] // loaded in Scene.load()
 
