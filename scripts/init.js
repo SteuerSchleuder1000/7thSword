@@ -26,8 +26,8 @@ function init_PIXI() {
 // GAME PARAMETERS
 
 let game, app // Global Objects
-let HEIGHT = 1334
-let WIDTH = 750 
+let HEIGHT = window.innerHeight //1334
+let WIDTH = window.innerWidth //750 
 
 let e_zPos = {
     bg: 0,

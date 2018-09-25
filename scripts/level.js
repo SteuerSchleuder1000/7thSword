@@ -77,18 +77,22 @@ class Level_001 extends Level {
         bg.position.x = WIDTH /2
 
         healthbar.width = WIDTH*0.8
+        healthbar.height = WIDTH*0.08
         healthbar.anchor.set(0, 0.5)
         healthbar.position.set(WIDTH*0.1, HEIGHT*0.95)
 
 
-        scale = HEIGHT /2/hero.height
+        scale = HEIGHT*0.5/hero.height
         hero.name = 'hero'
         hero.height *= scale
         hero.width *= scale
         hero.anchor.set(0,1)
         hero.position.set(0, HEIGHT)
 
+        scale = HEIGHT*0.4/monster.height
         monster.name = 'monster'
+        monster.height *= scale
+        monster.width *= scale
         monster.anchor.set(0.5,1)
         monster.position.set(WIDTH*0.75,HEIGHT*0.75)
 
