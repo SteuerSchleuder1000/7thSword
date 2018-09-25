@@ -39,7 +39,7 @@ class MenuManager extends Manager {
         this.state.add(e_menues.introScreen, new M_introScreen(this, this.scene))
         this.state.add(e_menues.levelSelect, new M_levelSelect(this, this.scene))
         
-        this.state.change(e_menues.introScreen)
+        //this.state.change(e_menues.introScreen)
     }
 
     progress(e,p) { } // load next menu if e.progress == 100
@@ -98,8 +98,7 @@ class M_introScreen extends Menu {
         bg.height *= scale
         bg.width *= scale
         bg.interactive = true
-        bg.on('click', this.transition.bind(this))
-        bg.on('tapp', this.transition.bind(this))
+        bg.on('pointerdown', this.transition.bind(this))
 
 
         let style = new PIXI.TextStyle({
@@ -154,8 +153,7 @@ class M_levelSelect extends Menu {
         bg.height *= scale
         bg.width *= scale
         bg.interactive = true
-        bg.on('click', this.transition.bind(this))
-        bg.on('tapp', this.transition.bind(this))
+        bg.on('pointerdown', this.transition.bind(this))
 
 
         let style = new PIXI.TextStyle({

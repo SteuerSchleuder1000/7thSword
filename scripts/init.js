@@ -18,7 +18,7 @@ function init_PIXI() {
         height: HEIGHT,      
         antialias: true,    
         transparent: false,
-        resolution: 0.5, 
+        resolution: 1, 
     })
     document.body.appendChild(app.view)
 }

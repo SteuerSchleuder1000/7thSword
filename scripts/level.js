@@ -36,6 +36,10 @@ class LevelManager extends Manager {
 
     transition(levelID) { this.state.change(levelID) }
 
+    loadMenu(menuID) {
+        this.manager.transition(e_gameStates.mainMenu, menuID)
+    }
+
 
 }
 
@@ -93,7 +97,15 @@ class Level_001 extends Level {
         this.scene.addChild(hero)
         this.scene.addChild(healthbar)
 
+        hero.interactive = true
+        hero.on('pointerdown', this.transition.bind(this))
+
         super.setup(callback)
+    }
+
+    transition() {
+        console.log('pointerdown')
+        this.manager.loadMenu(e_menues.introScreen)
     }
 
 }
