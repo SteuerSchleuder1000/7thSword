@@ -6,6 +6,7 @@ let e_combatStates = {
     casting: 1,
     recovering: 2,
     defeated: 3,
+    blocking: 4,
 }
 
 
@@ -91,6 +92,7 @@ class Character extends Scene {
 
 
     takeDamage(damage, ability, caster) {
+        if (this.state == e_combatStates.blocking) { damage *= 0.1 }
         this.stats.health -= damage
         if (this.healthbar) { this.healthbar.updateHealth(this.stats.health) }
         if (this.stats.health <= 0) { this.defeat() }

@@ -105,7 +105,7 @@ class Scene { // any game object with sprites
     createBackground(url) {
         this.bg = this.createSprite({
             name: 'bg',
-            url: 'assets/forestbackground.png',
+            url: url,
             anchor: [0.5, 0],
             height: HEIGHT,
             x: WIDTH/2,

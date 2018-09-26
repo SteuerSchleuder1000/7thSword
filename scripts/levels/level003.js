@@ -21,7 +21,7 @@ class Level_003 extends Level {
         this.interface = new Interface(this, this.scene, this.hero)
 
         this.assets = [
-            'assets/forestbackground.png',
+            'assets/island.png',
         ]
 
     }

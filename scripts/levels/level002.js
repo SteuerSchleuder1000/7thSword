@@ -7,7 +7,7 @@ e_eventIDs =  {
 
 class Level_002 extends Level {
     constructor(manager, superScene) {
-        console.log('level 002 with new restartLevel')
+        console.log('level 002 with bad restarts!!!!!!!!!')
         super(manager, superScene)
         currentLevel = this
         this.scene.name = 'First Fight lv002'
@@ -45,13 +45,18 @@ class Level_002 extends Level {
     }
 
     restartLevel() {
-        //this.end()
+        console.log('wtf gives???')
+        this.manager.transition(e_levels.lv_003)
+        this.end()
         //this.manager.state.remove(e_levels.lv_002)
-        this.manager.transition(e_levels.lv_001)
+
+        
         //this.manager.loadMenu(e_menues.introScreen)
     }
 
     end() {
+        this.scene.visible = false
+        this.complete = true
         super.onExit()
     }
 
