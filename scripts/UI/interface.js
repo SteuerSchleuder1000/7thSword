@@ -10,6 +10,8 @@ class Interface extends Scene {
         this.scene.position.z = 3
         this.scene.visible = true
 
+        this.animations = new Animations()
+
         this.assets = [
             'assets/choice.png',
             'assets/emberblade.png',
@@ -78,6 +80,7 @@ class Interface extends Scene {
             this.buttons.push(btn)
         }
 
+
     }
 
     buttonEvent(e) {
@@ -86,6 +89,6 @@ class Interface extends Scene {
     }
 
     update(delta) { 
-
+        this.animations.update(delta)
     }
 }

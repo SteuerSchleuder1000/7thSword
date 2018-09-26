@@ -64,7 +64,7 @@ class Hero extends Character {
 
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
-        console.log('took damage',this.name, this.stats.health, damage,caster,ability)
+        //console.log('took damage',this.name, this.stats.health, damage,caster,ability)
         //this.healthbar.updateHealth(this.stats.health)
     }
 }

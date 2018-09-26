@@ -244,7 +244,7 @@ window.onload = function() {
         time += 1
         for (let box of boxes) { box.update() }
         hero.scale.y = 1 + 0.02*Math.sin(time*0.01+Math.PI)
-        monster.scale.y = 1 + 0.02*Math.sin(time*0.01)
+        monster.scale.y = 1 + 0.02*Math.sin(time * 0.01)
         if (Math.random() < 0.002) { updateCombo() }
         if (Math.random() < 0.004) { updateHealth() }
        

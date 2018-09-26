@@ -15,6 +15,7 @@ class Level_002 extends Level {
 
         // standard
         this.combat = new Combat(this)
+        this.animations = new Animations()
         
 
 
@@ -34,8 +35,11 @@ class Level_002 extends Level {
 
 
     update(delta) {
+        this.animations.update(delta)
         if (this.complete) {return}
         this.combat.update(delta)
+        
+        this.interface.update(delta)
     }
 
     start() {
@@ -69,14 +73,15 @@ class Level_002 extends Level {
         this.knight.setPosition(0.75*WIDTH,0.75*HEIGHT,1)
         this.knight.setup() // creates sprite and adds
         this.knight.fixHeight(HEIGHT*0.4)
+        this.animations.breathing(this.knight.sprite)
         
 
 
         this.hero.setPosition(0,HEIGHT,2)
         this.hero.setup()
         this.hero.fixHeight(HEIGHT*0.5)
+        this.animations.breathing(this.hero.sprite)
 
-        
 
 
         this.interface.setup()
