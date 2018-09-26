@@ -29,7 +29,7 @@ class Game {
         
         this.loaded = false 
 
-        this.state = new Statemachine(this)
+        this.state = new Statemachine()
         this.state.add( e_gameStates.mainMenu,   new MenuManager(this, this.scene))
         this.state.add( e_gameStates.world,      new LevelManager(this, this.scene))
 
@@ -46,17 +46,12 @@ class Game {
 
 
     load() {
-        // load & display loading screen
-        // load data
-        // -> story progress
-        // -> hero
-        //  -> items, abilities etc.
-        // transition to mainscreen
+        
 
         this.loadingScreen(true)
         let callback = _=> { this.transition(e_gameStates.mainMenu, e_menues.introScreen); }
 
-        this.hero = new Hero(this) // !!! load from save state
+        //this.hero = new Hero(this) // !!! load from save state
         this.story = null // load from save state
 
         callback()
@@ -79,7 +74,8 @@ class Game {
 
 
     update(delta) {
-
+        delta /= FPS
+        //console.log('update?', this.state.update)
         this.state.update(delta)
 
     }

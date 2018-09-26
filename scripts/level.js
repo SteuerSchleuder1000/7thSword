@@ -18,13 +18,11 @@ let e_levels = {
 
 
 
-class Level extends Scene {
+class Level extends Stage {
     constructor(manager, superScene) {
         super(manager, superScene)
 
         this.interface = null
-        this.hero = this.manager.loadHero()
-        console.log('hero:',this.hero)
         this.characters = []
 
     }

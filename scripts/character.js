@@ -1,6 +1,14 @@
 
 
 
+let e_combatStates = {
+    idle: 0,
+    casting: 1,
+    recovering: 2,
+}
+
+
+
 class Stats {
 
     constructor() {
@@ -21,18 +29,17 @@ class Stats {
 } // stats
 
 
-let e_combatStates = {
-    ready: 0,
-    waiting: 1,
-    attacking: 2,
-}
 
 
 
-class Character {
-    constructor() {
+class Character extends Scene {
+    constructor(manager, superScene, combat) {
+        super(manager, superScene, false)
+
+        this.combat = combat
+
         this.name = ''
-        this.state = new Statemachine()
+        this.state = e_combatStates.idle
         
 
         this.sprite = null
@@ -40,17 +47,33 @@ class Character {
         this.assets = [] // images
         this.abilities = []
         this.buffs = []
-        this.incombat = false
+
+        this.t = 0 // cast bar
+        this.t_recovery = 0.5 // normal recovery time
+        this.target = null // in combat
+        this.castingAbility = null // what ability is he casting?
 
     }
+
+    animate() {}
 
     
     update(delta) {
         for (let a of this.abilities) { a.update(delta) }
         for (let b of this.buffs) { b.update(delta) }
+
     }
 
-    takeDamage() {}
+    recover() {
+        this.state = e_combatStates.idle
+        this.t
+    }
+
+
+    takeDamage(damage, ability, caster) {
+        this.stats.health -= damage
+        console.log('took damage',this.name, this.stats.health, damage,caster,ability)
+    }
 
     reset() { 
         this.buffs = []
@@ -66,90 +89,12 @@ class Character {
 
 
 
-class Hero extends Character {
-
-    constructor() {
-        super()
-
-        this.name = 'Hero'
-        this.assets = [
-            'assets/heroback00.png',
-            'assets/herobackBlocking.png',
-            'assets/heroFront.png',
-        ]
-
-        
-    }
-}
-
-
-
-
-
-class Enemy extends Character {
-    constructor() {
-        super()        
-
-    }
-
-    decideAction() {}
-    update(delta) {
-        super.update(delta)
-    }
-}
 
 
 
 
 
 
-
-
-class Enemy_Knight extends Enemy {
-
-    constructor() {
-        super()
-        this.name = 'Knight'
-        this.assets = [
-            'assets/abKnight00.png',
-            'assets/abKnight01.png',
-            'assets/abKnight02.png',
-            'assets/abKnight03.png',
-        ]
-
-        // this.state.add(e_combatStates.ready, null )
-        // this.state.add(e_combatStates.waiting, null)
-        // this.state.add(e_combatStates.attacking, null)
-    }
-
-    update(delta) {
-        super.update(delta)
-
-        // if this off cooldown && 1 ability off cooldown -> decide
-
-
-        switch (this.state) {
-
-            case 0: // ready
-                console.log('case 0')
-                return this.abilities[0]
-                break;
-
-            case 1: // waiting
-                console.log('case 1')
-                break;
-
-            case 2: // attacking
-                console.log('case 2')
-                break;
-
-
-        }
-    }
-
-    
-
-}
 
 
 

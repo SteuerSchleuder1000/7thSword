@@ -1,10 +1,9 @@
 
 
-class Scene {
+class Scene { // any game object with sprites
 
-    constructor(manager, superScene) {
+    constructor(manager, superScene, addToSuperScene = true) {
         
-        //this.anim = new Animation()
         this.assets = []
         this.loaded = false
         this.manager = manager
@@ -13,12 +12,11 @@ class Scene {
         this.scene.visible = false
         this.superScene = superScene
 
-
-        this.superScene.addChild(this.scene)
+        if (addToSuperScene) { this.superScene.addChild(this.scene) }
     }
 
     createSprite(opt) {
-        //console.log('createSprite: ',opt)
+
         let url = opt.url
         if (!(url in resources)) { console.log('ERROR url not in resources', url, resources); return}
         let sprite = new Sprite(resources[url].texture)
@@ -50,7 +48,6 @@ class Scene {
 
 
 
-
     addSprite(sprite) {
         for (let i=0; i<this.scene.children;i++) {
             if (sprite.position.z > this.scene.children[i].position.z) {
@@ -60,8 +57,6 @@ class Scene {
         }
         this.scene.addChild(sprite)
     }
-
-    
 
 
 
@@ -73,6 +68,8 @@ class Scene {
         }
         this.scene.children.sort(zSort)
     }
+
+    animate() {}
 
     load(callback) { // loads assets -> calls setup
         
@@ -96,8 +93,34 @@ class Scene {
         if (callback) { callback() } 
     }
 
+
+    pause(b=true) { this.paused = b}
+
+    progress(e,p) { // called while loading
+        if(this.manager) { this.manager.progress(e,p)}
+    }
+
+    update() {}
+
+}
+
+
+
+
+
+class Stage extends Scene { // stage for menues, levels etc.
+
+    constructor(manager, superScene) {
+        super(manager, superScene)
+    }
+
+    start() {}
+
     onEntry() {
-        if (this.loaded) { this.scene.visible = true }
+        if (this.loaded) { 
+            this.scene.visible = true; 
+            this.start()
+        }
         else { 
             let callback = _=> { this.onEntry() }
             this.load(callback)
@@ -110,14 +133,7 @@ class Scene {
 
 
 
-    pause(b=true) { this.paused = b}
-
-    progress(e,p) { // called while loading
-        if(this.manager) { this.manager.progress(e,p)}
-    }
-
-    update() {}
-
 }
+
 
 

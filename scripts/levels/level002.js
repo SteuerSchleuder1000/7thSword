@@ -7,14 +7,16 @@ class Level_002 extends Level {
 
         // standard
         this.combat = new Combat(this)
-        this.interface = new Interface(this, this.scene)
+        
+
 
         // characters
-        this.knight = new Enemy_Knight()
-        
-        this.combat.addEnemy(this.knight)
+        this.knight = new Enemy_Knight(this, this.scene, this.combat)
+        this.hero = this.manager.loadHero(this)
+
         this.characters = [this.knight]
 
+        this.interface = new Interface(this, this.scene, this.hero)
 
         this.assets = [
             'assets/forestbackground.png',
@@ -28,6 +30,11 @@ class Level_002 extends Level {
 
     }
 
+    start() {
+        this.combat.addEnemy(this.knight)
+        this.combat.addHero(this.hero)
+        this.combat.start()
+    }
 
 
     setup(callback) {

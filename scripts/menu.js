@@ -11,7 +11,7 @@ let e_menues = {
 }
 
 
-class Menu extends Scene {
+class Menu extends Stage {
 
     constructor(manager, superScene) {
         super(manager, superScene)

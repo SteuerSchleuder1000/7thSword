@@ -2,9 +2,10 @@
 
 
 
-class Manager {
+class Manager extends Stage {
 
     constructor(manager, superScene) {
+        super(manager, superScene)
         this.manager = manager
         this.scene = new Container()
         this.state = new Statemachine()

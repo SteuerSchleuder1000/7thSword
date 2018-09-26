@@ -1,8 +1,6 @@
 
 
-class AbilityButton {
-    constructor() {}
-}
+
 
 class UI_Bar {
     constructor() {
@@ -10,18 +8,40 @@ class UI_Bar {
     }
 }
 
+class AbilityButton extends Scene {
+    constructor(ability, interfaceScene, sprite) {
+        super(ability, interfaceScene) // manager = heroAbility
+        this.ability = ability
+        this.scene.visible = true
+        this.sprite = sprite
+        this.addSprite(sprite)
+        this.sprite.interactive = true
+        this.sprite.on('pointerdown', this.buttonEvent.bind(this) )
+    }
 
+    run() {}
+    cast() {}
+    recover() {}
+    update() { 
+        // update castBar
+    }
+    flash() {}
+    buttonEvent(e) {
+        this.ability.run()
+        console.log('button event',e)
+    }
+}
+
+
+
+
+// INterface sets up icon at the right place
 
 class Interface extends Scene {
-    constructor(manager, superScene) {
+    constructor(manager, superScene, hero) {
         super(manager,superScene)
         this.scene.position.z = 3
         this.scene.visible = true
-        this.hero = this.manager.hero
-
-        // for ability in hero add ability.asset
-
-        this.buttons = []
 
         this.assets = [
             'assets/choice.png',
@@ -31,7 +51,17 @@ class Interface extends Scene {
             'assets/healthbar.png',
         ]
 
+        this.hero = hero
+        this.heroAbilities = this.hero.abilities
+        for (let a of this.heroAbilities) {
+            this.assets = this.assets.concat(a.assets)
+        }
+
+        this.buttons = []
+
     }
+
+
 
     updateHealth() {}
 
@@ -48,22 +78,24 @@ class Interface extends Scene {
             addToScene: true,
         })
 
-        let btnWidth = 0.15*WIDTH
+        let btnWidth = 0.25*WIDTH
         let btnGap = 0.04*WIDTH
 
-        let buttonEvent = e=> { this.buttonEvent(e) }
+
         for (let i=0; i<3;i++) {
-            let btn = this.createSprite({
+            let ab = this.heroAbilities[i]
+
+            let btnSprite = this.createSprite({
                 name: 'btn'+i,
-                url: this.assets[i],
+                url: ab.assets[0],
                 width: 0.15*WIDTH,
-                x: btnGap,
-                y: btnGap + i*(btnWidth+btnGap),
+                x: 0.05*WIDTH,
+                y: btnGap*1.5 + i*(btnWidth+btnGap),
                 z: 3,
-                addToScene: true
+                visible: true,
             })
-            btn.interactive = true
-            btn.on('pointerdown', buttonEvent.bind(this) )
+
+            let btn = new AbilityButton(ab, this.scene, btnSprite)
             this.buttons.push(btn)
         }
 

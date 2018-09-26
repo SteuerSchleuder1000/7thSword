@@ -3,34 +3,44 @@
 
 class Combat {
 
-    constructor(manager) {
+    constructor(manager) { // manager = stage
         this.manager = manager
-        this.hero = this.manager.hero
+        //this.hero = this.manager.hero
         this.enemies = []
-        this.stack = []
+        this.log = []
+        this.running = false
     }
+
+    start() { this.running = true }
+    end() { this.running = false }
 
     addEnemy(enemy) {
         this.enemies.push(enemy)
     }
 
-    update(delta) {
-        for (let e of this.enemies) {
-            let action = e.update()
-            if (action) { this.addAction(action) }
-        }
-        this.hero.update()
+    addHero( hero ) {
+        this.hero = hero
+    }
 
-        for (let s of this.stack) {
-            if (this.stack[0].delta < delta) { stack[0].pop().execute() }
-            else { break }
-        }
+    update(delta) {
+        if ( !this.running ) { return }
+
+        //console.log('combat running',this.enemies, this.hero)
+        for (let e of this.enemies) { e.update() }
+
+        this.hero.update()
         
     }
 
-    addAction(action) { 
-        this.stack.push(action)
-        this.sortStack()
+
+
+
+    dealDamage(damage, target, ability, caster) {
+        if (!target) { console.log('ERROR: no target for ability:', damage, ability, caster); return }
+
+        target.takeDamage(damage, ability, caster)
+
+
     }
 
     sortStack() {}

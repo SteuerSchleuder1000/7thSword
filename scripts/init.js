@@ -6,7 +6,7 @@
 
 
 window.onload = function() {
-    console.log('load game')
+    console.log('load game v 0.1')
     init_PIXI()
     game = new Game() // load function
 }
@@ -28,6 +28,7 @@ function init_PIXI() {
 let game, app // Global Objects
 let HEIGHT = window.innerHeight //1334
 let WIDTH = window.innerWidth //750 
+let FPS = 60
 
 let e_zPos = {
     bg: 0,

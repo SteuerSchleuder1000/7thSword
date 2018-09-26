@@ -10,6 +10,7 @@ class Statemachine {
     }
 
     update(delta) {
+        console.log('Statemachine update', delta)
         if( this.current ) { this.current.update(delta) }
     }
 
