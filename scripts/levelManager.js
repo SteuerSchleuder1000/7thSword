@@ -1,6 +1,5 @@
 
 
-
 class LevelManager extends Manager {
 
     constructor(manager, superScene) {
@@ -26,10 +25,11 @@ class LevelManager extends Manager {
 
     update(delta) {
         super.update(delta)
-        console.log('levelManager update',delta)
+        //console.log('levelManager update',delta, this.state)
     }
 
     loadLevel(levelID) { // !!!
+        console.log('load level',levelID)
         this.state.add(levelID, e_levels.init[levelID](this, this.scene))
     }
 

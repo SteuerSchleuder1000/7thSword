@@ -1,9 +1,17 @@
 
 
+e_eventIDs =  {
+    defeat: 0,
+}
+
+
 class Level_002 extends Level {
     constructor(manager, superScene) {
+        console.log('level 002 with new restartLevel')
         super(manager, superScene)
+        currentLevel = this
         this.scene.name = 'First Fight lv002'
+        this.complete = false
 
         // standard
         this.combat = new Combat(this)
@@ -26,8 +34,8 @@ class Level_002 extends Level {
 
 
     update(delta) {
+        if (this.complete) {return}
         this.combat.update(delta)
-
     }
 
     start() {
@@ -36,53 +44,55 @@ class Level_002 extends Level {
         this.combat.start()
     }
 
+    restartLevel() {
+        //this.end()
+        //this.manager.state.remove(e_levels.lv_002)
+        this.manager.transition(e_levels.lv_001)
+        //this.manager.loadMenu(e_menues.introScreen)
+    }
+
+    end() {
+        super.onExit()
+    }
 
     setup(callback) {
 
+        this.createBackground('assets/forestbackground.png')
+        
 
-        this.bg = this.createSprite({
-            name: 'bg',
-            url: 'assets/forestbackground.png',
-            anchor: [0.5, 0],
-            height: HEIGHT,
-            x: WIDTH/2,
-            y: 0,
-            z: 0,
-            addToScene: true,
-        })
+        
+        this.knight.setPosition(0.75*WIDTH,0.75*HEIGHT,1)
+        this.knight.setup() // creates sprite and adds
+        this.knight.fixHeight(HEIGHT*0.4)
+        
 
 
-        this.knight.sprite = this.createSprite({
-            name: this.knight.name,
-            url: this.knight.assets[0],
-            anchor: [0.5, 1],
-            height: HEIGHT*0.4,
-            x: 0.75*WIDTH,
-            y: 0.75*HEIGHT,
-            z: 1,
-            addToScene: true,
-        })
+        this.hero.setPosition(0,HEIGHT,2)
+        this.hero.setup()
+        this.hero.fixHeight(HEIGHT*0.5)
 
-
-        this.hero.sprite = this.createSprite({
-            name: 'hero',
-            url: this.hero.assets[0],
-            anchor: [0, 1],
-            height: HEIGHT*0.5,
-            x: 0,
-            y: HEIGHT,
-            z: 0,
-            addToScene: true,
-        })
+        
 
 
         this.interface.setup()
-        this.addSprite( this.interface.scene )
 
-        this.hero.sprite.interactive = true
-        this.hero.sprite.on('pointerdown', this.transition.bind(this))
 
+        this.zSort()
         super.setup(callback)
+    }
+
+    event(eventID, options) {
+        switch(eventID) {
+            case e_eventIDs.defeat:
+                if (options == this.hero) { console.log('YOU LOST')}
+                if (options == this.knight) { 
+                    this.complete = true
+                    console.log('YOU WON')
+                }
+                this.combat.end()
+                break;
+
+        }
     }
 
     transition() {

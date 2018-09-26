@@ -20,15 +20,15 @@ class Combat {
 
     addHero( hero ) {
         this.hero = hero
+        this.hero.target = this.enemies[0]
     }
 
     update(delta) {
         if ( !this.running ) { return }
 
-        //console.log('combat running',this.enemies, this.hero)
-        for (let e of this.enemies) { e.update() }
+        for (let e of this.enemies) { e.update(delta) }
 
-        this.hero.update()
+        this.hero.update(delta)
         
     }
 
@@ -39,7 +39,6 @@ class Combat {
         if (!target) { console.log('ERROR: no target for ability:', damage, ability, caster); return }
 
         target.takeDamage(damage, ability, caster)
-
 
     }
 

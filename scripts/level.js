@@ -11,6 +11,7 @@ let e_levels = {
         0:_=> {},
         1: (m,s) => {return new Level_001(m, s)},
         2: (m,s) => {return new Level_002(m, s)},
+        3: (m,s) => {return new Level_003(m, s)},
     },
 }
 
@@ -41,6 +42,8 @@ class Level extends Stage {
         }
 
     }
+
+    event(eventID, options) {}
 
 }
 

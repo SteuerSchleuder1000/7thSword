@@ -2,6 +2,7 @@
 
 
 
+let currentLevel = null
 
 
 
@@ -49,10 +50,8 @@ class Game {
         
 
         this.loadingScreen(true)
-        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menues.introScreen); }
-
-        //this.hero = new Hero(this) // !!! load from save state
-        this.story = null // load from save state
+        // let callback = _=> { this.transition(e_gameStates.mainMenu, e_menues.introScreen); }
+        let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
 
         callback()
 

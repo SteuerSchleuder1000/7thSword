@@ -73,7 +73,7 @@ class Level_001 extends Level {
     }
 
     tap() {
-
+        this.manager.loadMenu(e_menues.introScreen)
     }
 
     transition() {

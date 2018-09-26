@@ -10,7 +10,6 @@ class Statemachine {
     }
 
     update(delta) {
-        console.log('Statemachine update', delta)
         if( this.current ) { this.current.update(delta) }
     }
 
@@ -27,6 +26,8 @@ class Statemachine {
     add(stateID, state) { this.states[stateID] = state }
 
     contains(stateID) { return stateID in this.states }
+
+    remove(stateID) { delete this.states.stateID }
 
 }
 

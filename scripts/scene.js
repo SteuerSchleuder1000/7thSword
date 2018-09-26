@@ -63,8 +63,8 @@ class Scene { // any game object with sprites
 
     zSort() {
         let zSort = function(a,b) {
-            if ( a.z === b.z ) { return 0 }
-            else { return ( a.z < b.z ? -1 : 1) }
+            if ( a.position.z === b.position.z ) { return 0 }
+            else { return ( a.position.z < b.position.z ? -1 : 1) }
         }
         this.scene.children.sort(zSort)
     }
@@ -101,6 +101,19 @@ class Scene { // any game object with sprites
     }
 
     update() {}
+
+    createBackground(url) {
+        this.bg = this.createSprite({
+            name: 'bg',
+            url: 'assets/forestbackground.png',
+            anchor: [0.5, 0],
+            height: HEIGHT,
+            x: WIDTH/2,
+            y: 0,
+            z: 0,
+            addToScene: true,
+        })
+    }
 
 }
 
