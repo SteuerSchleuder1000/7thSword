@@ -16,7 +16,7 @@ class Interface extends Scene {
             'assets/choice.png',
             'assets/emberblade.png',
             'assets/swipe.png',
-            'assets/combo.png',
+            'assets/Combo.png',
             'assets/healthbar.png',
         ]
 

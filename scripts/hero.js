@@ -25,7 +25,7 @@ class Hero extends Character {
             'assets/heroback.png',          // 0: idle
             'assets/heroback.png',          // 1: casting
             'assets/heroback.png',          // 2: performing
-            'assets/herobackBlocking.png',  // 3: blocking
+            'assets/herobackblocking.png',  // 3: blocking
             'assets/heroFront.png',
         ]
 
