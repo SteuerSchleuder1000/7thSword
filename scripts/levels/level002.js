@@ -7,7 +7,7 @@ e_eventIDs =  {
 
 class Level_002 extends Level {
     constructor(manager, superScene) {
-        console.log('level 002 with bad restarts!!!!!!!!!')
+        console.log('level 002')
         super(manager, superScene)
         currentLevel = this
         this.scene.name = 'First Fight lv002'
@@ -70,17 +70,19 @@ class Level_002 extends Level {
         
 
         
-        this.knight.setPosition(0.75*WIDTH,0.75*HEIGHT,1)
+        this.knight.setPosition(0.3*WIDTH,0.25*HEIGHT,1)
+        //this.knight.setPosition(0,0,1)
         this.knight.setup() // creates sprite and adds
-        this.knight.fixHeight(HEIGHT*0.4)
-        this.animations.breathing(this.knight.sprite)
+        this.knight.fixHeight(HEIGHT)
+        //this.animations.breathing(this.knight.sprite)
         
 
 
-        this.hero.setPosition(0,HEIGHT,2)
+        this.hero.setPosition(0,HEIGHT*1.05,2)
         this.hero.setup()
-        this.hero.fixHeight(HEIGHT*0.5)
+        this.hero.fixHeight(HEIGHT)
         this.animations.breathing(this.hero.sprite)
+        //this.animations.shake(this.hero.sprite,{time: 2.0, magnitude: 16})
 
 
 

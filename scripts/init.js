@@ -38,6 +38,8 @@ let e_zPos = {
     properties: {}
 }
 
+
+
 let Container = PIXI.Container,
     Graphics = PIXI.Graphics,
     resources = PIXI.loader.resources,

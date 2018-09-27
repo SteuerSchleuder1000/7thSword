@@ -90,5 +90,6 @@ class Interface extends Scene {
 
     update(delta) { 
         this.animations.update(delta)
+        for (let btn of this.buttons) {btn.update(delta)}
     }
 }

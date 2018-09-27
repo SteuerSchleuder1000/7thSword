@@ -4,7 +4,8 @@
 let e_abStates = {
     idle: 0,
     casting: 1,
-    recovering: 2,
+    performing: 2,
+    recovering: 3,
 }
 
 

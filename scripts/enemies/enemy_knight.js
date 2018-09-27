@@ -5,10 +5,11 @@ class Enemy_Knight extends Enemy {
         super(manager, superScene, combat)
         this.name = 'Knight'
         this.assets = [
-            'assets/abKnight00.png',
-            'assets/abKnight01.png',
-            'assets/abKnight02.png',
-            'assets/abKnight03.png',
+            //'assets/abKnight00.png',
+            'assets/abKnight01.png', // 0: idle
+            'assets/abKnight02.png', // 1: casting
+            'assets/abKnight03.png', // 2: performing
+            'assets/abKnight01.png', // 3: blocking
         ]
 
         this.abilities = [
@@ -20,14 +21,14 @@ class Enemy_Knight extends Enemy {
 
     }
 
-
+    //update(delta) {} // do nothing
 
     cancelAttack() {}
 
 
     decide() {
         this.target = this.combat.hero
-        this.abilities[0].run(this.target)
+        this.abilities[0].cast(this.target)
         console.log('knight decided')
     }
 }

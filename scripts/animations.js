@@ -123,10 +123,44 @@ class Animations {
     tint() {}
 
 
-    shake() {}
-    breathing(obj,args) {
+    shake(obj,args) {
 
-        console.log('add breathing',obj)
+        args = args || {}
+        let magnitude = args.magnitude || 0.01
+        let time = args.time || 0
+        let loop = args.loop || false
+
+        let x0 = obj.position.x
+        let y0 = obj.position.y
+        let magnitudeUnit = magnitude/time*FPS
+
+        // FUNCTION
+        let f = ()=>{} 
+        f = (delta)=> { 
+            if (time <= 0 && !loop) { 
+                obj.position.set(x0, y0)
+                obj.animations = obj.animations.filter(item => item !== f) 
+            }
+
+
+            //magnitude -= magnitudeUnit;
+            obj.position.x = x0 + randInt(-magnitude, magnitude);
+            obj.position.y = y0 + randInt(-magnitude, magnitude);
+
+
+            time -= delta
+        } // f
+
+
+        if (!obj.animations) { obj.animations = [] }
+        obj.animations.push(f)
+        this.add(obj)
+        return f
+    }
+
+
+
+    breathing(obj,args) {
 
         args = args || {}
         let magnitude = args.magnitude || 0.01

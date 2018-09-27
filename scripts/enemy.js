@@ -4,7 +4,9 @@
 class Enemy extends Character {
     constructor(manager, superScene, combat) {
         super(manager, superScene, combat)       
-        this.healthbar = null 
+        this.healthbar = null
+        this.t_recovery = 0.5
+        this.playerControlled = false
     }
 
 
@@ -12,30 +14,13 @@ class Enemy extends Character {
 
     setup() {
         super.setup()
-        this.healthbar = new Healthbar_Enemy(this,this.sprite)
+        this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.7, HEIGHT*0.39)
     }
 
 
-    decide() {}
-    update(delta) {
-        super.update(delta) // updates all abilites && buffs
 
-        switch (this.state) {
+    
 
-            case e_combatStates.idle: 
-                this.decide()
-                break;
-
-            case e_combatStates.casting:
-                break;
-
-            case e_combatStates.recovering:
-                this.t -= delta
-                if (this.t <= 0) { this.recover() }
-                break;
-
-        }
-    }
 }
 
 

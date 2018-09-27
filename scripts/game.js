@@ -1,3 +1,4 @@
+let log = console.log
 
 
 

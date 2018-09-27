@@ -16,10 +16,11 @@ class Healthbar_Hero extends Scene {
 
 
 class Healthbar_Enemy { // added onto sprite
-    constructor(manager,sprite) {
+    constructor(manager,sprite,x,y) {
         this.sprite = sprite
         
-
+        x = x | 0
+        y = y | 0
 
         let width = WIDTH*0.15
         let height = HEIGHT*0.025
@@ -27,15 +28,15 @@ class Healthbar_Enemy { // added onto sprite
         this.originalWidth = width
 
         this.healthbar = new Graphics()
-        this.healthbar.lineStyle(4, 0xFFFFFF, 1);
+        //this.healthbar.lineStyle(4, 0xFFFFFF, 1);
         this.healthbar.beginFill(0xFFFFFF);
-        this.healthbar.drawRect(-0.5*width, 0, width, height)
+        this.healthbar.drawRect(0, 0, width, height)
+        this.healthbar.position.set(x,y)
 
         this.sprite.addChild(this.healthbar)
     }
 
     updateHealth(health) { 
         this.healthbar.width = health/100*this.originalWidth
-        this.healthbar.position.x = health/100*this.originalWidth/2
     }
 }

@@ -4,9 +4,10 @@
 let e_combatStates = {
     idle: 0,
     casting: 1,
-    recovering: 2,
-    defeated: 3,
+    performing: 2, // performing attack/ animation
+    recovering: 3,
     blocking: 4,
+    defeated: 5,
 }
 
 
@@ -42,7 +43,6 @@ class Character extends Scene {
         //this.scene.anchor.set(0.5,1) // set anchor down in the middle
         this.combat = combat
 
-
         this.name = ''
         this.state = e_combatStates.idle
         
@@ -61,10 +61,11 @@ class Character extends Scene {
         this.t_recovery = 0.5 // normal recovery time
         this.target = null // in combat
         this.castingAbility = null // what ability is he casting?
+        this.playerControlled = false
 
     }
 
-    animate() {}
+   
 
     setPosition(x,y,z) {
         this.x = x
@@ -78,17 +79,129 @@ class Character extends Scene {
     }  
     
 
+   
+
     update(delta) {
-        if (this.state == e_combatStates.defeated) { return } // no updates for you!
+        super.update(delta) // updates all abilites && buffs
+
+        switch (this.state) {
+
+            case e_combatStates.defeated:
+                return
+                break;
+
+            case e_combatStates.idle: 
+                if (!this.playerControlled) {this.decide()}
+                break;
+
+            case e_combatStates.casting:
+                break;
+
+            case e_combatStates.performing:
+                this.t -= delta
+                if (this.t <= 0) { this.recover() }
+                break;
+
+            case e_combatStates.recovering:
+                this.t -= delta
+                if (this.t <= 0) { this.idle() }
+                break;
+
+            case e_combatStates.blocking:
+                break;
+
+        }
+
         for (let a of this.abilities) { a.update(delta) }
         for (let b of this.buffs) { b.update(delta) }
-
     }
 
-    recover() {
+    decide() {}
+
+    cast() {
+        // check if valid order
+        this.state = e_combatStates.casting
+        this.animate(this.state)
+    }
+
+    perform(t = 0) {
+        this.state = e_combatStates.performing
+        this.t = t
+        this.animate(this.state)
+    }
+
+    recover(t = this.t_recovery) {
+        this.state = e_combatStates.recovering
+        this.t = t
+        this.animate(this.state)
+    }
+
+    idle() {
         this.state = e_combatStates.idle
-        this.t
+        this.t = 0
+        this.animate(this.state)
     }
+
+    block() {
+        this.state = e_combatStates.blocking
+        this.animate(this.state)
+    }
+
+    defeat() {
+
+        this.manager.event(e_eventIDs.defeat,this)
+        this.state = e_combatStates.defeated
+        this.animate(this.state)
+    }
+
+
+
+
+    animate(state) {
+        let url, texture
+
+        switch(state) {
+            case e_combatStates.idle:
+                url = this.assets[0]
+                texture = resources[url].texture
+                this.sprite.texture = texture
+                break;
+
+            case e_combatStates.casting:
+                url = this.assets[1]
+                texture = resources[url].texture
+                this.sprite.texture = texture
+                break;
+
+            case e_combatStates.performing:
+                url = this.assets[2]
+                texture = resources[url].texture
+                this.sprite.texture = texture
+                break;
+
+            case e_combatStates.recovering:
+                url = this.assets[0]
+                texture = resources[url].texture
+                this.sprite.texture = texture
+                break;
+
+            case e_combatStates.blocking:
+                url = this.assets[3]
+                texture = resources[url].texture
+                this.sprite.texture = texture
+                break;
+
+            case e_combatStates.defeated:
+                url = this.assets[0]
+                texture = resources[url].texture
+                this.sprite.texture = texture
+                break;
+        }
+    }
+
+
+
+
 
 
     takeDamage(damage, ability, caster) {
@@ -103,13 +216,7 @@ class Character extends Scene {
         this.stats.reset()
     }
 
-    defeat() {
-
-        this.manager.event(e_eventIDs.defeat,this)
-        this.cancelAttack()
-        this.state = e_combatStates.defeated
-
-    }
+    
 
     cancelAttack() {
         if (this.castingAbility) { this.castingAbility.cancel() }
@@ -119,7 +226,7 @@ class Character extends Scene {
         this.sprite = this.createSprite({
             name: this.name,
             url: this.assets[0],
-            anchor: [0.5, 1],
+            //anchor: [0.5, 1],
             x: this.x, y: this.y, z: this.z,
             addToScene: true,
         })
