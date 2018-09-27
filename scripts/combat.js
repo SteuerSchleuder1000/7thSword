@@ -11,7 +11,10 @@ class Combat {
         this.running = false
     }
 
-    start() { this.running = true }
+    start() { 
+        this.running = true
+        for (let e of this.enemies) { e.healthbar.show() }
+    }
     end() { this.running = false }
 
     addEnemy(enemy) {

@@ -10,6 +10,7 @@ class Hero extends Character {
         this.name = 'Hero'
         this.healthbar = null
         this.playerControlled = true
+        this.t_recoveryBlock = 1.0
 
         this.abilities = [
             new Attack_Basic(this, superScene , combat),
@@ -42,18 +43,28 @@ class Hero extends Character {
 
 
     block(b) {
-        // check if 
-        console.log('block',b, this.state, e_combatStates)
         switch(this.state) {
             case e_combatStates.idle:
                 if (b) { super.block() }
                 break;
 
             case e_combatStates.blocking:
-                if (!b) { this.recover(0.5) }
+                if (!b) { this.recover(this.t_recoveryBlock) }
                 break;
         }
     }
+
+    recover(t) {
+        super.recover(t)
+        if(this.sprite) {this.sprite.tint = 0xba27db}
+    }
+
+    idle() {
+        super.idle()
+        if (this.sprite) {this.sprite.tint = 0xFFFFFF}
+    }
+
+
 
     setup() {
         this.sprite = this.createSprite({
@@ -67,7 +78,9 @@ class Hero extends Character {
 
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
-        //console.log('took damage',this.name, this.stats.health, damage,caster,ability)
-        //this.healthbar.updateHealth(this.stats.health)
+        this.animations.shake(this.healthbar.sprite, {time: 0.5, magnitude:10})
+        if (this.state == e_combatStates.blocking) {
+            // sfx
+        }
     }
 }

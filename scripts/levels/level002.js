@@ -15,6 +15,7 @@ class Level_002 extends Level {
 
         // standard
         this.combat = new Combat(this)
+        this.dialog = new Dialog()
         this.animations = new Animations()
         
 
@@ -45,7 +46,8 @@ class Level_002 extends Level {
     start() {
         this.combat.addEnemy(this.knight)
         this.combat.addHero(this.hero)
-        this.combat.start()
+        this.speech1() // first lets talk!
+        //this.combat.start()
     }
 
     restartLevel() {
@@ -71,7 +73,6 @@ class Level_002 extends Level {
 
         
         this.knight.setPosition(0.3*WIDTH,0.25*HEIGHT,1)
-        //this.knight.setPosition(0,0,1)
         this.knight.setup() // creates sprite and adds
         this.knight.fixHeight(HEIGHT)
         //this.animations.breathing(this.knight.sprite)
@@ -82,7 +83,6 @@ class Level_002 extends Level {
         this.hero.setup()
         this.hero.fixHeight(HEIGHT)
         this.animations.breathing(this.hero.sprite)
-        //this.animations.shake(this.hero.sprite,{time: 2.0, magnitude: 16})
 
 
 
@@ -91,6 +91,38 @@ class Level_002 extends Level {
 
         this.zSort()
         super.setup(callback)
+    }
+
+    speech1() {
+        this.interface.hide()
+        this.knight.hideHealthbar()
+        let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
+        let text = 'Who Dares Enter\nThese Woods?'
+        let sb = this.dialog.speechBubble(text,style)
+        this.addSprite(sb)
+        let callback = ()=>{ 
+            this.combat.start(); 
+            this.scene.interactive = false 
+            this.interface.show()
+            this.dialog.hide()
+        }
+        this.scene.interactive = true
+        this.scene.on('pointerdown',callback.bind(this))
+    }
+
+    speech2() {
+        this.interface.hide()
+        this.hero.idle()
+        this.knight.idle()
+        let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
+        let text = 'You May Have\nWon This Time'
+        let sb = this.dialog.speechBubble(text,style)
+        this.addSprite(sb)
+        let callback = ()=>{ 
+            this.restartLevel()
+        }
+        this.scene.interactive = true
+        this.scene.on('pointerdown',callback.bind(this))
     }
 
     event(eventID, options) {
@@ -102,6 +134,7 @@ class Level_002 extends Level {
                     console.log('YOU WON')
                 }
                 this.combat.end()
+                this.speech2()
                 break;
 
         }

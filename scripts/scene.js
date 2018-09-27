@@ -115,6 +115,8 @@ class Scene { // any game object with sprites
         })
     }
 
+    hide() { this.scene.visible = false}
+    show() {this.scene.visible = true}
 }
 
 

@@ -35,13 +35,16 @@ class Healthbar_Enemy { // added onto sprite
         this.healthbar.beginFill(0xFFFFFF);
         this.healthbar.drawRect(0, 0, width, height)
         this.healthbar.position.set(x,y)
+        //this.healthbar.visible = false // default not visible
 
         this.superScene.addChild(this.healthbar)
     }
 
+    show() { this.healthbar.visible = true }
+    hide() { this.healthbar.visible = false }
+
     updateHealth(health) { 
-        // console.log('manager?',this)
-        this.healthbar.width = health/100*this.originalWidth
-        // this.manager.animations.shake(this.healthbar, {time:0.5, magnitude: this.healthbar.height*1.0})
+        let originalHealth = this.manager.stats.health_init
+        this.healthbar.width = health/originalHealth*this.originalWidth
     }
 }

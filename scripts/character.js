@@ -17,7 +17,7 @@ class Stats {
     constructor() {
 
         this.power_init = 10
-        this.health_init = 100000
+        this.health_init = 100
 
         this.power = 10
         this.health = 100

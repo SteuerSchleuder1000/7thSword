@@ -52,7 +52,6 @@ class Interface extends Scene {
     }
 
     block(e) {
-        //console.log('block:',e)
         let isDown = e.type == 'pointerdown'
         this.hero.block(isDown)
     }

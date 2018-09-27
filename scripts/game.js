@@ -2,6 +2,26 @@ let log = console.log
 
 
 
+/*
+
+
+Todo:
+    - speech -> dialog
+    - simplify abilities
+    - add abilities
+    - sfx
+    - add enemies
+    - combat menu
+    - restart level
+    - set button layout
+    
+
+
+    - ASSETS
+
+
+
+*/
 
 let currentLevel = null
 
