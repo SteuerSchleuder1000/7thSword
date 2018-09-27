@@ -19,8 +19,12 @@ class Stats {
         this.power_init = 10
         this.health_init = 100
 
+        this.combo_max = 5
+
         this.power = 10
         this.health = 100
+        this.combo = 0
+        this.energy = 0
     }
 
     reset() {
@@ -216,6 +220,19 @@ class Character extends Scene {
         if (this.stats.health <= 0) { this.defeat() }
     }
 
+    updateHealth() {
+
+    }
+
+    changeCombo(d) {
+        this.stats.combo += d
+        this.stats.combo = Math.max(this.stats.combo, 0)
+        this.stats.combo = Math.min(this.stats.combo, this.stats.combo_max)
+        this.healthbar.updateCombo(this.stats.combo)
+    }
+
+
+
     reset() { 
         this.buffs = []
         this.stats.reset()
@@ -223,8 +240,10 @@ class Character extends Scene {
 
     
 
-    cancelAttack() {
+    cancelAbility() {
         if (this.castingAbility) { this.castingAbility.cancel() }
+        this.castingAbility = null
+        this.idle()
     }
 
     setup() {
@@ -249,12 +268,6 @@ class Character extends Scene {
         this.sprite.width *= scale
     }
 
-    fixWidth(width) {
-        if (!this.sprite) {console.log('ERROR no sprite to fix width',this); return}
-        let scale = width/ this.sprite.width
-        this.sprite.height *= scale
-        this.sprite.width *= scale
-    }
 }
 
 

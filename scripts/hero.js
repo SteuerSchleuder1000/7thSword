@@ -13,9 +13,9 @@ class Hero extends Character {
         this.t_recoveryBlock = 1.0
 
         this.abilities = [
-            new Attack_Basic(this, superScene , combat),
-            new Attack_Basic(this, superScene , combat),
-            new Attack_Basic(this, superScene , combat),
+            new Attack_Swipe(this, superScene , combat),
+            new Attack_Emberblade(this, superScene , combat),
+            new Attack_Choice(this, superScene , combat),
         ]
 
         for (let a of this.abilities) { a.t_cast = 1}
@@ -26,7 +26,7 @@ class Hero extends Character {
             'assets/heroback.png',          // 1: casting
             'assets/heroback.png',          // 2: performing
             'assets/herobackblocking.png',  // 3: blocking
-            'assets/heroFront.png',
+            'assets/herofront.png',
         ]
 
         

@@ -51,7 +51,6 @@ class Level_002 extends Level {
     }
 
     restartLevel() {
-        console.log('wtf gives???')
         this.manager.transition(e_levels.lv_003)
         this.end()
         //this.manager.state.remove(e_levels.lv_002)
@@ -74,6 +73,7 @@ class Level_002 extends Level {
         
         this.knight.setPosition(0.3*WIDTH,0.25*HEIGHT,1)
         this.knight.setup() // creates sprite and adds
+        // this.knight.scaleSprite(this.knight.sprite.height/HEIGHT)
         this.knight.fixHeight(HEIGHT)
         //this.animations.breathing(this.knight.sprite)
         
@@ -81,6 +81,7 @@ class Level_002 extends Level {
 
         this.hero.setPosition(0,HEIGHT*1.05,2)
         this.hero.setup()
+        // this.hero.scaleSprite(this.hero.sprite.height/HEIGHT)
         this.hero.fixHeight(HEIGHT)
         this.animations.breathing(this.hero.sprite)
 
@@ -110,12 +111,13 @@ class Level_002 extends Level {
         this.scene.on('pointerdown',callback.bind(this))
     }
 
-    speech2() {
+    speech2(won) {
         this.interface.hide()
         this.hero.idle()
         this.knight.idle()
+        this.knight.hideHealthbar()
         let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
-        let text = 'You May Have\nWon This Time'
+        let text = won ? 'I Will Have\nMy Revenge!' : 'Justice Has\nBeen Served!'
         let sb = this.dialog.speechBubble(text,style)
         this.addSprite(sb)
         let callback = ()=>{ 
@@ -134,7 +136,7 @@ class Level_002 extends Level {
                     console.log('YOU WON')
                 }
                 this.combat.end()
-                this.speech2()
+                this.speech2(this.complete)
                 break;
 
         }

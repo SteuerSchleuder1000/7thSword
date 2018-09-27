@@ -49,6 +49,7 @@ class Scene { // any game object with sprites
 
 
     addSprite(sprite) {
+        if (!sprite) { console.log('ERROR no sprite to be added', this, sprite); return}
         for (let i=0; i<this.scene.children;i++) {
             if (sprite.position.z > this.scene.children[i].position.z) {
                 this.scene.addChildAt(sprite, i)

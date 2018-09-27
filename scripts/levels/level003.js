@@ -21,7 +21,7 @@ class Level_003 extends Level {
         this.interface = new Interface(this, this.scene, this.hero)
 
         this.assets = [
-            'assets/island.png',
+            'assets/grass.png',
         ]
 
     }
@@ -51,7 +51,7 @@ class Level_003 extends Level {
 
     setup(callback) {
 
-        this.createBackground('assets/island.png')
+        this.createBackground('assets/grass.png')
         
 
         

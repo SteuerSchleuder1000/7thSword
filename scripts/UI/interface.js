@@ -10,24 +10,26 @@ class Interface extends Scene {
         this.scene.position.z = 3
         this.scene.visible = true
 
-        this.animations = new Animations()
 
-        this.assets = [
-            'assets/choice.png',
-            'assets/emberblade.png',
-            'assets/swipe.png',
-            'assets/Combo.png',
-            'assets/healthbar.png',
-        ]
-
-        this.hero = hero
-        this.heroAbilities = this.hero.abilities
-        for (let a of this.heroAbilities) {
-            this.assets = this.assets.concat(a.assets)
-        }
-
+        this.assets = []
         this.buttons = []
 
+
+        // load hero abilities
+        this.hero = hero
+        this.heroAbilities = this.hero.abilities
+        for (let a of this.heroAbilities) { this.assets = this.assets.concat(a.assets) }
+
+        this.healthbar = new Healthbar_Hero(this, this.scene)
+        this.hero.healthbar = this.healthbar
+        this.assets = this.assets.concat(this.healthbar.assets)
+
+
+
+
+
+        
+        // CRUDE UI BUTTONS -> make more elegant!!!!
         let btnWidth = 0.2*WIDTH
         this.menuBtn = new Graphics()
         this.menuBtn.beginFill(0xFFFFFF);
@@ -51,36 +53,31 @@ class Interface extends Scene {
         this.addSprite(this.blockBtn)
     }
 
-    block(e) {
-        let isDown = e.type == 'pointerdown'
-        this.hero.block(isDown)
-    }
 
-    restartLevel() { this.manager.restartLevel() }
 
-    updateHealth() {
-        this.healthbar.updateHealth(this.hero.stats.health)
-    }
+    
+
+
+
+
+    // updateHealth() {
+    //     this.healthbar.updateHealth(this.hero.stats.health)
+    // }
+
+
 
     setup() {
 
-        let hbSprite = this.createSprite({
-            name: 'healthbar',
-            url: 'assets/healthbar.png',
-            width: 0.8*WIDTH,
-            anchor: (0, 0.5),
-            x: 0.1*WIDTH,
-            y: 0.95*HEIGHT,
-            z: 3,
-        })
+        
+        this.healthbar.setup()
 
-        this.hero.healthbar = new Healthbar_Hero(this, this.scene, hbSprite)
-
-        let btnWidth = 0.2*WIDTH
+        let btnWidth = 0.18*WIDTH
         let btnGap = 0.07*WIDTH
 
 
         for (let i=0; i<3;i++) {
+
+            // use setup function here
             let ab = this.heroAbilities[i]
 
             let btnSprite = this.createSprite({
@@ -88,7 +85,7 @@ class Interface extends Scene {
                 url: ab.assets[0],
                 width: btnWidth,
                 x: 0.03*WIDTH,
-                y: btnGap*0.9 + i*(btnWidth+btnGap),
+                y: btnGap*1.5 + i*(btnWidth+btnGap),
                 z: 3,
                 visible: true,
             })
@@ -98,7 +95,16 @@ class Interface extends Scene {
         }
 
 
-    }
+    } // setup
+
+
+
+
+    block(e) { this.hero.block(e.type == 'pointerdown') }
+
+
+    restartLevel() { this.manager.restartLevel() }
+
 
     buttonEvent(e) {
         let target = e.currentTarget.name
@@ -106,7 +112,7 @@ class Interface extends Scene {
     }
 
     update(delta) { 
-        this.animations.update(delta)
+        // this.animations.update(delta)
         for (let btn of this.buttons) {btn.update(delta)}
     }
 }

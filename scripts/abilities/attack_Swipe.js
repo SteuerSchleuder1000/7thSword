@@ -1,7 +1,8 @@
 
 
 
-class Attack_Basic extends Ability {
+
+class Attack_Swipe extends Ability {
 
 
     constructor(manager, superScene, combat) {

@@ -1,7 +1,8 @@
 
 
 
-class Attack_Basic extends Ability {
+
+class Attack_Choice extends Ability {
 
 
     constructor(manager, superScene, combat) {
@@ -11,9 +12,9 @@ class Attack_Basic extends Ability {
         this.description = 'Attacks with a single strike'
 
         this.assets = [
-            'assets/swipe.png',     // normal
-            'assets/swipeA.png',    // active
-            'assets/swipeB.png',    // cooldown
+            'assets/choice.png',     // normal
+            'assets/choiceA.png',    // active
+            'assets/choiceB.png',    // cooldown
         ]
 
         this.state = e_abStates.idle
