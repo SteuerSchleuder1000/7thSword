@@ -137,9 +137,11 @@ class Animations {
         // FUNCTION
         let f = ()=>{} 
         f = (delta)=> { 
+            
             if (time <= 0 && !loop) { 
                 obj.position.set(x0, y0)
                 obj.animations = obj.animations.filter(item => item !== f) 
+                return
             }
 
 

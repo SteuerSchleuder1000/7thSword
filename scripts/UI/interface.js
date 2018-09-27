@@ -37,6 +37,24 @@ class Interface extends Scene {
         this.menuBtn.interactive = true
         this.menuBtn.on('pointerdown',this.restartLevel.bind(this))
         this.addSprite(this.menuBtn)
+
+
+        this.blockBtn = new Graphics()
+        this.blockBtn.beginFill(0xFFFFFF)
+        this.blockBtn.drawRect(0,HEIGHT*0.5,WIDTH*0.5,HEIGHT)
+        this.blockBtn.alpha = 0
+        this.blockBtn.name = 'blockBtn'
+        this.blockBtn.position.z = 10
+        this.blockBtn.interactive = true
+        this.blockBtn.on('pointerdown', this.block.bind(this))
+        this.blockBtn.on('pointerup', this.block.bind(this))
+        this.addSprite(this.blockBtn)
+    }
+
+    block(e) {
+        //console.log('block:',e)
+        let isDown = e.type == 'pointerdown'
+        this.hero.block(isDown)
     }
 
     restartLevel() { this.manager.restartLevel() }

@@ -17,7 +17,7 @@ class Stats {
     constructor() {
 
         this.power_init = 10
-        this.health_init = 100
+        this.health_init = 100000
 
         this.power = 10
         this.health = 100
@@ -45,6 +45,7 @@ class Character extends Scene {
 
         this.name = ''
         this.state = e_combatStates.idle
+        this.animations = new Animations()
         
 
         this.sprite = null
@@ -114,6 +115,7 @@ class Character extends Scene {
 
         for (let a of this.abilities) { a.update(delta) }
         for (let b of this.buffs) { b.update(delta) }
+        this.animations.update(delta)
     }
 
     decide() {}
@@ -121,6 +123,7 @@ class Character extends Scene {
     cast() {
         // check if valid order
         this.state = e_combatStates.casting
+        this.t = 0
         this.animate(this.state)
     }
 
@@ -142,8 +145,9 @@ class Character extends Scene {
         this.animate(this.state)
     }
 
-    block() {
+    block(b) {
         this.state = e_combatStates.blocking
+        this.t = 0
         this.animate(this.state)
     }
 
@@ -151,6 +155,7 @@ class Character extends Scene {
 
         this.manager.event(e_eventIDs.defeat,this)
         this.state = e_combatStates.defeated
+        this.t = 0
         this.animate(this.state)
     }
 
@@ -232,15 +237,20 @@ class Character extends Scene {
         })
     }
 
+    scaleSprite(scale) {
+        if (!this.sprite) {console.log('ERROR no sprite to scale',this); return}
+        this.sprite.scale = scale
+    }
+
     fixHeight(height) {
-        if (!this.sprite) {console.log('ERROR no sprite to fix height',this)}
+        if (!this.sprite) {console.log('ERROR no sprite to fix height',this); return}
         let scale = height/ this.sprite.height
         this.sprite.height *= scale
         this.sprite.width *= scale
     }
 
     fixWidth(width) {
-        if (!this.sprite) {console.log('ERROR no sprite to fix width',this)}
+        if (!this.sprite) {console.log('ERROR no sprite to fix width',this); return}
         let scale = width/ this.sprite.width
         this.sprite.height *= scale
         this.sprite.width *= scale

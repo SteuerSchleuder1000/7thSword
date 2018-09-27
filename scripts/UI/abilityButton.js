@@ -16,20 +16,41 @@ class AbilityButton extends Scene {
         this.line = new Graphics()
         this.line.position.z = 100
         this.addSprite(this.line) 
-        //this.createLoadingBar()
     }
 
     loadingBar(delta) {
-        this.t += delta
-        this.t = this.ability.t
+
+        let t = this.ability.t
+        let duration
+
+        switch (this.ability.state) {
+            case e_abStates.idle:
+                return
+                break;
+
+            case e_abStates.casting:
+                duration = this.ability.t_cast
+                t = duration - t
+                break;
+
+            case e_abStates.performing:
+                return
+                break;
+
+            case e_abStates.recovering:
+                duration = this.ability.t_recovery
+                break
+        }
+
+
+
+        let progress = (t % duration)/duration
         let x = this.sprite.position.x
         let y = this.sprite.position.y
         let w = this.sprite.width
         let lineWidth = 10
-        let duration = this.ability.t_cast
-        let progress = (this.t % duration)/duration // [0,1.0]
 
-        this.line.clear()
+        this.line.clear()        
         this.line.lineStyle(lineWidth, 0xFFFFFF, 1);
         this.line.moveTo(x,y);
 
@@ -59,30 +80,36 @@ class AbilityButton extends Scene {
         }
 
         
-    }
+    }// castbar
+
+
 
     cast() {
         let url = this.ability.assets[1]
         let texture = resources[url].texture
         this.sprite.texture = texture
+        this.line.alpha = 1
     }
 
     perform() {
-        let url = this.ability.assets[1]
-        let texture = resources[url].texture
-        this.sprite.texture = texture
+        // let url = this.ability.assets[1]
+        // let texture = resources[url].texture
+        // this.sprite.texture = texture
+        this.line.clear()
     }
 
     recover() {
         let url = this.ability.assets[2]
         let texture = resources[url].texture
         this.sprite.texture = texture
+        this.line.alpha = 0.5
     }
 
     idle() {
         let url = this.ability.assets[0]
         let texture = resources[url].texture
         this.sprite.texture = texture
+        this.line.clear()
     }
 
     update(delta) { 

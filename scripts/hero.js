@@ -38,23 +38,22 @@ class Hero extends Character {
     update(delta) {
         super.update(delta) // updates all abilities and buffs
 
-        switch (this.state) {
-            case e_combatStates.idle:
-                break;
-
-            case e_combatStates.casting:
-                break;
-
-            case e_combatStates.recovering:
-                this.t -= delta
-                if (this.t <= 0) { this.recover() }
-
-            
-        }
     }
 
 
+    block(b) {
+        // check if 
+        console.log('block',b, this.state, e_combatStates)
+        switch(this.state) {
+            case e_combatStates.idle:
+                if (b) { super.block() }
+                break;
 
+            case e_combatStates.blocking:
+                if (!b) { this.recover(0.5) }
+                break;
+        }
+    }
 
     setup() {
         this.sprite = this.createSprite({

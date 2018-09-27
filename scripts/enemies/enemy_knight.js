@@ -29,6 +29,5 @@ class Enemy_Knight extends Enemy {
     decide() {
         this.target = this.combat.hero
         this.abilities[0].cast(this.target)
-        console.log('knight decided')
     }
 }

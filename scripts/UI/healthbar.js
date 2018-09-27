@@ -9,16 +9,20 @@ class Healthbar_Hero extends Scene {
         this.originalWidth = sprite.width
     }
 
-    updateHealth(health) { this.sprite.width = health/100*this.originalWidth }
+    updateHealth(health) { 
+        this.sprite.width = health/100*this.originalWidth
+        // this.manager.animations.shake(this.sprite, {time:0.5, magnitude: 5})
+    }
 }
 
 
 
 
 class Healthbar_Enemy { // added onto sprite
-    constructor(manager,sprite,x,y) {
-        this.sprite = sprite
-        
+    constructor(manager,superScene,x,y) {
+        this.superScene = superScene
+        this.manager = manager
+
         x = x | 0
         y = y | 0
 
@@ -28,15 +32,16 @@ class Healthbar_Enemy { // added onto sprite
         this.originalWidth = width
 
         this.healthbar = new Graphics()
-        //this.healthbar.lineStyle(4, 0xFFFFFF, 1);
         this.healthbar.beginFill(0xFFFFFF);
         this.healthbar.drawRect(0, 0, width, height)
         this.healthbar.position.set(x,y)
 
-        this.sprite.addChild(this.healthbar)
+        this.superScene.addChild(this.healthbar)
     }
 
     updateHealth(health) { 
+        // console.log('manager?',this)
         this.healthbar.width = health/100*this.originalWidth
+        // this.manager.animations.shake(this.healthbar, {time:0.5, magnitude: this.healthbar.height*1.0})
     }
 }

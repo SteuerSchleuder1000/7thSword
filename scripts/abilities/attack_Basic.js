@@ -98,6 +98,8 @@ class Attack_Basic extends Ability {
         this.state = e_abStates.performing
         this.t = this.t_perform
         this.manager.perform(this.t_perform)
+
+        if (this.btn) { this.btn.perform() }
     }
 
     execute() {
@@ -113,7 +115,7 @@ class Attack_Basic extends Ability {
         this.state = e_abStates.recovering
         this.t = t
 
-        if (this.btn) { this.btn.recover(t) }
+        if (this.btn) { this.btn.recover() }
     }
 
     idle() {
