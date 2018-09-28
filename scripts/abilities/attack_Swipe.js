@@ -34,6 +34,8 @@ class Attack_Swipe extends Ability {
     execute() { // only function to update!!!
         super.execute() // sets this.t = 0 and this.recover(this.t_recovery)
         
+        let combopoints = this.manager.stats.combo
+        this.manager.changeCombo(-combopoints) // gain 1 combo
         this.combat.dealDamage(this.power, this.target, this, this.manager)
     }
 

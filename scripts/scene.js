@@ -24,7 +24,7 @@ class Scene { // any game object with sprites
         if ('anchor'    in opt)         { sprite.anchor.set(opt.anchor[0],opt.anchor[1]) }
         if ('name'      in opt)         { sprite.name = opt.name }
         if ('rotation'  in opt)         { sprite.rotation = opt.rotation }
-        if ('scale'     in opt)         { sprite.scale = opt.scale }
+        if ('scale'     in opt)         { sprite.scale.x = opt.scale; sprite.scale.y = opt.scale  }
         if ('visible'   in opt)         { sprite.visible = opt.visible }
         if ('x'         in opt)         { sprite.position.x = opt.x }
         if ('y'         in opt)         { sprite.position.y = opt.y }
@@ -103,18 +103,7 @@ class Scene { // any game object with sprites
 
     update() {}
 
-    createBackground(url) {
-        this.bg = this.createSprite({
-            name: 'bg',
-            url: url,
-            anchor: [0.5, 0],
-            height: HEIGHT,
-            x: WIDTH/2,
-            y: 0,
-            z: 0,
-            addToScene: true,
-        })
-    }
+    
 
     hide() { this.scene.visible = false}
     show() {this.scene.visible = true}
@@ -148,6 +137,18 @@ class Stage extends Scene { // stage for menues, levels etc.
     }
 
 
+    createBackground(url) {
+        this.bg = this.createSprite({
+            name: 'bg',
+            url: url,
+            anchor: [0.5, 0],
+            height: HEIGHT,
+            x: WIDTH/2,
+            y: 0,
+            z: e_zIndex.bg,
+            addToScene: true,
+        })
+    }
 
 }
 

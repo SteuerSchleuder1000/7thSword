@@ -6,19 +6,21 @@ class Hero extends Character {
     constructor(manager, superScene, combat) {
 
         super(manager, superScene, combat)
-        this.scene.position.z = 2
+        this.scene.position.z = e_zIndex.hero
         this.name = 'Hero'
         this.healthbar = null
         this.playerControlled = true
         this.t_recoveryBlock = 1.0
 
         this.abilities = [
+            new Attack_Fireball(this, superScene, combat),
             new Attack_Swipe(this, superScene , combat),
             new Attack_Emberblade(this, superScene , combat),
             new Attack_Choice(this, superScene , combat),
         ]
 
-        for (let a of this.abilities) { a.t_cast = 1}
+        this.blockSound = new Howl({src: ['assets/sounds/impact.wav'], volume: Settings.sound.volume})
+
 
         this.assets = [
             // 'assets/heroback00.png',
@@ -27,6 +29,7 @@ class Hero extends Character {
             'assets/heroback.png',          // 2: performing
             'assets/herobackblocking.png',  // 3: blocking
             'assets/herofront.png',
+            'assets/shieldcomb.png',        // block sfx
         ]
 
         
@@ -54,6 +57,16 @@ class Hero extends Character {
         }
     }
 
+    blockAnimation() {
+        let animationTime = 1
+        this.blockSfx.visible = true
+        let b = this.blockSfx
+        let callback = ()=>{b.visible = false}
+        this.animations.scale(this.blockSfx,{time: animationTime, scale: 8, reset: true, easeOut: true})
+        this.animations.alpha(this.blockSfx,{time: animationTime, alpha: 0, reset: true, callback: callback})
+        //this.animations.move(this.blockSfx,{time: animationTime, y: HEIGHT*0.6, reset: true})
+    }
+
     recover(t) {
         super.recover(t)
         if(this.sprite) {this.sprite.tint = 0xba27db}
@@ -67,6 +80,21 @@ class Hero extends Character {
 
 
     setup() {
+
+        this.blockSfx = this.createSprite({
+            name: 'shield',
+            url: 'assets/shieldcomb.png',
+            anchor: [0.5,0.5],
+            scale: 0.5,
+            x: WIDTH*0.45, 
+            y: HEIGHT*0.7, 
+            z: this.z-0.1,
+            addToScene: true,
+            visible: false,
+        })
+
+
+
         this.sprite = this.createSprite({
             name: this.name,
             url: this.assets[0],
@@ -74,13 +102,15 @@ class Hero extends Character {
             x: this.x, y: this.y, z: this.z,
             addToScene: true,
         })
+
     }
 
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
         this.animations.shake(this.healthbar.sprite, {time: 0.5, magnitude:10})
         if (this.state == e_combatStates.blocking) {
-            // sfx
+            this.blockAnimation()
+            this.blockSound.play()
         }
     }
 }

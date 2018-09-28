@@ -6,14 +6,22 @@ let log = console.log
 
 
 Todo:
-    - speech -> dialog
-    - simplify abilities
-    - add abilities
-    - sfx
+    - speech -> dialog          x
+    - simplify abilities        x
+    - add abilities             x
+
+    
+    - combo system -> change stats?
+    - block animation
+    - sounds
+    - sfx -> weather -> rain, fog
+    - projectile
+    - rudimentary combat menu -> dev menu -> js console // dom element
+    - combat system
+    - buff system
+    - level progression
     - add enemies
-    - combat menu
-    - restart level
-    - set button layout
+    
     
 
 
@@ -40,7 +48,6 @@ let e_gameStates = {
 
 
 
-
 class Game {
 
     constructor() {
@@ -55,7 +62,7 @@ class Game {
         this.state.add( e_gameStates.mainMenu,   new MenuManager(this, this.scene))
         this.state.add( e_gameStates.world,      new LevelManager(this, this.scene))
 
-
+        this.soundSettings = {volume: 1}
 
 
         this.load()

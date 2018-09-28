@@ -31,6 +31,7 @@ class Level extends Stage {
     onEntry() {
         if (!this.loaded) { this.concatAssets() }
         super.onEntry()
+        currentLevel = this
     }
 
     concatAssets() { // !!! more general implementation

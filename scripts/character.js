@@ -12,30 +12,6 @@ let e_combatStates = {
 
 
 
-class Stats {
-
-    constructor() {
-
-        this.power_init = 10
-        this.health_init = 100
-
-        this.combo_max = 5
-
-        this.power = 10
-        this.health = 100
-        this.combo = 0
-        this.energy = 0
-    }
-
-    reset() {
-        this.power = this.power_init
-        this.health = this.health_init
-    }
-
-
-} // stats
-
-
 
 
 
@@ -43,7 +19,7 @@ class Character extends Scene {
     constructor(manager, superScene, combat) {
         super(manager, superScene)
         this.scene.visible = true
-        this.scene.position.z = 1
+        this.scene.position.z = e_zIndex.character
         //this.scene.anchor.set(0.5,1) // set anchor down in the middle
         this.combat = combat
 
@@ -62,6 +38,11 @@ class Character extends Scene {
         this.y = 0
         this.z = 0
         this.t = 0 // cast bar
+
+        this.keyPoints = { // key points on the character sprite
+            overhead: [0,0],
+            feet: [0,0],
+        }
 
         this.t_recovery = 0.5 // normal recovery time
         this.target = null // in combat
@@ -119,6 +100,7 @@ class Character extends Scene {
 
         for (let a of this.abilities) { a.update(delta) }
         for (let b of this.buffs) { b.update(delta) }
+        if (this.healthbar) {this.healthbar.update(delta)}
         this.animations.update(delta)
     }
 
@@ -225,10 +207,8 @@ class Character extends Scene {
     }
 
     changeCombo(d) {
-        this.stats.combo += d
-        this.stats.combo = Math.max(this.stats.combo, 0)
-        this.stats.combo = Math.min(this.stats.combo, this.stats.combo_max)
-        this.healthbar.updateCombo(this.stats.combo)
+        this.stats.changeCombo(d)
+        this.healthbar.updateCombo()
     }
 
 
@@ -243,7 +223,7 @@ class Character extends Scene {
     cancelAbility() {
         if (this.castingAbility) { this.castingAbility.cancel() }
         this.castingAbility = null
-        this.idle()
+        //this.idle()
     }
 
     setup() {

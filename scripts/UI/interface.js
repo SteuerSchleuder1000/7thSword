@@ -7,7 +7,7 @@
 class Interface extends Scene {
     constructor(manager, superScene, hero) {
         super(manager,superScene)
-        this.scene.position.z = 3
+        this.scene.position.z = e_zIndex.interface
         this.scene.visible = true
 
 
@@ -20,7 +20,7 @@ class Interface extends Scene {
         this.heroAbilities = this.hero.abilities
         for (let a of this.heroAbilities) { this.assets = this.assets.concat(a.assets) }
 
-        this.healthbar = new Healthbar_Hero(this, this.scene)
+        this.healthbar = new Healthbar_Hero(this.hero, this.scene)
         this.hero.healthbar = this.healthbar
         this.assets = this.assets.concat(this.healthbar.assets)
 
@@ -113,6 +113,7 @@ class Interface extends Scene {
 
     update(delta) { 
         // this.animations.update(delta)
-        for (let btn of this.buttons) {btn.update(delta)}
+        // for (let btn of this.buttons) {btn.update(delta)} // updated through the characters
+        // this.healthbar.update(delta)
     }
 }

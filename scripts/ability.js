@@ -24,6 +24,7 @@ class Ability extends Scene {
     constructor(character, stageScene, combat) { // manager == character
 
         super(character, stageScene, false)
+        //this.scene.position.z = this.character.scene.position.z
         this.combat = combat
         this.target = null
 
@@ -38,6 +39,10 @@ class Ability extends Scene {
         this.t = 0 // used for all
         this.btn = null // only for hero
 
+
+        this.animations = new Animations()
+        this.sfxElements = [] // all sfx elements
+
     }
 
     update(delta) {
@@ -48,8 +53,13 @@ class Ability extends Scene {
 
 
             case e_abStates.casting:
-                // check if target still valid
-                // trigger hit animation
+
+                if (this.target.state == e_combatStates.defeated) { 
+                    console.log('ERROR: Target defeated, ability could not finish')
+                    this.cancel()
+                    return false
+                }
+
                 this.t -= delta
                 if (this.t <= 0) { this.perform() }
                 break;
@@ -66,16 +76,19 @@ class Ability extends Scene {
         }
 
         if (this.btn) { this.btn.update(delta) }
+
+        this.animations.update(delta)
+        for (let e of this.sfxElements) { e.update(delta) }
     }
 
 
 
 
     cast(target) {
-        if (!target) { console.log('ERROR: No Target for Ability', this.name); return }
-        if (target.state == e_combatStates.defeated) { console.log('ERROR: Target defeated'); return}
-        if (this.state != e_abStates.idle) { console.log('ERROR: Ability not idle. State:', this.state, e_abStates); return}
-        if (this.manager.state != e_combatStates.idle) { console.log('ERROR: Hero not idle. State:', this.manager.state, e_combatStates); return}
+        if (!target) { console.log('ERROR: No Target for Ability', this.name); return false}
+        if (target.state == e_combatStates.defeated) { console.log('ERROR: Target defeated'); return false}
+        if (this.state != e_abStates.idle) { console.log('ERROR: Ability not idle. State:', this.state, e_abStates); return false}
+        if (this.manager.state != e_combatStates.idle) { console.log('ERROR: Hero not idle. State:', this.manager.state, e_combatStates); return false}
 
         this.target = target
         this.t = this.t_cast
@@ -83,12 +96,13 @@ class Ability extends Scene {
 
         if( this.btn ) { this.btn.cast(this.t) }
 
-        // animate stage
 
         this.manager.cast()
+        this.startCasting() // trigger
+        return true // ability casting!
     } // cast
 
-
+    
 
     perform() {
         this.state = e_abStates.performing
@@ -96,11 +110,15 @@ class Ability extends Scene {
         this.manager.perform(this.t_performAnimation)
 
         if (this.btn) { this.btn.perform() }
+        this.startPerforming()
     }
 
+
+    
     execute() {
         this.t = 0
         this.recover(this.t_recovery)
+        this.startExecuting()
     }
 
 
@@ -109,7 +127,9 @@ class Ability extends Scene {
         this.t = t
 
         if (this.btn) { this.btn.recover() }
+        this.startRecovering()
     }
+
     idle() {
         // console.log('attack idle')
         this.state = e_abStates.idle
@@ -117,11 +137,23 @@ class Ability extends Scene {
         this.target = null
 
         if (this.btn) { this.btn.idle() }
+        this.startIdle()
     }
+
+    // container functions to be used in abilities without having to invoke super.cast() etc
+
+    startCasting() {} 
+    startPerforming() {}
+    startExecuting() {}
+    startRecovering() {}
+    startIdle() {}
+
 
     cancel() {
         this.idle()
         this.manager.cancelAbility()
+        this.animations.removeAll()
+        for (let e of this.sfxElements) { e.destroy() } // elements need .destroy method!!!
     }
 
 }

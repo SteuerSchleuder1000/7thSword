@@ -1,15 +1,25 @@
 
 
-e_eventIDs =  {
+let e_eventIDs =  {
     defeat: 0,
 }
+
+let e_zIndex = {
+
+    bg: 0,
+    character: 1,
+    hero: 2,
+    interface: 3,
+
+}
+
+
 
 
 class Level_002 extends Level {
     constructor(manager, superScene) {
         console.log('level 002')
         super(manager, superScene)
-        currentLevel = this
         this.scene.name = 'First Fight lv002'
         this.complete = false
 
@@ -18,7 +28,11 @@ class Level_002 extends Level {
         this.dialog = new Dialog()
         this.animations = new Animations()
         
-
+        this.emitter = null
+        this.sound = new Howl({ src: ['assets/sounds/visions.mp3'],
+            loop: true,
+            volume: 0.5,
+        })
 
         // characters
         this.knight = new Enemy_Knight(this, this.scene, this.combat)
@@ -37,6 +51,7 @@ class Level_002 extends Level {
 
     update(delta) {
         this.animations.update(delta)
+        if (this.emitter) {this.emitter.update(delta)}
         if (this.complete) {return}
         this.combat.update(delta)
         
@@ -62,6 +77,7 @@ class Level_002 extends Level {
     end() {
         this.scene.visible = false
         this.complete = true
+        this.sound.stop()
         super.onExit()
     }
 
@@ -89,13 +105,102 @@ class Level_002 extends Level {
 
         this.interface.setup()
 
+        // this.emitter = new PIXI.particles.Emitter(
 
+        //     this.scene, // container
+        //     [PIXI.Texture.fromImage('assets/combo.png')], // images
+          
+        //     { // options
+        //         alpha: {
+        //             list: [
+        //                 {
+        //                     value: 0.8,
+        //                     time: 0
+        //                 },
+        //                 {
+        //                     value: 0.1,
+        //                     time: 1
+        //                 }
+        //             ],
+        //             isStepped: false
+        //         },
+        //         scale: {
+        //             list: [
+        //                 {
+        //                     value: 1,
+        //                     time: 0
+        //                 },
+        //                 {
+        //                     value: 0.3,
+        //                     time: 1
+        //                 }
+        //             ],
+        //             isStepped: false
+        //         },
+        //         color: {
+        //             list: [
+        //                 {
+        //                     value: "fb1010",
+        //                     time: 0
+        //                 },
+        //                 {
+        //                     value: "f5b830",
+        //                     time: 1
+        //                 }
+        //             ],
+        //             isStepped: false
+        //         },
+        //         speed: {
+        //             list: [
+        //                 {
+        //                     value: 200,
+        //                     time: 0
+        //                 },
+        //                 {
+        //                     value: 100,
+        //                     time: 1
+        //                 }
+        //             ],
+        //             isStepped: false
+        //         },
+        //         startRotation: {
+        //             min: 0,
+        //             max: 360
+        //         },
+        //         rotationSpeed: {
+        //             min: 0,
+        //             max: 0
+        //         },
+        //         lifetime: {
+        //             min: 0.1,
+        //             max: 1
+        //         },
+        //         frequency: 0.008,
+        //         spawnChance: 1,
+        //         particlesPerWave: 1,
+        //         emitterLifetime: 10,
+        //         maxParticles: 1000,
+        //         pos: {
+        //             x: 0,
+        //             y: 0
+        //         },
+        //         addAtBack: false,
+        //         spawnType: "circle",
+        //         spawnCircle: {
+        //             x: WIDTH/2,
+        //             y: HEIGHT/2,
+        //             r: 10
+        //         }
+        //     }
+        // );
+
+        //this.sound.play()
         this.zSort()
         super.setup(callback)
     }
 
     speech1() {
-        this.interface.hide()
+        //this.interface.hide()
         this.knight.hideHealthbar()
         let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
         let text = 'Who Dares Enter\nThese Woods?'

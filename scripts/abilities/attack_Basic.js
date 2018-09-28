@@ -1,5 +1,15 @@
 
 
+/*
+                                           execute(),
+method:       cast()       perform()       recover()       idle()
+                v              v              v              v
+State:  idle    |   casting    |  performing  |  recovering  |   idle
+
+*/
+
+
+
 
 class Attack_Basic extends Ability {
 
