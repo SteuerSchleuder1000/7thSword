@@ -28,7 +28,7 @@ class Level_002 extends Level {
         this.dialog = new Dialog()
         this.animations = new Animations()
         
-        this.emitter = null
+        this.emitters = []
         this.music = new Howl({ src: ['assets/sounds/visions.mp3'],
             loop: true,
             volume: 0.5,
@@ -46,14 +46,16 @@ class Level_002 extends Level {
 
         this.assets = [
             'assets/forestbackground.png',
+            'assets/raindrop.png'
         ]
 
     }
 
 
     update(delta) {
+        if (this.paused) {return}
         this.animations.update(delta)
-        if (this.emitter) {this.emitter.update(delta)}
+        for (let e of this.emitters) { e.update(delta) }
         if (this.complete) {return}
         this.combat.update(delta)
         
@@ -89,8 +91,19 @@ class Level_002 extends Level {
 
         this.createBackground('assets/forestbackground.png')
         
+        let rainlayer1 = new Container()
+        rainlayer1.position.z = e_zIndex.bg + 0.1
+        this.addSprite(rainlayer1)
 
+        let emitter1 = new PIXI.particles.Emitter(
+            rainlayer1, // container
+            [PIXI.Texture.fromImage('assets/raindrop.png')], // images
+            emitterOptions_rain2
+        )
+        emitter1.emit = true
+        this.emitters.push(emitter1)
         
+
         this.knight.setPosition(0.3*WIDTH,0.25*HEIGHT,1)
         this.knight.setup() // creates sprite and adds
         // this.knight.scaleSprite(this.knight.sprite.height/HEIGHT)
@@ -109,12 +122,27 @@ class Level_002 extends Level {
 
         this.interface.setup()
 
-        this.emitter = new PIXI.particles.Emitter(
-            this.scene, // container
+        
+        let rainlayer2 = new Container()
+        rainlayer2.position.z = e_zIndex.hero + 0.1
+        this.addSprite(rainlayer2)
+
+        let emitter2 = new PIXI.particles.Emitter(
+            rainlayer2, // container
             [PIXI.Texture.fromImage('assets/raindrop.png')], // images
             emitterOptions_rain
         )
-        this.emitter.emit = true
+        emitter2.emit = true
+        this.emitters.push(emitter2)
+
+
+
+
+
+
+
+
+
 
         //this.music.play()
         this.ambientSound.play()

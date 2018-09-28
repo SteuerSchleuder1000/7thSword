@@ -124,3 +124,58 @@ let emitterOptions_rain = { // 700 in 1 second
         "h": 1
     }
 } // rain
+
+let emitterOptions_rain2 = { // 700 in 1 second
+    "alpha": {
+        "start": 0.5,
+        "end": 0.5
+    },
+    "scale": {
+        "start": 0.1,
+        "end": 0.1,
+        "minimumScaleMultiplier": 0.1
+    },
+    "color": {
+        "start": "#ffffff",
+        "end": "#e4f9ff"
+    },
+    "speed": {
+        "start": 700,
+        "end": 700,
+        "minimumSpeedMultiplier": 0.7
+    },
+    "acceleration": {
+        "x": 0,
+        "y": 0
+    },
+    "maxSpeed": 0,
+    "startRotation": {
+        "min": 89,
+        "max": 95
+    },
+    "noRotation": false,
+    "rotationSpeed": {
+        "min": 0,
+        "max": 0
+    },
+    "lifetime": {
+        "min": 0.25,
+        "max": 0.4
+    },
+    "blendMode": "normal",
+    "frequency": 0.001,
+    "emitterLifetime": -1,
+    "maxParticles": 100,
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "addAtBack": false,
+    "spawnType": "rect",
+    "spawnRect": {
+        "x": 0,
+        "y": HEIGHT*0.2,
+        "w": WIDTH*1.1,
+        "h": 1
+    }
+} // rain

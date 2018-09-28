@@ -46,6 +46,8 @@ class Ability extends Scene {
     }
 
     update(delta) {
+        this.t = Math.max(this.t, 0)
+        
         switch(this.state) {
 
             case e_abStates.idle:

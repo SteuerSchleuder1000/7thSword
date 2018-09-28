@@ -7,7 +7,7 @@ class Scene { // any game object with sprites
         this.assets = []
         this.loaded = false
         this.manager = manager
-        this.paused = true
+        this.paused = false
         this.scene = new Container()
         this.scene.visible = false
         this.superScene = superScene
@@ -24,7 +24,7 @@ class Scene { // any game object with sprites
         if ('anchor'    in opt)         { sprite.anchor.set(opt.anchor[0],opt.anchor[1]) }
         if ('name'      in opt)         { sprite.name = opt.name }
         if ('rotation'  in opt)         { sprite.rotation = opt.rotation }
-        if ('scale'     in opt)         { sprite.scale.x = opt.scale; sprite.scale.y = opt.scale  }
+        if ('scale'     in opt)         { sprite.scale.x = opt.scale, sprite.scale.y = opt.scale  }
         if ('visible'   in opt)         { sprite.visible = opt.visible }
         if ('x'         in opt)         { sprite.position.x = opt.x }
         if ('y'         in opt)         { sprite.position.y = opt.y }
