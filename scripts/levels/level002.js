@@ -29,10 +29,12 @@ class Level_002 extends Level {
         this.animations = new Animations()
         
         this.emitter = null
-        this.sound = new Howl({ src: ['assets/sounds/visions.mp3'],
+        this.music = new Howl({ src: ['assets/sounds/visions.mp3'],
             loop: true,
             volume: 0.5,
         })
+
+        this.ambientSound = new Howl({src: 'assets/sounds/forest.wav',loop:true, volume: 0.5})
 
         // characters
         this.knight = new Enemy_Knight(this, this.scene, this.combat)
@@ -67,6 +69,7 @@ class Level_002 extends Level {
 
     restartLevel() {
         this.manager.transition(e_levels.lv_003)
+
         this.end()
         //this.manager.state.remove(e_levels.lv_002)
 
@@ -77,7 +80,8 @@ class Level_002 extends Level {
     end() {
         this.scene.visible = false
         this.complete = true
-        this.sound.stop()
+        this.music.stop()
+        this.ambientSound.stop()
         super.onExit()
     }
 
@@ -107,18 +111,19 @@ class Level_002 extends Level {
 
         this.emitter = new PIXI.particles.Emitter(
             this.scene, // container
-            [PIXI.Texture.fromImage('assets/raindrop.png'),PIXI.Texture.fromImage('assets/raindropShort.png')], // images
-            rainOptions
+            [PIXI.Texture.fromImage('assets/raindrop.png')], // images
+            emitterOptions_rain
         )
         this.emitter.emit = true
 
-        //this.sound.play()
+        //this.music.play()
+        this.ambientSound.play()
         this.zSort()
         super.setup(callback)
     }
 
     speech1() {
-        //this.interface.hide()
+        this.interface.hide()
         this.knight.hideHealthbar()
         let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
         let text = 'Who Dares Enter\nThese Woods?'

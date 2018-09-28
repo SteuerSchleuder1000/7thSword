@@ -108,7 +108,6 @@ class Interface extends Scene {
 
     buttonEvent(e) {
         let target = e.currentTarget.name
-        console.log('interface button event:',e)
     }
 
     update(delta) { 

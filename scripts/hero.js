@@ -13,13 +13,13 @@ class Hero extends Character {
         this.t_recoveryBlock = 1.0
 
         this.abilities = [
-            new Attack_Fireball(this, superScene, combat),
+            //new Attack_Fireball(this, superScene, combat),
             new Attack_Swipe(this, superScene , combat),
             new Attack_Emberblade(this, superScene , combat),
             new Attack_Choice(this, superScene , combat),
         ]
 
-        this.blockSound = new Howl({src: ['assets/sounds/impact.wav'], volume: Settings.sound.volume})
+        this.blockSound = new Howl({src: ['assets/sounds/clank.wav'], volume: SETTINGS.sound.volume})
 
 
         this.assets = [
@@ -49,10 +49,12 @@ class Hero extends Character {
         switch(this.state) {
             case e_combatStates.idle:
                 if (b) { super.block() }
+                this.blockSfx.visible = true
                 break;
 
             case e_combatStates.blocking:
                 if (!b) { this.recover(this.t_recoveryBlock) }
+                this.blockSfx.visible = false
                 break;
         }
     }

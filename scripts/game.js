@@ -11,11 +11,11 @@ Todo:
     - add abilities             x
 
     
-    - combo system -> change stats?
-    - block animation
-    - sounds
-    - sfx -> weather -> rain, fog
-    - projectile
+    - combo system              x
+    - block animation           x
+    - sounds                    x
+    - sfx                       x
+    - projectile                x
     - rudimentary combat menu -> dev menu -> js console // dom element
     - combat system
     - buff system

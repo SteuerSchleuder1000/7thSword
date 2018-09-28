@@ -97,7 +97,7 @@ class Ability extends Scene {
         if( this.btn ) { this.btn.cast(this.t) }
 
 
-        this.manager.cast()
+        this.manager.cast(this)
         this.startCasting() // trigger
         return true // ability casting!
     } // cast
@@ -151,7 +151,7 @@ class Ability extends Scene {
 
     cancel() {
         this.idle()
-        this.manager.cancelAbility()
+        //this.manager.cancelAbility() // !!! watch out for recursion
         this.animations.removeAll()
         for (let e of this.sfxElements) { e.destroy() } // elements need .destroy method!!!
     }

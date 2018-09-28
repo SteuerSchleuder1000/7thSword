@@ -3,28 +3,27 @@
 
 class Stats {
 
-    constructor() {
+    constructor(arg) {
 
-        this.power_init = 10
-        this.power = 10
+        arg = arg || {}
+        this.power_init = arg.power || 10
+        this.health_init = arg.health || 100
+        this.energy_init = 0
+        this.combo_init = 0
 
-
-        this.health_init = 100
-        this.health = 100
 
         this.combo_max = 5
-        this.combo_init = 0
-        this.combo = 0
+
 
         
+        this.reset()
         
-        
-        this.energy = 0
     }
 
     reset() {
         this.power = this.power_init
         this.health = this.health_init
+        this.combo = this.combo_init
     }
 
     changeCombo(d) {
@@ -33,6 +32,11 @@ class Stats {
         this.combo += d
         this.combo = Math.max(this.combo, 0)
         this.combo = Math.min(this.combo, this.combo_max)
+    }
+
+    changeHealth(d) {
+        if (!d) {return}
+        this.health += d
     }
     
 

@@ -87,7 +87,6 @@ class Healthbar_Hero extends Healthbar {
 
         
         let diff = this.manager.stats.combo - this.comboPoints
-        console.log('update combo healthbar',diff)
         if (diff == 0) { return } // nothing to do
 
         if (diff > 0) {

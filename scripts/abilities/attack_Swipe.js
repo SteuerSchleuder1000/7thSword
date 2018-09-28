@@ -9,7 +9,7 @@ class Attack_Swipe extends Ability {
         super(manager, superScene, combat)
         
         this.name = 'Basic Attack'
-        this.description = 'Attacks with a single strike'
+        this.description = 'Uses up all combo points and deals that much damage'
 
         this.assets = [
             'assets/swipe.png',     // normal
@@ -19,10 +19,10 @@ class Attack_Swipe extends Ability {
 
         this.state = e_abStates.idle
         this.power = 10
-        this.t_cast = 5
+        this.t_cast = 3
         this.t_perform = 0.5
-        this.t_performAnimation = 1.0 // time for character animation
-        this.t_recovery = 0.5
+        this.t_performAnimation = 0.2 // time for character animation
+        this.t_recovery = 5.0
         this.t = 0
 
     }
@@ -31,12 +31,11 @@ class Attack_Swipe extends Ability {
     
 
 
-    execute() { // only function to update!!!
-        super.execute() // sets this.t = 0 and this.recover(this.t_recovery)
-        
+    startExecuting() {
         let combopoints = this.manager.stats.combo
         this.manager.changeCombo(-combopoints) // gain 1 combo
-        this.combat.dealDamage(this.power, this.target, this, this.manager)
+        let damage = combopoints*this.power + this.power
+        this.combat.dealDamage(damage, this.target, this, this.manager)
     }
 
 

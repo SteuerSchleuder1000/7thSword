@@ -38,6 +38,7 @@ class Character extends Scene {
         this.y = 0
         this.z = 0
         this.t = 0 // cast bar
+        this.t_superBlock = 0.5 // counts how long its been blocking
 
         this.keyPoints = { // key points on the character sprite
             overhead: [0,0],
@@ -94,6 +95,7 @@ class Character extends Scene {
                 break;
 
             case e_combatStates.blocking:
+                this.t += delta
                 break;
 
         }
@@ -106,36 +108,49 @@ class Character extends Scene {
 
     decide() {}
 
-    cast() {
+    cast(ability) {
         // check if valid order
+        this.castingAbility = ability
         this.state = e_combatStates.casting
         this.t = 0
         this.animate(this.state)
+        this.startCasting()
     }
 
     perform(t = 0) {
         this.state = e_combatStates.performing
         this.t = t
         this.animate(this.state)
+        this.startPerforming()
     }
 
     recover(t = this.t_recovery) {
         this.state = e_combatStates.recovering
         this.t = t
         this.animate(this.state)
+        this.startRecovering()
     }
 
     idle() {
         this.state = e_combatStates.idle
         this.t = 0
         this.animate(this.state)
+        this.startIdle()
     }
 
     block(b) {
         this.state = e_combatStates.blocking
         this.t = 0
         this.animate(this.state)
+        this.startBlocking
     }
+
+    startCasting () {}
+    startPerforming() {}
+    startRecovering() {}
+    startIdle() {}
+    startBlocking() {}
+
 
     defeat() {
 
@@ -196,14 +211,38 @@ class Character extends Scene {
 
 
     takeDamage(damage, ability, caster) {
-        if (this.state == e_combatStates.blocking) { damage *= 0.1 }
-        this.stats.health -= damage
-        if (this.healthbar) { this.healthbar.updateHealth(this.stats.health) }
+
+        switch(this.state) {
+            case e_combatStates.blocking:
+                let f = 0.5
+                if (this.t <= this.t_superBlock) { f = 0.1 }
+                if (this.t > 5.0) { f = 1 }
+                damage *= f
+                break;
+
+            case e_combatStates.casting:
+                // setback?, cancel?
+                this.castingAbility.t += 0.5 // 0.5 sec setback
+                break;
+
+            case e_combatStates.recovering:
+                damage *= 2 // take double damage
+                break
+        }
+
+
+        if (this.state == e_combatStates.blocking) { 
+            
+        }
+
+        this.changeHealth(-damage)
         if (this.stats.health <= 0) { this.defeat() }
     }
 
-    updateHealth() {
 
+    changeHealth(d) {
+        this.stats.changeHealth(d)
+        if (this.healthbar) { this.healthbar.updateHealth(this.stats.health) }
     }
 
     changeCombo(d) {
@@ -224,6 +263,7 @@ class Character extends Scene {
         if (this.castingAbility) { this.castingAbility.cancel() }
         this.castingAbility = null
         //this.idle()
+        this.recover()
     }
 
     setup() {
