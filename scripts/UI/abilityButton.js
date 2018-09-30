@@ -44,7 +44,7 @@ class AbilityButton extends Scene {
 
 
 
-        let progress = (t % duration)/duration
+        let progress = Math.max((t % duration)/duration,0)
         let x = this.sprite.position.x
         let y = this.sprite.position.y
         let w = this.sprite.width

@@ -16,6 +16,8 @@ Todo:
     - sounds                    x
     - sfx                       x
     - projectile                x
+    - button "feel"
+    - emitter: fireball, sparks, glow
     - rudimentary combat menu -> dev menu -> js console // dom element
     - combat system
     - buff system
@@ -31,7 +33,7 @@ Todo:
 
 */
 
-let currentLevel = null
+let currentLevel = null // for easy acces in console
 
 
 
@@ -79,7 +81,8 @@ class Game {
 
         this.loadingScreen(true)
         // let callback = _=> { this.transition(e_gameStates.mainMenu, e_menues.introScreen); }
-        let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
+        // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
+        let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_000) } // test levl
 
         callback()
 
@@ -101,7 +104,8 @@ class Game {
 
 
     update(delta) {
-        delta /= FPS
+        delta /= SETTINGS.fps
+        
         //console.log('update?', this.state.update)
         this.state.update(delta)
 

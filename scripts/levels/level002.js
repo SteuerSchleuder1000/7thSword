@@ -4,14 +4,21 @@ let e_eventIDs =  {
     defeat: 0,
 }
 
-let e_zIndex = {
 
-    bg: 0,
-    character: 1,
-    hero: 2,
-    interface: 3,
 
+let e_weather = {
+    rain: 0,
+    rain2: 1,
+    flame: 2,
+
+
+    properties: {
+        0: { options: emitterOptions_rain, textures: ['assets/raindrop.png']},
+        1: { options: emitterOptions_rain2, textures: ['assets/raindrop.png']},
+        2: { options: emitterOptions_flame, textures: ['assets/flame.png','assets/solidCircle.png']}
+    },
 }
+
 
 
 
@@ -21,14 +28,20 @@ class Level_002 extends Level {
         console.log('level 002')
         super(manager, superScene)
         this.scene.name = 'First Fight lv002'
-        this.complete = false
+        
+
+
 
         // standard
         this.combat = new Combat(this)
         this.dialog = new Dialog()
         this.animations = new Animations()
+        this.hero = this.manager.loadHero(this)
+        this.interface = new Interface(this, this.scene, this.hero)
         
-        this.emitters = []
+
+
+        // sounds        
         this.music = new Howl({ src: ['assets/sounds/visions.mp3'],
             loop: true,
             volume: 0.5,
@@ -36,37 +49,54 @@ class Level_002 extends Level {
 
         this.ambientSound = new Howl({src: 'assets/sounds/forest.wav',loop:true, volume: 0.5})
 
+
+
+        // Background
+        this.bg = new Background(this,this.scene,'assets/forestbackground.png')
+
+
         // characters
         this.knight = new Enemy_Knight(this, this.scene, this.combat)
-        this.hero = this.manager.loadHero(this)
 
         this.characters = [this.knight]
 
-        this.interface = new Interface(this, this.scene, this.hero)
 
+
+
+
+        
+        // Special assets: only for special effects etc.! the rest init via this.concatAssets()
         this.assets = [
-            'assets/forestbackground.png',
-            'assets/raindrop.png'
+            'assets/raindrop.png',
         ]
+
 
     }
 
 
-    update(delta) {
-        if (this.paused) {return}
-        this.animations.update(delta)
-        for (let e of this.emitters) { e.update(delta) }
+
+
+
+
+    update(delta) { // 
+        super.update(delta) // takes care of this.animations, emitters
+        
         if (this.complete) {return}
         this.combat.update(delta)
         
         this.interface.update(delta)
     }
 
+
+
+
+
     start() {
         this.combat.addEnemy(this.knight)
         this.combat.addHero(this.hero)
         this.speech1() // first lets talk!
         //this.combat.start()
+        // progression tree
     }
 
     restartLevel() {
@@ -79,6 +109,7 @@ class Level_002 extends Level {
         //this.manager.loadMenu(e_menues.introScreen)
     }
 
+
     end() {
         this.scene.visible = false
         this.complete = true
@@ -87,21 +118,13 @@ class Level_002 extends Level {
         super.onExit()
     }
 
+
+
+
     setup(callback) {
 
-        this.createBackground('assets/forestbackground.png')
-        
-        let rainlayer1 = new Container()
-        rainlayer1.position.z = e_zIndex.bg + 0.1
-        this.addSprite(rainlayer1)
-
-        let emitter1 = new PIXI.particles.Emitter(
-            rainlayer1, // container
-            [PIXI.Texture.fromImage('assets/raindrop.png')], // images
-            emitterOptions_rain2
-        )
-        emitter1.emit = true
-        this.emitters.push(emitter1)
+        this.bg.setup()
+        this.interface.setup()
         
 
         this.knight.setPosition(0.3*WIDTH,0.25*HEIGHT,1)
@@ -112,33 +135,18 @@ class Level_002 extends Level {
         
 
 
-        this.hero.setPosition(0,HEIGHT*1.05,2)
+        
         this.hero.setup()
         // this.hero.scaleSprite(this.hero.sprite.height/HEIGHT)
-        this.hero.fixHeight(HEIGHT)
+        this.hero.fixHeight(HEIGHT*0.7)
+        this.hero.setPosition(0.25*WIDTH,HEIGHT*1.0, e_zIndex.hero)
         this.animations.breathing(this.hero.sprite)
 
 
 
-        this.interface.setup()
 
-        
-        let rainlayer2 = new Container()
-        rainlayer2.position.z = e_zIndex.hero + 0.1
-        this.addSprite(rainlayer2)
-
-        let emitter2 = new PIXI.particles.Emitter(
-            rainlayer2, // container
-            [PIXI.Texture.fromImage('assets/raindrop.png')], // images
-            emitterOptions_rain
-        )
-        emitter2.emit = true
-        this.emitters.push(emitter2)
-
-
-
-
-
+        // this.weather(e_weather.rain2, e_zIndex.character - 0.1)
+        // this.weather(e_weather.rain, e_zIndex.hero + 0.1)
 
 
 
@@ -146,9 +154,34 @@ class Level_002 extends Level {
 
         //this.music.play()
         this.ambientSound.play()
-        this.zSort()
         super.setup(callback)
     }
+
+
+
+
+
+    weather(type, zIndex) {
+
+        let layer = new Container()
+        layer.position.z = zIndex
+        this.addSprite(layer)
+
+        let options = e_weather.properties[type].options
+        let sprites = []
+        let textureUrls = e_weather.properties[type].textures
+
+        for (let url of textureUrls) {
+            let sprite = PIXI.Texture.fromImage(url)
+            sprites.push(sprite)
+        }
+    
+        let emitter2 = new PIXI.particles.Emitter( layer, sprites, options )
+
+        emitter2.emit = true
+        this.emitters.push(emitter2)
+    }
+
 
     speech1() {
         this.interface.hide()

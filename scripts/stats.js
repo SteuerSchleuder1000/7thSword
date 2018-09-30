@@ -23,6 +23,7 @@ class Stats {
     reset() {
         this.power = this.power_init
         this.health = this.health_init
+        this.health_max = this.health_init
         this.combo = this.combo_init
     }
 
@@ -34,9 +35,10 @@ class Stats {
         this.combo = Math.min(this.combo, this.combo_max)
     }
 
-    changeHealth(d) {
+    changeHealthBy(d) {
         if (!d) {return}
         this.health += d
+        this.health = floorCeil(this.health, 0, this.health_max) //Math.max( Math.min(this.health, this.health_max) , 0)
     }
     
 

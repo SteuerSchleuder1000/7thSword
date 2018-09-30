@@ -23,12 +23,19 @@ class Hero extends Character {
 
 
         this.assets = [
+            'assets/images/hero/hero01.png',     // 0: idle
+            'assets/images/hero/hero02.png',     // 1: casting
+            'assets/images/hero/hero03.png',     // 2: performing
+            'assets/images/hero/hero04.png',     // 3: blocking
+            'assets/images/hero/hero05.png',     // 4: front
+            'assets/images/hero/hero06.png',     // 5: spell
+            'assets/images/hero/hero07.png',     // 6: hex
             // 'assets/heroback00.png',
-            'assets/heroback.png',          // 0: idle
-            'assets/heroback.png',          // 1: casting
-            'assets/heroback.png',          // 2: performing
-            'assets/herobackblocking.png',  // 3: blocking
-            'assets/herofront.png',
+            // 'assets/heroback.png',          // 0: idle
+            // 'assets/heroback.png',          // 1: casting
+            // 'assets/heroback.png',          // 2: performing
+            // 'assets/herobackblocking.png',  // 3: blocking
+            // 'assets/herofront.png',
             'assets/shieldcomb.png',        // block sfx
         ]
 
@@ -100,7 +107,7 @@ class Hero extends Character {
         this.sprite = this.createSprite({
             name: this.name,
             url: this.assets[0],
-            anchor: [0, 1],
+            anchor: [0.5, 1],
             x: this.x, y: this.y, z: this.z,
             addToScene: true,
         })

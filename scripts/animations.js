@@ -36,7 +36,7 @@ class Animations {
     }
 
     update(delta) {
-        if (delta == undefined) { delta = 1/FPS; console.log('WARNING delta undefined')}
+        if (delta == undefined) { delta = 1/SETTINGS.fps; console.log('WARNING delta undefined')}
         for (let obj of this.list) {
             if (!obj.animationList || obj.animationList == []) { this.remove(obj); continue }
 
@@ -202,7 +202,7 @@ class Animations {
             }
 
 
-            obj.rotation += speed/FPS
+            obj.rotation += speed/SETTINGS.fps
 
             time -= delta
         } // f
@@ -293,7 +293,7 @@ class Animations {
         let duration = time
         let x0 = obj.position.x
         let y0 = obj.position.y
-        let magnitudeUnit = magnitude/time*FPS
+        let magnitudeUnit = magnitude/time*SETTINGS.fps
 
         // FUNCTION
         let f = ()=>{} 

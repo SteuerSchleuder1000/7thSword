@@ -7,8 +7,33 @@ let SETTINGS = {
         volume: 1.0,
     },
 
+    fps: 60,
+}
+
+
+let e_zIndex = {
+
+    bg: 0,
+    character: 1,
+    hero: 2,
+    interface: 3,
 
 }
+
+let game, app // Global Objects
+let HEIGHT = window.innerHeight //1334
+let WIDTH = window.innerWidth //750 
+
+
+
+
+
+
+let Container = PIXI.Container,
+    Graphics = PIXI.Graphics,
+    resources = PIXI.loader.resources,
+    Sprite = PIXI.Sprite,
+    Text = PIXI.Text
 
 
 let emitterOptions_flame = {
@@ -22,8 +47,15 @@ let emitterOptions_flame = {
         "minimumScaleMultiplier": 1
     },
     "color": {
-        "start": "#fff191",
-        "end": "#d60d0d"
+        "list": [
+            {"value":"fff191", "time":0},
+            {"value":"ff622c", "time":0.6},
+            {"value":"660802", "time":0.7},
+            {"value":"333333", "time":1},
+        ],
+        "isStepped": false
+        // "start": "#fff191",
+        // "end": "#d60d0d"
     },
     "speed": {
         "start": 500,
@@ -50,8 +82,8 @@ let emitterOptions_flame = {
     },
     "blendMode": "normal",
     "frequency": 0.001,
-    "emitterLifetime": -1,
-    "maxParticles": 1000,
+    "emitterLifetime": 0.2,//-1,
+    "maxParticles": 100,
     "pos": {
         "x": 0,
         "y": 0
@@ -67,6 +99,54 @@ let emitterOptions_flame = {
 
 
 
+let emitterOptions_sparks2 = {
+    "alpha": {
+        "start": 1,
+        "end": 0.62
+    },
+    "scale": {
+        "start": 0.15,
+        "end": 0.1,
+        "minimumScaleMultiplier": 1
+    },
+    "color": {
+        "start": "#f7fad2",
+        "end": "#b88925"
+    },
+    "speed": {
+        "start": 200,
+        "end": 200,
+        "minimumSpeedMultiplier": 0.1
+    },
+    "acceleration": {
+        "x": 0,
+        "y": 0
+    },
+    "maxSpeed": 0,
+    "startRotation": {
+        "min": 0,
+        "max": 320
+    },
+    "noRotation": false,
+    "rotationSpeed": {
+        "min": 0,
+        "max": 20
+    },
+    "lifetime": {
+        "min": 0.5,
+        "max": 1
+    },
+    "blendMode": "normal",
+    "frequency": 0.01,
+    "emitterLifetime": 0.2,
+    "maxParticles": 37,
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "addAtBack": false,
+    "spawnType": "point"
+}
 
 
 
@@ -76,8 +156,8 @@ let emitterOptions_rain = { // 700 in 1 second
         "end": 0.5
     },
     "scale": {
-        "start": 0.1,
-        "end": 0.1,
+        "start": 0.15,
+        "end": 0.15,
         "minimumScaleMultiplier": 0.1
     },
     "color": {
@@ -125,14 +205,14 @@ let emitterOptions_rain = { // 700 in 1 second
     }
 } // rain
 
-let emitterOptions_rain2 = { // 700 in 1 second
+let emitterOptions_rain2 = { // background
     "alpha": {
         "start": 0.5,
         "end": 0.5
     },
     "scale": {
-        "start": 0.1,
-        "end": 0.1,
+        "start": 0.07,
+        "end": 0.07,
         "minimumScaleMultiplier": 0.1
     },
     "color": {
@@ -160,7 +240,7 @@ let emitterOptions_rain2 = { // 700 in 1 second
     },
     "lifetime": {
         "min": 0.25,
-        "max": 0.4
+        "max": 0.5
     },
     "blendMode": "normal",
     "frequency": 0.001,
@@ -179,3 +259,54 @@ let emitterOptions_rain2 = { // 700 in 1 second
         "h": 1
     }
 } // rain
+
+
+let emitterOptions_sparks = {
+    "alpha": {
+        "start": 1,
+        "end": 0
+    },
+    "scale": {
+        "start": 0.2,
+        "end": 0.2,
+        "minimumScaleMultiplier": 1
+    },
+    "color": {
+        "start": "#f7fad2",
+        "end": "#f7fad2",
+        //"end": "#423628"
+    },
+    "speed": {
+        "start": 200,
+        "end": 100,
+        "minimumSpeedMultiplier": 0.1
+    },
+    "acceleration": {
+        "x": 0,
+        "y": 0
+    },
+    "maxSpeed": 0,
+    "startRotation": {
+        "min": 0,
+        "max": 320
+    },
+    "noRotation": false,
+    "rotationSpeed": {
+        "min": 0,
+        "max": 20
+    },
+    "lifetime": {
+        "min": 0.25,
+        "max": 1
+    },
+    "blendMode": "normal",
+    "frequency": 0.05,
+    "emitterLifetime": 0.2,//-1,
+    "maxParticles": 37,
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "addAtBack": false,
+    "spawnType": "point"
+}

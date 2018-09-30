@@ -70,7 +70,6 @@ class Scene { // any game object with sprites
         this.scene.children.sort(zSort)
     }
 
-    animate() {}
 
     load(callback) { // loads assets -> calls setup
         
@@ -90,6 +89,7 @@ class Scene { // any game object with sprites
     } 
 
     setup(callback) { 
+        this.zSort()
         this.loaded = true
         if (callback) { callback() } 
     }
@@ -101,7 +101,9 @@ class Scene { // any game object with sprites
         if(this.manager) { this.manager.progress(e,p)}
     }
 
-    update() {}
+    update() {
+        // update emitters, animations etc.
+    }
 
     
 
@@ -113,44 +115,6 @@ class Scene { // any game object with sprites
 
 
 
-class Stage extends Scene { // stage for menues, levels etc.
-
-    constructor(manager, superScene) {
-        super(manager, superScene)
-    }
-
-    start() {}
-
-    onEntry() {
-        if (this.loaded) { 
-            this.scene.visible = true; 
-            this.start()
-        }
-        else { 
-            let callback = _=> { this.onEntry() }
-            this.load(callback)
-        }
-    }
-
-    onExit() {
-        this.scene.visible = false
-    }
-
-
-    createBackground(url) {
-        this.bg = this.createSprite({
-            name: 'bg',
-            url: url,
-            anchor: [0.5, 0],
-            height: HEIGHT,
-            x: WIDTH/2,
-            y: 0,
-            z: e_zIndex.bg,
-            addToScene: true,
-        })
-    }
-
-}
 
 
 

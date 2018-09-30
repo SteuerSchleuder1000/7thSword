@@ -230,18 +230,17 @@ class Character extends Scene {
                 break
         }
 
-
-        if (this.state == e_combatStates.blocking) { 
-            
-        }
-
-        this.changeHealth(-damage)
+        // animate healthbar
+        this.changeHealthBy(-damage)
         if (this.stats.health <= 0) { this.defeat() }
     }
 
+    heal(healing, ability, caster) {
+        this.changeHealthBy(healing)
+    }
 
-    changeHealth(d) {
-        this.stats.changeHealth(d)
+    changeHealthBy(d) {
+        this.stats.changeHealthBy(d)
         if (this.healthbar) { this.healthbar.updateHealth(this.stats.health) }
     }
 

@@ -31,20 +31,13 @@ class Attack_Choice extends Ability {
     
 
 
-    execute() { // only function to update!!!
-        super.execute() // sets this.t = 0 and this.recover(this.t_recovery)
-        
-       
-    }
-
-
     startExecuting() {
         let comboPoints = this.manager.stats.combo
         let damage = this.power
 
         if (Math.random() < 0.1*comboPoints || comboPoints == 5) {
             this.manager.changeCombo(-comboPoints) // gain 1 combo
-            this.manager.changeHealth(comboPoints*this.power)
+            this.manager.heal(comboPoints*this.power)
         } 
         else {this.manager.changeCombo(1)}
         
