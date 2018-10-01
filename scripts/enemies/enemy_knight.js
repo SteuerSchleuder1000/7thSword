@@ -16,13 +16,13 @@ class Enemy_Knight extends Enemy {
         // Animation
         let path = 'assets/images/characters/'
         this.frames = {
-            idle:               path+'abKnight01.png',
-            casting_melee:      path+'abKnight02.png',
-            casting_spell:      path+'abKnight02.png',
-            performing_melee:   path+'abKnight03.png',
-            performing_spell:   path+'abKnight03.png',
-            blocking:           path+'abKnight01.png',
-            front:              path+'abKnight01.png',
+            idle:               path+'knight01.png',
+            casting_melee:      path+'knight02.png',
+            casting_spell:      path+'knight02.png',
+            performing_melee:   path+'knight03.png',
+            performing_spell:   path+'knight03.png',
+            blocking:           path+'knight04.png',
+            front:              path+'knight01.png',
 
             // sfx assets
             blockSfx:           'assets/shieldcomb.png',
@@ -46,8 +46,8 @@ class Enemy_Knight extends Enemy {
 
         // Abilities
         this.abilities = [
-            new Attack_Basic(this, superScene, combat),
-            new Attack_Basic(this, superScene, combat),
+            //new Attack_Basic(this, superScene, combat),
+            new Attack_Firering(this, superScene, combat),
         ]
 
 

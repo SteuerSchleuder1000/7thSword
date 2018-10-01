@@ -18,9 +18,10 @@ class Healthbar_Hero extends Healthbar {
     constructor(manager,superScene) {
         super(manager,superScene)
 
+        let path = 'assets/images/UI/'
         this.assets = [
-            'assets/healthbar.png',
-            'assets/combo.png',
+            path+'healthbar.png',
+            path+'combo.png',
         ]
 
         this.scene.visible = true
@@ -35,10 +36,10 @@ class Healthbar_Hero extends Healthbar {
     setup() {
 
         let hbWidth = 0.8*WIDTH
-
+        let path = 'assets/images/UI/'
         this.sprite = this.createSprite({
             name: 'healthbar',
-            url: 'assets/healthbar.png',
+            url: path + 'healthbar.png',
             width: hbWidth,
             anchor: (0, 0.5),
             x: 0.1*WIDTH,

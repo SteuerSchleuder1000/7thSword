@@ -116,11 +116,11 @@ class Level_002 extends Level {
         this.interface.setup()
         
 
-        this.knight.setPosition(0.3*WIDTH,0.25*HEIGHT,1)
+        this.knight.setPosition(0.7*WIDTH,0.8*HEIGHT,e_zIndex.character)
         this.knight.setup() // creates sprite and adds
         // this.knight.scaleSprite(this.knight.sprite.height/HEIGHT)
-        this.knight.fixHeight(HEIGHT)
-        //this.animations.breathing(this.knight.sprite)
+        this.knight.fixHeight(HEIGHT*0.48)
+        this.animations.breathing(this.knight.sprite)
         
 
 

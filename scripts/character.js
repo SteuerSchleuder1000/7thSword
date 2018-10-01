@@ -347,7 +347,7 @@ class Character extends Scene {
         this.sprite = this.createSprite({
             name: this.name,
             url: this.assets[0],
-            //anchor: [0.5, 1],
+            anchor: [0.5, 1],
             x: this.x, y: this.y, z: this.z,
             addToScene: true,
         })
