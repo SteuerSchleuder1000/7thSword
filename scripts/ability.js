@@ -41,7 +41,8 @@ class Ability extends Scene {
 
 
         this.animations = new Animations()
-        this.sfxElements = [] // all sfx elements
+        this.emitters = []
+        //this.sfxElements = [] // all sfx elements
 
     }
 
@@ -80,7 +81,7 @@ class Ability extends Scene {
         if (this.btn) { this.btn.update(delta) }
 
         this.animations.update(delta)
-        for (let e of this.sfxElements) { e.update(delta) }
+        for (let e of this.emitters) { e.update(delta) }
     }
 
 

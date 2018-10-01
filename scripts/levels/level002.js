@@ -30,8 +30,6 @@ class Level_002 extends Level {
         this.scene.name = 'First Fight lv002'
         
 
-
-
         // standard
         this.combat = new Combat(this)
         this.dialog = new Dialog()
@@ -40,15 +38,12 @@ class Level_002 extends Level {
         this.interface = new Interface(this, this.scene, this.hero)
         
 
-
         // sounds        
         this.music = new Howl({ src: ['assets/sounds/visions.mp3'],
             loop: true,
             volume: 0.5,
         })
-
         this.ambientSound = new Howl({src: 'assets/sounds/forest.wav',loop:true, volume: 0.5})
-
 
 
         // Background
@@ -57,14 +52,9 @@ class Level_002 extends Level {
 
         // characters
         this.knight = new Enemy_Knight(this, this.scene, this.combat)
-
         this.characters = [this.knight]
 
 
-
-
-
-        
         // Special assets: only for special effects etc.! the rest init via this.concatAssets()
         this.assets = [
             'assets/raindrop.png',
@@ -72,8 +62,6 @@ class Level_002 extends Level {
 
 
     }
-
-
 
 
 
@@ -100,8 +88,8 @@ class Level_002 extends Level {
     }
 
     restartLevel() {
-        this.manager.transition(e_levels.lv_003)
-
+        //this.manager.transition(e_levels.lv_003)
+        this.manager.restartLevel()
         this.end()
         //this.manager.state.remove(e_levels.lv_002)
 

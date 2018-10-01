@@ -7,6 +7,7 @@ class Statemachine {
     constructor() {
         this.states = {}
         this.current = null
+        this.currentID = null
     }
 
     update(delta) {
@@ -16,6 +17,7 @@ class Statemachine {
     change(stateID) {
         if (stateID in this.states) { 
             if (this.current) { this.current.onExit() }
+            this.currentID = stateID
             this.current = this.states[stateID]
             this.current.onEntry()
         } 

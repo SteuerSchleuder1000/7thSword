@@ -13,7 +13,7 @@ class Hero extends Character {
         this.t_recoveryBlock = 1.0
 
         this.abilities = [
-            //new Attack_Fireball(this, superScene, combat),
+            new Attack_Fireball(this, superScene, combat),
             new Attack_Swipe(this, superScene , combat), // 
             new Attack_Emberblade(this, superScene , combat),
             new Attack_Choice(this, superScene , combat),

@@ -132,7 +132,6 @@ class AbilityButton extends Scene {
     }
 
     setupEmitter(options) {
-        console.log('setupEmitter')
         let emitterSprites = ['assets/pixel100px.png'] // ['assets/solidCircle.png']
         let btnWidth = this.sprite.width
         let layer = new Container()

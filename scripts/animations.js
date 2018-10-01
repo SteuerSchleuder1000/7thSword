@@ -81,6 +81,7 @@ class Animations {
         let x = args.x //|| obj.position.x
         let y = args.y //|| obj.position.y
         let reset = args.reset || false
+        let callback = args.callback
 
         let x0 = obj.position.x
         let y0 = obj.position.y
@@ -94,8 +95,9 @@ class Animations {
             if (time <= 0) { 
                 if(reset) { obj.position.set(x0,y0) }
 
-                obj.animationList = obj.animationList.filter(item => item !== f) 
-                return
+                obj.animationList = obj.animationList.filter(item => item !== f)
+                if (callback) { return callback() }
+                return 
             }
 
 

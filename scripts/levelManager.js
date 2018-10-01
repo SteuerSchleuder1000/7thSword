@@ -6,9 +6,6 @@ class LevelManager extends Manager {
         super(manager, superScene)
         this.scene.name = 'levelManager'
 
-        // !!! no front loading init later
-        //this.state.add(e_levels.lv_001, new Level_001(this, this.scene))
-        //this.state.add(e_levels.lv_002, new Level_002(this, this.scene))
         
     }
 
@@ -31,6 +28,12 @@ class LevelManager extends Manager {
     loadLevel(levelID) { // !!!
         console.log('load level',levelID)
         this.state.add(levelID, e_levels.init[levelID](this, this.scene))
+    }
+
+    restartLevel() {
+        this.state.current = null
+        this.loadLevel(this.state.currentID)
+        this.transition(this.state.currentID)
     }
 
 
