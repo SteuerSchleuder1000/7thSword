@@ -6,34 +6,59 @@ class Enemy_Knight extends Enemy {
         this.name = 'Knight'
 
 
-        this.stats = new Stats({health: 200, power: 30})
-        this.assets = [
-            //'assets/abKnight00.png',
-            'assets/abKnight01.png', // 0: idle
-            'assets/abKnight02.png', // 1: casting
-            'assets/abKnight03.png', // 2: performing
-            'assets/abKnight01.png', // 3: blocking
-        ]
+        // Stats
+        this.stats = new Stats({
+            health: 200, 
+            power: 30,
+        })
 
+
+        // Animation
+        this.frames = {
+            idle:               'assets/abKnight01.png',
+            casting_melee:      'assets/abKnight02.png',
+            casting_spell:      'assets/abKnight02.png',
+            performing_melee:   'assets/abKnight03.png',
+            performing_spell:   'assets/abKnight03.png',
+            blocking:           'assets/abKnight01.png',
+            front:              'assets/abKnight01.png',
+
+            // sfx assets
+            blockSfx:           'assets/shieldcomb.png',
+        }
+
+
+        // Sounds
         let volume = SETTINGS.sound.volume
-        this.hitSound = new Howl({src: 'assets/sounds/mechDamage.ogg', volume: volume*0.5})
-        this.atkSound = new Howl({src: 'assets/sounds/mechTrigger.ogg', volume: volume*0.5})
+        this.sounds = {
+            cast:                   new Howl({src: 'assets/sounds/knight/aggro1.ogg', volume: volume}),
+            perform:                new Howl({src: 'assets/sounds/knight/aggro2.ogg', volume: volume}),
+            execute:                new Howl({src: 'assets/sounds/knight/attack1.ogg', volume: volume}),
+            takeDamage:             new Howl({src: ['assets/sounds/knight/wound1.ogg','assets/sounds/knight/wound2.ogg'], volume: volume}),
+            block:                  new Howl({src: 'assets/sounds/clank.wav', volume: volume}),
+            block_super:            new Howl({src: 'assets/sounds/clank.wav', volume: volume}),
+            armor:                  new Howl({src: 'assets/sounds/armor7.ogg', volume: volume}),
+            death:                  new Howl({src: 'assets/sounds/knight/death1.ogg', volume: volume}),
 
+        }
+
+
+        // Abilities
         this.abilities = [
             new Attack_Basic(this, superScene, combat),
             new Attack_Basic(this, superScene, combat),
         ]
 
+
+
         this.state = e_combatStates.idle
+        for (let key of Object.keys(this.frames)) { this.assets.push(this.frames[key]) } // concat assets
 
-    }
+    } // constructor
 
-    //update(delta) {} // do nothing
-
-    cancelAttack() {}
 
     startPerforming() {
-        this.atkSound.play()
+        //this.sounds.perform.play()
     }
 
 
@@ -44,6 +69,6 @@ class Enemy_Knight extends Enemy {
 
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
-        this.hitSound.play()
+        //this.hitSound.play()
     }
 }

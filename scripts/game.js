@@ -16,10 +16,15 @@ Todo:
     - sounds                    x
     - sfx                       x
     - projectile                x
-    - button "feel"
+    - button "feel"             x
+
+
+    - game feel -> timers, animation, sound
+
     - sounds
     - emitter: fireball, sparks, glow   x
     - rudimentary combat menu -> dev menu -> js console // dom element
+    -
     - combat system
     - buff system
     - level progression

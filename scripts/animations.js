@@ -251,7 +251,7 @@ class Animations {
 
 
             progress = time/duration //(duration-time)/duration
-            console.log('progress alpha', progress, obj.alpha)
+            //console.log('progress alpha', progress, obj.alpha)
             obj.alpha = progress //alpha0 + progress*(alpha - alpha0)
             
             time -= delta

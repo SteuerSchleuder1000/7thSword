@@ -18,6 +18,7 @@ class Attack_Fireball extends Ability {
         this.name = 'fireball'
         this.scene.name = 'fireball'
         this.description = 'Attacks with a single strike'
+        this.animationType = e_animationTypes.spell
 
         this.assets = [
             'assets/burning-dot.png',     // normal
@@ -28,15 +29,17 @@ class Attack_Fireball extends Ability {
         this.state = e_abStates.idle
         this.power = 49
         this.t_cast = 2
-        this.t_perform = 3
-        this.t_performAnimation = 3 // time for character animation
+        this.t_perform = 0.5
+        this.t_performAnimation = 0.5 // time for character animation
         this.t_recovery = 3
         this.t = 0
 
 
-        this.flames = null
-
-
+        //this.sound = new Howl({src: 'assets/sounds/fireloop.mp3', loop: true, volume: 1})
+        this.sounds = {
+            cast:       new Howl({src: 'assets/sounds/fireLoop.ogg', volume: 1}),
+            perform:    new Howl({src: 'assets/sounds/fireball_impact.ogg', volume: 1})
+        }
 
         this.fireball = null
         this.fireballLayer = null
@@ -48,9 +51,10 @@ class Attack_Fireball extends Ability {
     startCasting() {
 
 
-        this.fireballLayer.position.x = this.manager.sprite.position.x + 0.1*WIDTH
+        this.fireballLayer.position.x = this.manager.sprite.position.x + 0.2*WIDTH
         this.fireballLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
         this.fireball.emit = true
+        //this.sound.play()
         //this.animations.scale(this.fireballLayer,{time: this.t_cast, scale: 2})
 
     }
@@ -67,6 +71,7 @@ class Attack_Fireball extends Ability {
 
     startExecuting () {
         this.fireball.emit = false
+        //this.sound.stop()
         this.combat.dealDamage(this.power, this.target, this, this.manager)
     }
     

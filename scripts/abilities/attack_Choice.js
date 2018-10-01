@@ -10,6 +10,7 @@ class Attack_Choice extends Ability {
         
         this.name = 'Basic Attack'
         this.description = 'Attacks with a single strike. Adds 1 combo'
+        this.animationType = e_animationTypes.melee
 
         this.assets = [
             'assets/choice.png',     // normal

@@ -9,6 +9,13 @@ let e_abStates = {
 }
 
 
+let e_animationTypes = {
+    melee: 0,
+    spell: 1,
+}
+
+
+
 /*
                                            execute(),
 method:       cast()       perform()       recover()       idle()
@@ -42,9 +49,10 @@ class Ability extends Scene {
 
         this.animations = new Animations()
         this.emitters = []
-        //this.sfxElements = [] // all sfx elements
-
+        this.animationType = e_animationTypes.melee
+        this.sounds = {}
     }
+
 
     update(delta) {
         this.t = Math.max(this.t, 0)
@@ -102,6 +110,7 @@ class Ability extends Scene {
 
         this.manager.cast(this)
         this.startCasting() // trigger
+        this.playSound(e_soundIDs.cast)
         return true // ability casting!
     } // cast
 
@@ -113,6 +122,7 @@ class Ability extends Scene {
         this.manager.perform(this.t_performAnimation)
 
         if (this.btn) { this.btn.perform() }
+        this.playSound(e_soundIDs.perform)
         this.startPerforming()
     }
 
@@ -121,6 +131,7 @@ class Ability extends Scene {
     execute() {
         this.t = 0
         this.recover(this.t_recovery)
+        this.playSound(e_soundIDs.execute)
         this.startExecuting()
     }
 
@@ -130,6 +141,7 @@ class Ability extends Scene {
         this.t = t
 
         if (this.btn) { this.btn.recover() }
+        this.playSound(e_soundIDs.recover)
         this.startRecovering()
     }
 
@@ -140,6 +152,7 @@ class Ability extends Scene {
         this.target = null
 
         if (this.btn) { this.btn.idle() }
+        this.playSound(e_soundIDs.idle)
         this.startIdle()
     }
 
@@ -159,6 +172,20 @@ class Ability extends Scene {
         for (let e of this.sfxElements) { e.destroy() } // elements need .destroy method!!!
     }
 
+    playSound(soundID) {
+        //this.stopSound()
+        let key = e_soundIDs.properties[soundID]
+        if (key in this.sounds) { this.sounds[key].play() }
+    }
+
+    stopSound(soundID) {
+        if (soundID != undefined) { 
+            let key = e_soundIDs.properties[soundID]
+            return this.sounds[key].stop() 
+        }
+
+        for (let key of Object.keys(this.sounds)) { this.sounds[key].stop() }
+    }
 }
 
 

@@ -19,6 +19,7 @@ class Attack_Basic extends Ability {
         
         this.name = 'Basic Attack'
         this.description = 'Attacks with a single strike'
+        this.animationType = e_animationTypes.melee
 
         this.assets = [
             'assets/swipe.png',     // normal
@@ -29,10 +30,14 @@ class Attack_Basic extends Ability {
         this.state = e_abStates.idle
         this.power = 10
         this.t_cast = 5
-        this.t_perform = 0.5
-        this.t_performAnimation = 1.0 // time for character animation
-        this.t_recovery = 0.5
+        this.t_perform = 0.2
+        this.t_performAnimation = 0.2 // time for character animation
+        this.t_recovery = 1.0
         this.t = 0
+
+        this.sounds = {
+            perform: new Howl({src: 'assets/sounds/sword2.mp3', volume: SETTINGS.sound.volume}),
+        }
 
     }
 
@@ -40,12 +45,11 @@ class Attack_Basic extends Ability {
     
 
 
-    execute() { // only function to update!!!
-        super.execute() // sets this.t = 0 and this.recover(this.t_recovery)
-        
-        this.combat.dealDamage(this.power, this.target, this, this.manager)
-    }
 
+    startExecuting() {
+        this.combat.dealDamage(this.power, this.target, this, this.manager)
+        //this.sound.play()
+    }   
 
     
 

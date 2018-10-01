@@ -10,6 +10,7 @@ class Attack_Swipe extends Ability {
         
         this.name = 'Basic Attack'
         this.description = 'Uses up all combo points and deals that much damage'
+        this.animationType = e_animationTypes.melee
 
         this.assets = [
             'assets/swipe.png',     // normal

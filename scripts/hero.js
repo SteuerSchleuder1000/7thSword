@@ -8,10 +8,18 @@ class Hero extends Character {
         super(manager, superScene, combat)
         this.scene.position.z = e_zIndex.hero
         this.name = 'Hero'
-        this.healthbar = null
         this.playerControlled = true
         this.t_recoveryBlock = 1.0
 
+
+        // STATS
+        this.stats = new Stats({
+            health: 100, 
+            power: 30,
+        })
+
+
+        // Abilities
         this.abilities = [
             new Attack_Fireball(this, superScene, combat),
             new Attack_Swipe(this, superScene , combat), // 
@@ -19,37 +27,43 @@ class Hero extends Character {
             new Attack_Choice(this, superScene , combat),
         ]
 
-        this.blockSound = new Howl({src: ['assets/sounds/clank.wav'], volume: SETTINGS.sound.volume})
+
+        // Animation
+        this.frames = {
+            idle:               'assets/images/hero/hero01.png',
+            casting_melee:      'assets/images/hero/hero02.png',
+            casting_spell:      'assets/images/hero/hero06.png',
+            performing_melee:   'assets/images/hero/hero03.png',
+            performing_spell:   'assets/images/hero/hero07.png',
+            blocking:           'assets/images/hero/hero04.png',
+            front:              'assets/images/hero/hero05.png',
+
+            // sfx assets
+            blockSfx:           'assets/shieldcomb.png',
+        }
 
 
-        this.assets = [
-            'assets/images/hero/hero01.png',     // 0: idle
-            'assets/images/hero/hero02.png',     // 1: casting
-            'assets/images/hero/hero03.png',     // 2: performing
-            'assets/images/hero/hero04.png',     // 3: blocking
-            'assets/images/hero/hero05.png',     // 4: front
-            'assets/images/hero/hero06.png',     // 5: spell
-            'assets/images/hero/hero07.png',     // 6: hex
-            // 'assets/heroback00.png',
-            // 'assets/heroback.png',          // 0: idle
-            // 'assets/heroback.png',          // 1: casting
-            // 'assets/heroback.png',          // 2: performing
-            // 'assets/herobackblocking.png',  // 3: blocking
-            // 'assets/herofront.png',
-            'assets/shieldcomb.png',        // block sfx
-        ]
+        // Sounds
+        let volume = SETTINGS.sound.volume
+        this.sounds = {
+            cast:                   new Howl({src: 'assets/sounds/hero/grunt3.ogg', volume: volume}),
+            perform:                new Howl({src: 'assets/sounds/hero/attack1.ogg', volume: volume}),
+            execute:                new Howl({src: 'assets/sounds/hero/grunt1.ogg', volume: volume}),
+            takeDamage:             new Howl({src: ['assets/sounds/hero/wound1.ogg','assets/sounds/hero/wound4.ogg'], volume: volume}),
+            block:                  new Howl({src: 'assets/sounds/block1.ogg', volume: volume}),
+            block_super:            new Howl({src: 'assets/sounds/clank.wav', volume: volume}),
+            armor:                  new Howl({src: 'assets/sounds/armor1.ogg', volume: volume}),
+            death:                  new Howl({src: 'assets/sounds/hero/death1.ogg', volume: volume}),
 
-        
+        }
+              
 
-        
-    }
+        for (let key of Object.keys(this.frames)) { this.assets.push(this.frames[key]) }
+    } // constructor
 
 
 
-    update(delta) {
-        super.update(delta) // updates all abilities and buffs
-
-    }
+    
 
 
     block(b) {
@@ -64,9 +78,10 @@ class Hero extends Character {
                 this.blockSfx.visible = false
                 break;
         }
-    }
+    } // block
 
-    blockAnimation() {
+
+    animateBlock(superBlock) {
         let animationTime = 1
         this.blockSfx.visible = true
         let b = this.blockSfx
@@ -74,19 +89,17 @@ class Hero extends Character {
         this.animations.scale(this.blockSfx,{time: animationTime, scale: 8, reset: true, easeOut: true})
         this.animations.alpha(this.blockSfx,{time: animationTime, alpha: 0, reset: true, callback: callback})
         //this.animations.move(this.blockSfx,{time: animationTime, y: HEIGHT*0.6, reset: true})
-    }
+    } // animateBlock
 
-    recover(t) {
-        super.recover(t)
+    
+
+    startRecovering() {
         if(this.sprite) {this.sprite.tint = 0xba27db}
     }
 
-    idle() {
-        super.idle()
+    startIdle() {
         if (this.sprite) {this.sprite.tint = 0xFFFFFF}
     }
-
-
 
     setup() {
 
@@ -103,7 +116,6 @@ class Hero extends Character {
         })
 
 
-
         this.sprite = this.createSprite({
             name: this.name,
             url: this.assets[0],
@@ -117,9 +129,22 @@ class Hero extends Character {
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
         this.animations.shake(this.healthbar.sprite, {time: 0.5, magnitude:10})
+        
         if (this.state == e_combatStates.blocking) {
-            this.blockAnimation()
-            this.blockSound.play()
+            let superBlock = (this.t <= this.t_superBlock)
+            this.animateBlock(superBlock)
+            //(superBlock) ? this.sounds.block_super.play() : this.sounds.block.play()
+        } else {
+            //this.sounds.takeDamage.play()
         }
-    }
-}
+    }// take Damage
+}// hero
+
+
+
+
+
+
+
+
+

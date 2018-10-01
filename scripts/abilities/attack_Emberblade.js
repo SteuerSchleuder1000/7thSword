@@ -10,6 +10,7 @@ class Attack_Emberblade extends Ability {
         
         this.name = 'Basic Attack'
         this.description = 'Uses 2 combo points to cancel opponents attack and deal double damage'
+        this.animationType = e_animationTypes.melee
 
         this.assets = [
             'assets/emberblade.png',     // normal
