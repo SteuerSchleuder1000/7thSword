@@ -16,6 +16,10 @@ class AbilityButton extends Scene {
         this.line = new Graphics()
         this.line.position.z = 100
         this.addSprite(this.line) 
+
+        this.emitters = [] // sparks
+        this.sparksEmitter = null
+        loadJSON('assets/json/sparks3.json',this.setupEmitter.bind(this))
     }
 
     loadingBar(delta) {
@@ -89,6 +93,7 @@ class AbilityButton extends Scene {
         let texture = resources[url].texture
         this.sprite.texture = texture
         this.line.alpha = 1
+        if(this.sparksEmitter) { this.sparksEmitter.playOnce() }
     }
 
     perform() {
@@ -114,6 +119,7 @@ class AbilityButton extends Scene {
 
     update(delta) { 
         this.loadingBar(delta)
+        for (let e of this.emitters) { e.update(delta) }
         // update castBar
     }
 
@@ -123,5 +129,27 @@ class AbilityButton extends Scene {
 
     buttonEvent(e) {
         this.ability.cast(this.hero.target)
+    }
+
+    setupEmitter(options) {
+        console.log('setupEmitter')
+        let emitterSprites = ['assets/pixel100px.png'] // ['assets/solidCircle.png']
+        let btnWidth = this.sprite.width
+        let layer = new Container()
+        this.addSprite(layer)
+
+        layer.position.z = e_zIndex.interface - 0.1
+        options.pos.x = this.sprite.position.x + 0.5*btnWidth //WIDTH/2
+        options.pos.y = this.sprite.position.y + 0.5*btnWidth //HEIGHT/2
+        options.emitterLifetime = 0.2
+        this.sparksEmitter = new PIXI.particles.Emitter( 
+            layer, 
+            emitterSprites, 
+            options,//emitterOptions_sparks
+            )
+        this.sparksEmitter.emit = false
+        this.emitters.push(this.sparksEmitter)
+        this.emitterOptions = options
+        this.zSort()
     }
 }

@@ -86,7 +86,7 @@ class Interface extends Scene {
                 width: btnWidth,
                 x: 0.03*WIDTH,
                 y: btnGap*1.5 + i*(btnWidth+btnGap),
-                z: 3,
+                z: e_zIndex.interface,
                 visible: true,
             })
 

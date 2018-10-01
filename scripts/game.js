@@ -17,7 +17,8 @@ Todo:
     - sfx                       x
     - projectile                x
     - button "feel"
-    - emitter: fireball, sparks, glow
+    - sounds
+    - emitter: fireball, sparks, glow   x
     - rudimentary combat menu -> dev menu -> js console // dom element
     - combat system
     - buff system
@@ -27,7 +28,15 @@ Todo:
     
 
 
-    - ASSETS
+    - Strategy:
+        - see enemy animation/ dialog/ sfx
+        -> block, cancel, dispell, heal
+
+        - ranodm ability triggers
+        -> use them in rotation
+
+        - enemy in vulnerable state
+        -> use ultimate attack
 
 
 
@@ -81,8 +90,8 @@ class Game {
 
         this.loadingScreen(true)
         // let callback = _=> { this.transition(e_gameStates.mainMenu, e_menues.introScreen); }
-        // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
-        let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_000) } // test levl
+        let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
+        // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_000) } // test levl
 
         callback()
 
@@ -92,9 +101,6 @@ class Game {
 
     loadingScreen(b) {
         // turn on/off
-    }
-
-    printoutSpriteTree() {
     }
 
     transition(state, option) {

@@ -21,6 +21,7 @@ class Scene { // any game object with sprites
         if (!(url in resources)) { console.log('ERROR url not in resources', url, resources); return}
         let sprite = new Sprite(resources[url].texture)
 
+        if ('alpha'     in opt)         { sprite.alpha = opt.alpha}
         if ('anchor'    in opt)         { sprite.anchor.set(opt.anchor[0],opt.anchor[1]) }
         if ('name'      in opt)         { sprite.name = opt.name }
         if ('rotation'  in opt)         { sprite.rotation = opt.rotation }

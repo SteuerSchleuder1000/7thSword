@@ -16,9 +16,15 @@ let loadJSON = (filename, callback)=>{
         xobj.overrideMimeType("application/json");
     xobj.open('GET', filename, true); // Replace 'my_data' with the path to your file
     xobj.onreadystatechange = function () {
-          if (xobj.readyState == 4 && xobj.status == "200") {
-            callback(xobj.responseText);
+          if (xobj.readyState == 4 && xobj.status == "200" && callback) {
+            //callback(xobj.responseText);
+            let txt = xobj.responseText
+            let jsonFile = JSON.parse(txt)
+            callback(jsonFile)
           }
     };
     xobj.send(null);  
 }
+
+let loadObj = ()=>{}
+let saveObj = ()=>{}

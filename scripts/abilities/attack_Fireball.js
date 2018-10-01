@@ -38,97 +38,22 @@ class Attack_Fireball extends Ability {
         this.flames = null
         this.fireball = null
 
+        this.emitterOptions = loadJSON('assets/json/fire2.png')
+
     }
 
     startCasting() {
 
+        let options = this.emitterOptions
+        options.pos.x = this.manager.sprite.position.x
+        options.pos.y = this.manager.sprite.position.y
+
+
         let emitter = new PIXI.particles.Emitter(
 
             this.superScene, // container
-            [PIXI.Texture.fromImage('assets/flame.png')], // images
-          
-            {   
-                alpha: {
-                    list: [
-                        {
-                            value: 0.8,
-                            time: 0
-                        },
-                        {
-                            value: 0.1,
-                            time: 1
-                        }
-                    ],
-                    isStepped: false
-                },
-                scale: {
-                    list: [
-                        {
-                            value: 1,
-                            time: 0
-                        },
-                        {
-                            value: 0.3,
-                            time: 1
-                        }
-                    ],
-                    isStepped: false
-                },
-                color: {
-                    list: [
-                        {
-                            value: "fb1010",
-                            time: 0
-                        },
-                        {
-                            value: "f5b830",
-                            time: 1
-                        }
-                    ],
-                    isStepped: false
-                },
-                speed: {
-                    list: [
-                        {
-                            value: 200,
-                            time: 0
-                        },
-                        {
-                            value: 100,
-                            time: 1
-                        }
-                    ],
-                    isStepped: false
-                },
-                startRotation: {
-                    min: 0,
-                    max: 360
-                },
-                rotationSpeed: {
-                    min: 0,
-                    max: 0
-                },
-                lifetime: {
-                    min: 0.1,
-                    max: 1
-                },
-                frequency: 0.008,
-                spawnChance: 1,
-                particlesPerWave: 1,
-                emitterLifetime: 10,
-                maxParticles: 100,
-                pos: {
-                    x: 0,
-                    y: 0
-                },
-                addAtBack: false,
-                spawnType: "circle",
-                spawnCircle: {
-                    x: this.manager.sprite.position.x,
-                    y: this.manager.sprite.position.y,
-                    r: 3
-                }
-            }
+            [PIXI.Texture.fromImage('assets/solidCircle.png')], // images
+            options
 
         )
 
