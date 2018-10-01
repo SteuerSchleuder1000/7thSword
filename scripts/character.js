@@ -8,7 +8,7 @@ let e_combatStates = {
     recovering: 3,
     blocking: 4,
     defeated: 5,
-    executing: 6,
+    waiting: 6,
 }
 
 
@@ -128,6 +128,11 @@ class Character extends Scene {
                 this.t += delta
                 break;
 
+            case e_combatStates.waiting:
+                this.t -= delta
+                if (this.t <= 0) { this.idle() }
+                break
+
         }
 
         for (let a of this.abilities) { a.update(delta) }
@@ -137,6 +142,7 @@ class Character extends Scene {
     }
 
     decide() {}
+
 
     cast(ability) {
         // check if valid order
@@ -177,7 +183,15 @@ class Character extends Scene {
         this.t = 0
         this.animate(this.state)
         this.playSound(e_soundIDs.block_start)
-        this.startBlocking
+        this.startBlocking()
+    }
+
+    wait(t=1.0) {
+        this.state = e_combatStates.waiting
+        this.t = t
+        this.animate(this.state)
+        this.playSound(e_soundIDs.idle)
+        this.startWaiting()
     }
 
     startCasting () {}
@@ -185,6 +199,7 @@ class Character extends Scene {
     startRecovering() {}
     startIdle() {}
     startBlocking() {}
+    startWaiting() {}
 
 
     defeat() {
@@ -226,8 +241,10 @@ class Character extends Scene {
                 switch(this.castingAbility.animationType) {
                     case e_animationTypes.melee:
                         url = this.frames.performing_melee
+                        break;
                     case e_animationTypes.spell:
                         url = this.frames.performing_spell
+                        break;
                 }
                 texture = resources[url].texture
                 this.sprite.texture = texture

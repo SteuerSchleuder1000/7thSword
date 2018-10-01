@@ -36,7 +36,7 @@ class Attack_Basic extends Ability {
         this.t = 0
 
         this.sounds = {
-            perform: new Howl({src: 'assets/sounds/sword2.mp3', volume: SETTINGS.sound.volume}),
+            //perform: new Howl({src: 'assets/sounds/sword2.mp3', volume: SETTINGS.sound.volume}),
         }
 
     }

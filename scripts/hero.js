@@ -10,7 +10,7 @@ class Hero extends Character {
         this.name = 'Hero'
         this.playerControlled = true
         this.t_recoveryBlock = 1.0
-
+        this.interface = null
 
         // STATS
         this.stats = new Stats({
@@ -95,10 +95,12 @@ class Hero extends Character {
 
     startRecovering() {
         if(this.sprite) {this.sprite.tint = 0xba27db}
+        this.interface.recovering(true)
     }
 
     startIdle() {
         if (this.sprite) {this.sprite.tint = 0xFFFFFF}
+        this.interface.recovering(false)
     }
 
     setup() {

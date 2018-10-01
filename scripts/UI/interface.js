@@ -14,14 +14,15 @@ class Interface extends Scene {
         this.assets = []
         this.buttons = []
 
-
         // load hero abilities
         this.hero = hero
+
         this.heroAbilities = this.hero.abilities
         for (let a of this.heroAbilities) { this.assets = this.assets.concat(a.assets) }
 
         this.healthbar = new Healthbar_Hero(this.hero, this.scene)
         this.hero.healthbar = this.healthbar
+        this.hero.interface = this
         this.assets = this.assets.concat(this.healthbar.assets)
 
 
@@ -58,17 +59,8 @@ class Interface extends Scene {
     
 
 
-
-
-    // updateHealth() {
-    //     this.healthbar.updateHealth(this.hero.stats.health)
-    // }
-
-
-
     setup() {
 
-        
         this.healthbar.setup()
 
         let btnWidth = 0.18*WIDTH
@@ -105,14 +97,16 @@ class Interface extends Scene {
 
     restartLevel() { this.manager.restartLevel() }
 
-
-    buttonEvent(e) {
-        let target = e.currentTarget.name
+    recovering(b) { // if recovering -> buttons alpha = 0.5
+        console.log('recovering',b)
+        for (let b of this.buttons) { 
+            if (b) {b.sprite.alpha = 0.5}
+            else { b.sprite.alpha = 1.0}
+            }
     }
+    
 
     update(delta) { 
         // this.animations.update(delta)
-        // for (let btn of this.buttons) {btn.update(delta)} // updated through the characters
-        // this.healthbar.update(delta)
     }
 }

@@ -146,7 +146,6 @@ class Ability extends Scene {
     }
 
     idle() {
-        // console.log('attack idle')
         this.state = e_abStates.idle
         this.t = 0
         this.target = null
@@ -173,7 +172,6 @@ class Ability extends Scene {
     }
 
     playSound(soundID) {
-        //this.stopSound()
         let key = e_soundIDs.properties[soundID]
         if (key in this.sounds) { this.sounds[key].play() }
     }

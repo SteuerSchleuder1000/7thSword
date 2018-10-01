@@ -44,7 +44,7 @@ class Level_002 extends Level {
             loop: true,
             volume: 0.5,
         })
-        this.ambientSound = new Howl({src: 'assets/sounds/nightBreeze.wav',loop:true, volume: 0.2})
+        this.ambientSound = new Howl({src: 'assets/sounds/nightBreeze.mp3',loop:true, volume: 0.2})
 
 
         // Background
@@ -141,7 +141,7 @@ class Level_002 extends Level {
 
 
 
-        this.music.play()
+        //this.music.play()
         this.ambientSound.play()
         super.setup(callback)
     }
