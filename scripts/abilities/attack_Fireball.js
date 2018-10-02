@@ -20,10 +20,11 @@ class Attack_Fireball extends Ability {
         this.description = 'Attacks with a single strike'
         this.animationType = e_animationTypes.spell
 
+        let path = 'assets/images/abilities/'
         this.assets = [
-            'assets/burning-dot.png',     // normal
-            'assets/burning-dotA.png',    // active
-            'assets/burning-dotB.png',    // cooldown
+            path+'burning-dot.png',     // normal
+            path+'burning-dotA.png',    // active
+            path+'burning-dotB.png',    // cooldown
         ]
 
         this.state = e_abStates.idle
@@ -36,9 +37,10 @@ class Attack_Fireball extends Ability {
 
 
         //this.sound = new Howl({src: 'assets/sounds/fireloop.mp3', loop: true, volume: 1})
+        let volume = SETTINGS.sound.volume
         this.sounds = {
-            cast:       new Howl({src: 'assets/sounds/fireLoop.ogg', volume: 1}),
-            perform:    new Howl({src: 'assets/sounds/fireball_impact.ogg', volume: 1})
+            cast:       new Howl({src: 'assets/sounds/fireLoop.ogg', volume: volume}),
+            execute:    new Howl({src: 'assets/sounds/fireball_impact.ogg', volume: volume})
         }
 
         this.fireball = null
@@ -54,9 +56,6 @@ class Attack_Fireball extends Ability {
         this.fireballLayer.position.x = this.manager.sprite.position.x + 0.2*WIDTH
         this.fireballLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
         this.fireball.emit = true
-        //this.sound.play()
-        //this.animations.scale(this.fireballLayer,{time: this.t_cast, scale: 2})
-
     }
 
 

@@ -28,9 +28,9 @@ State:  idle    |   casting    |  performing  |  recovering  |   idle
 
 
 class Ability extends Scene {
-    constructor(character, stageScene, combat) { // manager == character
+    constructor(character, superScene, combat) { // manager == character
 
-        super(character, stageScene, false)
+        super(character, superScene, false)
         //this.scene.position.z = this.character.scene.position.z
         this.combat = combat
         this.target = null
@@ -42,6 +42,9 @@ class Ability extends Scene {
         this.t_perform = 0
         this.t_performAnimation = 0 // time for character animation
         this.t_recovery = 0.5
+
+        this.cost_energy = 0
+        this.cost_combo = 0
 
         this.t = 0 // used for all
         this.btn = null // only for hero
@@ -99,7 +102,9 @@ class Ability extends Scene {
         if (!target) { console.log('ERROR: No Target for Ability', this.name); return false}
         if (target.state == e_combatStates.defeated) { console.log('ERROR: Target defeated'); return false}
         if (this.state != e_abStates.idle) { console.log('ERROR: Ability not idle. State:', this.state, e_abStates); return false}
-        if (this.manager.state != e_combatStates.idle) { console.log('ERROR: Hero not idle. State:', this.manager.state, e_combatStates); return false}
+        if (this.manager.state != e_combatStates.idle) { console.log('ERROR: Character not idle. State:', this.manager.state, e_combatStates); return false}
+        if (this.manager.stats.combo < this.cost_combo) {console.log('ERROR: Character not enough combo', this.manager.stats.combo, this.cost_combo); return false}
+        if (this.manager.stats.energy < this.cost_energy) {console.log('ERROR: Character not enough energy', this.manager.stats.energy, this.cost_energy); return false}
 
         this.target = target
         this.t = this.t_cast
@@ -132,6 +137,8 @@ class Ability extends Scene {
         this.t = 0
         this.recover(this.t_recovery)
         this.playSound(e_soundIDs.execute)
+        this.manager.changeComboBy(- this.cost_combo)
+        this.manager.changeEnergyBy(- this.cost_energy)
         this.startExecuting()
     }
 

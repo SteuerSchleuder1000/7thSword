@@ -305,7 +305,8 @@ class Character extends Scene {
             this.playSound( e_soundIDs.takeDamage )
             this.playSound( e_soundIDs.armor )
         }
-        // animate healthbar
+        
+
         this.changeHealthBy(-damage)
         if (this.stats.health <= 0) { this.defeat() }
     }
@@ -319,22 +320,31 @@ class Character extends Scene {
 
     changeHealthBy(d) {
         this.stats.changeHealthBy(d)
-        if (this.healthbar) { this.healthbar.updateHealth(this.stats.health) }
+        if (this.healthbar) { this.healthbar.updateHealth(d, this.stats.health) }
     }
 
-    changeCombo(d) {
-        this.stats.changeCombo(d)
+    changeComboBy(d) {
+        this.stats.changeComboBy(d)
+        this.healthbar.updateCombo()
+    }
+
+    changeEnergyBy(d) {
+        this.stats.changeEnergyBy(d)
         this.healthbar.updateCombo()
     }
 
 
 
-    reset() { 
-        this.buffs = []
-        this.stats.reset()
-    }
+    // reset() { 
+    //     this.buffs = []
+    //     this.stats.reset()
+    // }
 
-    
+    addBuff(buff) { this.buffs.push(buff) }
+    remove(buff) {
+        let idx = this.buffs.indexof(buff)
+        if (idx != -1) { this.buffs.splice(idx, 1)}
+    }
 
     cancelAbility() {
         if (this.castingAbility) { this.castingAbility.cancel() }

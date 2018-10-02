@@ -14,9 +14,7 @@ class Interface extends Scene {
         this.assets = []
         this.buttons = []
 
-        // load hero abilities
         this.hero = hero
-
         this.heroAbilities = this.hero.abilities
         for (let a of this.heroAbilities) { this.assets = this.assets.concat(a.assets) }
 
@@ -66,6 +64,9 @@ class Interface extends Scene {
         let btnWidth = 0.18*WIDTH
         let btnGap = 0.07*WIDTH
 
+        let key = keyboard(32) // space bar
+        key.press = this.block.bind(this)
+        key.release = this.block.bind(this)
 
         for (let i=0; i<3;i++) {
 
@@ -84,6 +85,10 @@ class Interface extends Scene {
 
             let btn = new AbilityButton(ab, this.scene, btnSprite, this.hero)
             this.buttons.push(btn)
+
+            // keyboard input
+            let key = keyboard(49+i) // start from "1"
+            key.press = btn.buttonEvent.bind(btn)
         }
 
 
@@ -92,18 +97,12 @@ class Interface extends Scene {
 
 
 
-    block(e) { this.hero.block(e.type == 'pointerdown') }
+    block(e) { this.hero.block(e.type == 'pointerdown' || e.type == 'keydown') }
 
 
     restartLevel() { this.manager.restartLevel() }
 
-    recovering(b) { // if recovering -> buttons alpha = 0.5
-        console.log('recovering',b)
-        for (let b of this.buttons) { 
-            if (b) {b.sprite.alpha = 0.5}
-            else { b.sprite.alpha = 1.0}
-            }
-    }
+    greyOut(b) { for (let btn of this.buttons) { btn.sprite.alpha = b ? 0.5 : 1.0 } }
     
 
     update(delta) { 

@@ -75,7 +75,7 @@ class Scene { // any game object with sprites
     load(callback) { // loads assets -> calls setup
         
         let setup = _=> { this.setup(callback) }
-        let progress = (e,p) => { this.progress(e,p)}
+        let loadingProgress = (e,p) => { this.loadingProgress(e,p)}
 
         let assetsToLoad = []
         for (let a of this.assets) {
@@ -85,7 +85,7 @@ class Scene { // any game object with sprites
 
         PIXI.loader
             .add(assetsToLoad)
-            .on('progress', progress.bind(this))
+            .on('progress', loadingProgress.bind(this))
             .load(setup.bind(this))
     } 
 
@@ -98,15 +98,15 @@ class Scene { // any game object with sprites
 
     pause(b=true) { this.paused = b}
 
-    progress(e,p) { // called while loading
-        if(this.manager) { this.manager.progress(e,p)}
+    loadingProgress(e,p) { // called while loading
+        if(this.manager) { this.manager.loadingProgress(e,p)}
     }
 
     update() {
         // update emitters, animations etc.
     }
 
-    
+    remove() { this.superScene.removeChild(this.scene)}    
 
     hide() { this.scene.visible = false}
     show() {this.scene.visible = true}

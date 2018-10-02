@@ -12,10 +12,11 @@ class Attack_Choice extends Ability {
         this.description = 'Attacks with a single strike. Adds 1 combo'
         this.animationType = e_animationTypes.melee
 
+        let path = 'assets/images/abilities/'
         this.assets = [
-            'assets/choice.png',     // normal
-            'assets/choiceA.png',    // active
-            'assets/choiceB.png',    // cooldown
+            path+'choice.png',     // normal
+            path+'choiceA.png',    // active
+            path+'choiceB.png',    // cooldown
         ]
 
         this.state = e_abStates.idle
@@ -37,10 +38,10 @@ class Attack_Choice extends Ability {
         let damage = this.power
 
         if (Math.random() < 0.1*comboPoints || comboPoints == 5) {
-            this.manager.changeCombo(-comboPoints) // gain 1 combo
+            this.manager.changeComboBy(-comboPoints) // gain 1 combo
             this.manager.heal(comboPoints*this.power)
         } 
-        else {this.manager.changeCombo(1)}
+        else {this.manager.changeComboBy(1)}
         
         this.combat.dealDamage(this.power, this.target, this, this.manager)
     }

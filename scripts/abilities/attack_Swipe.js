@@ -12,10 +12,11 @@ class Attack_Swipe extends Ability {
         this.description = 'Uses up all combo points and deals that much damage'
         this.animationType = e_animationTypes.melee
 
+        let path = 'assets/images/abilities/'
         this.assets = [
-            'assets/swipe.png',     // normal
-            'assets/swipeA.png',    // active
-            'assets/swipeB.png',    // cooldown
+            path+'swipe.png',     // normal
+            path+'swipeA.png',    // active
+            path+'swipeB.png',    // cooldown
         ]
 
         this.state = e_abStates.idle
@@ -34,7 +35,7 @@ class Attack_Swipe extends Ability {
 
     startExecuting() {
         let combopoints = this.manager.stats.combo
-        this.manager.changeCombo(-combopoints) // gain 1 combo
+        this.manager.changeComboBy(-combopoints) // gain 1 combo
         let damage = combopoints*this.power + this.power
         this.combat.dealDamage(damage, this.target, this, this.manager)
     }

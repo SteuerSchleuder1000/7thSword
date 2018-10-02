@@ -15,21 +15,23 @@ Todo:
     - block animation           x
     - sounds                    x
     - sfx                       x
-    - projectile                x
+    - projectile                
     - button "feel"             x
 
 
     - game feel -> timers, animation, sound
 
-    - sounds
-    - emitter: fireball, sparks, glow   x
+    - sounds                    x
+    - emitter: fireball, sparks   x
+    - emitter glow
     - rudimentary combat menu -> dev menu -> js console // dom element
-    -
     - combat system
-    - buff system
+    - buff system               x
+    - decisiontree 1            x
     - level progression
     - add enemies
-    
+    - coordinate system
+    - improve character animation !!
     
 
 
@@ -43,8 +45,8 @@ Todo:
         - enemy in vulnerable state
         -> use ultimate attack
 
-
-
+        - multiple enemies
+        -> priority?
 */
 
 let currentLevel = null // for easy acces in console

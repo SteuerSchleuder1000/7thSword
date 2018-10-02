@@ -28,3 +28,47 @@ let loadJSON = (filename, callback)=>{
 
 let loadObj = ()=>{}
 let saveObj = ()=>{}
+
+
+function keyboard(keyCode) {
+    let key = {};
+    key.code = keyCode;
+    key.isDown = false;
+    key.isUp = true;
+    key.press = undefined;
+    key.release = undefined;
+    //The `downHandler`
+    key.downHandler = event => {
+        if (event.keyCode === key.code) {
+            if (key.isUp && key.press) key.press({type: 'keydown'});
+            key.isDown = true;
+            key.isUp = false;
+        }
+        event.preventDefault();
+    };
+
+    //The `upHandler`
+    key.upHandler = event => {
+        if (event.keyCode === key.code) {
+            if (key.isDown && key.release) key.release({type: 'keyup'});
+            key.isDown = false;
+            key.isUp = true;
+        }
+        event.preventDefault();
+    };
+
+    //Attach event listeners
+    window.addEventListener('keydown', key.downHandler.bind(key), false)
+    window.addEventListener('keyup', key.upHandler.bind(key), false)
+    return key;
+} // keyboard
+
+
+
+
+
+
+
+
+
+

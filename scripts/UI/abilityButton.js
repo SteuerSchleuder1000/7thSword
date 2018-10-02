@@ -12,10 +12,15 @@ class AbilityButton extends Scene {
         this.sprite.interactive = true
         this.sprite.on('pointerdown', this.buttonEvent.bind(this) )
 
-        this.t = 0
         this.line = new Graphics()
         this.line.position.z = 100
         this.addSprite(this.line) 
+
+        let path = 'assets/sounds/'
+        let volume = SETTINGS.sound.volume
+        this.sounds = {
+            click: new Howl({src: path+'click.ogg', volume: volume*2})
+        }
 
         this.emitters = [] // sparks
         this.sparksEmitter = null
@@ -94,6 +99,7 @@ class AbilityButton extends Scene {
         this.sprite.texture = texture
         this.line.alpha = 1
         if(this.sparksEmitter) { this.sparksEmitter.playOnce() }
+        this.sounds.click.play()
     }
 
     perform() {

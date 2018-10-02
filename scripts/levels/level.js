@@ -16,6 +16,19 @@ let e_levels = {
 }
 
 
+let e_weather = {
+    rain: 0,
+    rain2: 1,
+    flame: 2,
+
+
+    properties: {
+        0: { options: emitterOptions_rain, textures: ['assets/raindrop.png']},
+        1: { options: emitterOptions_rain2, textures: ['assets/raindrop.png']},
+        2: { options: emitterOptions_flame, textures: ['assets/flame.png','assets/solidCircle.png']}
+    },
+}
+
 
 
 
@@ -27,6 +40,7 @@ class Level extends Stage {
         this.bg = null
         this.characters = []
         this.complete = false
+        this.phase = 0 // progression phase
 
     }
 
@@ -52,8 +66,38 @@ class Level extends Stage {
 
     }
 
+    progress() {}
+
     event(eventID, options) {}
 
+    start() {}
+    end () {}
+
+    restartLevel() {
+        this.end()
+        this.manager.restartLevel()
+    }
+
+    weather(type, zIndex) {
+
+        let layer = new Container()
+        layer.position.z = zIndex
+        this.addSprite(layer)
+
+        let options = e_weather.properties[type].options
+        let sprites = []
+        let textureUrls = e_weather.properties[type].textures
+
+        for (let url of textureUrls) {
+            let sprite = PIXI.Texture.fromImage(url)
+            sprites.push(sprite)
+        }
+    
+        let emitter2 = new PIXI.particles.Emitter( layer, sprites, options )
+
+        emitter2.emit = true
+        this.emitters.push(emitter2)
+    }
 }
 
 

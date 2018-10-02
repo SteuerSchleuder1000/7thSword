@@ -27,8 +27,6 @@ class Healthbar_Hero extends Healthbar {
         this.scene.visible = true
         this.scene.position.z = 3
         this.animations = new Animations()
-        
-
            
     }
 
@@ -51,7 +49,6 @@ class Healthbar_Hero extends Healthbar {
         this.originalWidth = this.sprite.width
 
 
-
         // COMBOS
         this.comboSprites = []
         this.comboPoints = 0
@@ -65,7 +62,7 @@ class Healthbar_Hero extends Healthbar {
         for (let i=0;i<maxCombo;i++){
             
             let comboSprite = this.createSprite({
-                url: 'assets/combo.png',
+                url: path+'combo.png',
                 width: comboWidth,
                 anchor: [0, 0.25],
                 x: 0.1*WIDTH + hbGap + hbW*i,
@@ -81,8 +78,23 @@ class Healthbar_Hero extends Healthbar {
 
     update(delta) {this.animations.update(delta)}
 
-    updateHealth(health) { this.sprite.width = health/100*this.originalWidth }
+    updateHealth(d) { 
+        let health_init = this.manager.stats.health_init
+        let health = this.manager.stats.health
+        this.sprite.width = health/health_init*this.originalWidth
 
+        let magnitude =  Math.abs(d/health_init)*20
+        if (d < 0) { this.damageAnimation(magnitude)}
+        if (d > 0) { this.healAnimation(magnitude) }
+    }
+
+    damageAnimation(magnitude) { 
+        this.animations.shake(this.sprite, {time: 0.5, magnitude: magnitude})
+    }
+
+    healAnimation(magnitude) {
+        
+    }
 
     updateCombo() { // animate new ones
 
@@ -111,9 +123,9 @@ class Healthbar_Hero extends Healthbar {
             }
         }
         
-    }
+    } // update Combo
 
-}
+} // hero healthbar
 
 
 
@@ -123,30 +135,50 @@ class Healthbar_Enemy { // added onto sprite
         this.superScene = superScene
         this.manager = manager
 
-        x = x | 0
-        y = y | 0
+        this.x = x | 0
+        this.y = y | 0
 
         let width = WIDTH*0.15
-        let height = HEIGHT*0.025
+        let height = HEIGHT*0.02
 
         this.originalWidth = width
 
         this.healthbar = new Graphics()
         this.healthbar.beginFill(0xFFFFFF);
         this.healthbar.drawRect(0, 0, width, height)
-        this.healthbar.position.set(x,y)
-        //this.healthbar.visible = false // default not visible
+        this.healthbar.position.set(this.x,this.y)
 
         this.superScene.addChild(this.healthbar)
+
+        this.castbar = new Graphics()
+        this.superScene.addChild(this.castbar)
     }
 
-    show() { this.healthbar.visible = true }
-    hide() { this.healthbar.visible = false }
-    update() {}
+    updateCastbar() {
+        
+        let ability = this.manager.castingAbility
+        if (!ability) { return }
+        if (ability.state == e_abStates.performing) { this.castbar.clear(); return}
+        if (ability.state != e_abStates.casting) { return }
+
+
+        let progress = 1 - ability.t / ability.t_cast
+        let height = HEIGHT*0.01
+        
+        this.castbar.clear()
+        this.castbar.beginFill(0xFFFFFF);
+        this.castbar.drawRect(this.x, this.y+height*3, progress*this.originalWidth, height)
+        
+    }
+
+    show() { this.healthbar.visible = true; this.castbar.visible = true }
+    hide() { this.healthbar.visible = false; this.castbar.visible = false }
+    update(delta) { this.updateCastbar() }
     updateCombo() {} // dont
 
-    updateHealth(health) { 
-        let originalHealth = this.manager.stats.health_init
-        this.healthbar.width = health/originalHealth*this.originalWidth
+    updateHealth() { 
+        let health = this.manager.stats.health
+        let health_init = this.manager.stats.health_init
+        this.healthbar.width = health/health_init*this.originalWidth
     }
 }

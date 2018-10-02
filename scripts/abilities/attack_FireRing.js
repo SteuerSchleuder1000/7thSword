@@ -21,13 +21,13 @@ class Attack_Firering extends Ability {
         this.description = 'Attacks with a single strike'
         this.animationType = e_animationTypes.spell
 
+        let path = 'assets/images/abilities/'
         this.assets = [
-            'assets/burning-dot.png',     // normal
-            'assets/burning-dotA.png',    // active
-            'assets/burning-dotB.png',    // cooldown
+            path+'burning-dot.png',     // normal
+            path+'burning-dotA.png',    // active
+            path+'burning-dotB.png',    // cooldown
         ]
 
-        this.state = e_abStates.idle
         this.power = 49
         this.t_cast = 2
         this.t_perform = 0.5
@@ -35,11 +35,12 @@ class Attack_Firering extends Ability {
         this.t_recovery = 3
         this.t = 0
 
+        this.cost_combo = 3
 
-        //this.sound = new Howl({src: 'assets/sounds/fireloop.mp3', loop: true, volume: 1})
+        let volume = SETTINGS.sound.volume
         this.sounds = {
-            cast:       new Howl({src: 'assets/sounds/fireLoop.ogg', volume: 1}),
-            perform:    new Howl({src: 'assets/sounds/fireball_impact.ogg', volume: 1})
+            cast:       new Howl({src: 'assets/sounds/fireLoop.ogg', volume: volume}),
+            perform:    new Howl({src: 'assets/sounds/fireball_impact.ogg', volume: volume})
         }
 
         this.firering = null
@@ -51,13 +52,9 @@ class Attack_Firering extends Ability {
 
     startCasting() {
 
-
         this.fireringlLayer.position.x = this.manager.sprite.position.x + 0.0*WIDTH
         this.fireringlLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
         this.fireRing.emit = true
-        //this.sound.play()
-        //this.animations.scale(this.fireballLayer,{time: this.t_cast, scale: 2})
-
     }
 
 

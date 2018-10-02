@@ -1,6 +1,6 @@
 
 
-class LevelManager extends Manager {
+class LevelManager extends StageManager {
 
     constructor(manager, superScene) {
         super(manager, superScene)

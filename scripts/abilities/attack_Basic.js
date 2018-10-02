@@ -21,10 +21,11 @@ class Attack_Basic extends Ability {
         this.description = 'Attacks with a single strike'
         this.animationType = e_animationTypes.melee
 
+        let path = 'assets/images/abilities/'
         this.assets = [
-            'assets/swipe.png',     // normal
-            'assets/swipeA.png',    // active
-            'assets/swipeB.png',    // cooldown
+            path+'swipe.png',     // normal
+            path+'swipeA.png',    // active
+            path+'swipeB.png',    // cooldown
         ]
 
         this.state = e_abStates.idle

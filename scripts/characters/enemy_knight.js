@@ -46,7 +46,7 @@ class Enemy_Knight extends Enemy {
 
         // Abilities
         this.abilities = [
-            //new Attack_Basic(this, superScene, combat),
+            new Attack_Basic(this, superScene, combat),
             new Attack_Firering(this, superScene, combat),
         ]
 
@@ -64,8 +64,15 @@ class Enemy_Knight extends Enemy {
 
 
     decide() {
+        console.log('decide', this.stats.combo)
         this.target = this.combat.hero
-        if (this.abilities[0].state == e_abStates.idle) { this.abilities[0].cast(this.target) }
+        let idle0 = this.abilities[0].state == e_abStates.idle
+        let idle1 = this.abilities[1].state == e_abStates.idle
+
+        if (this.stats.combo >= this.abilities[1].cost_combo && idle1) {
+            this.abilities[1].cast(this.target)
+        }
+        else if (idle0) { this.abilities[0].cast(this.target); this.changeComboBy(1) }
         else { this.wait(1.0) }
     }
 

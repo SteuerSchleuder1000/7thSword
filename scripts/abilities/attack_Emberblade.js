@@ -12,10 +12,11 @@ class Attack_Emberblade extends Ability {
         this.description = 'Uses 2 combo points to cancel opponents attack and deal double damage'
         this.animationType = e_animationTypes.melee
 
+        let path = 'assets/images/abilities/'
         this.assets = [
-            'assets/emberblade.png',     // normal
-            'assets/emberbladeA.png',    // active
-            'assets/emberbladeB.png',    // cooldown
+            path+'emberblade.png',     // normal
+            path+'emberbladeA.png',    // active
+            path+'emberbladeB.png',    // cooldown
         ]
 
         this.state = e_abStates.idle
@@ -38,7 +39,7 @@ class Attack_Emberblade extends Ability {
         let damage = this.power
 
         if (comboPoints >= 2) {
-            this.manager.changeCombo(-2) // loose 2 combo
+            this.manager.changeComboBy(-2) // loose 2 combo
             this.target.cancelAbility()
             damage *= 2
         }

@@ -13,6 +13,7 @@ class Stats {
 
 
         this.combo_max = 5
+        this.energy_max = 100
 
 
         
@@ -27,18 +28,22 @@ class Stats {
         this.combo = this.combo_init
     }
 
-    changeCombo(d) {
-        //console.log('change combo',d)
+    changeComboBy(d) {
         if (!d) {return}
         this.combo += d
-        this.combo = Math.max(this.combo, 0)
-        this.combo = Math.min(this.combo, this.combo_max)
+        this.combo = floorCeil(this.combo, 0, this.combo_max)
     }
 
     changeHealthBy(d) {
         if (!d) {return}
         this.health += d
-        this.health = floorCeil(this.health, 0, this.health_max) //Math.max( Math.min(this.health, this.health_max) , 0)
+        this.health = floorCeil(this.health, 0, this.health_max)
+    }
+
+    changeEnergyBy(d) {
+        if (!d) {return}
+        this.energy += d
+        this.energy = floorCeil(this.energy, 0, this.energy_max)
     }
     
 

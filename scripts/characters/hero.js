@@ -23,7 +23,7 @@ class Hero extends Character {
         this.abilities = [
             new Attack_Fireball(this, superScene, combat),
             new Attack_Swipe(this, superScene , combat), // 
-            new Attack_Emberblade(this, superScene , combat),
+            //new Attack_Emberblade(this, superScene , combat),
             new Attack_Choice(this, superScene , combat),
         ]
 
@@ -74,7 +74,10 @@ class Hero extends Character {
                 break;
 
             case e_combatStates.blocking:
-                if (!b) { this.recover(this.t_recoveryBlock) }
+                if (!b) { 
+                    this.interface.greyOut(true)
+                    this.recover(this.t_recoveryBlock) 
+                }
                 this.blockSfx.visible = false
                 break;
         }
@@ -82,25 +85,32 @@ class Hero extends Character {
 
 
     animateBlock(superBlock) {
-        let animationTime = 1
-        this.blockSfx.visible = true
+
         let b = this.blockSfx
+        b.visible = true
         let callback = ()=>{b.visible = false}
-        this.animations.scale(this.blockSfx,{time: animationTime, scale: 8, reset: true, easeOut: true})
+
+        let scale = superBlock ? 10 : 2
+        let animationTime = superBlock ? 0.8 : 1
+        this.animations.scale(this.blockSfx,{time: animationTime, scale: scale, reset: true, easeOut: true})
         this.animations.alpha(this.blockSfx,{time: animationTime, alpha: 0, reset: true, callback: callback})
-        //this.animations.move(this.blockSfx,{time: animationTime, y: HEIGHT*0.6, reset: true})
+        console.log(b)
     } // animateBlock
 
+
+    startPerforming() {
+        this.interface.greyOut(true)
+    }
     
 
     startRecovering() {
         if(this.sprite) {this.sprite.tint = 0xba27db}
-        this.interface.recovering(true)
+        
     }
 
     startIdle() {
         if (this.sprite) {this.sprite.tint = 0xFFFFFF}
-        this.interface.recovering(false)
+        this.interface.greyOut(false)
     }
 
     setup() {
@@ -130,15 +140,13 @@ class Hero extends Character {
 
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
-        this.animations.shake(this.healthbar.sprite, {time: 0.5, magnitude:10})
         
         if (this.state == e_combatStates.blocking) {
             let superBlock = (this.t <= this.t_superBlock)
             this.animateBlock(superBlock)
-            //(superBlock) ? this.sounds.block_super.play() : this.sounds.block.play()
-        } else {
-            //this.sounds.takeDamage.play()
-        }
+            if (superBlock) { this.changeComboBy(1)}
+
+        } 
     }// take Damage
 }// hero
 

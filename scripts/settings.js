@@ -1,10 +1,12 @@
 
 
-
+let testObj = {a:()=>console.log(this.b), b: 2}
 
 let SETTINGS = {
     sound: {
-        volume: 1.0,
+        master: 1,
+        volume: 1, // effects etc.
+        music: 0,  // music
     },
 
     fps: 60,

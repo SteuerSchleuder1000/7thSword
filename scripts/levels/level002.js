@@ -6,18 +6,7 @@ let e_eventIDs =  {
 
 
 
-let e_weather = {
-    rain: 0,
-    rain2: 1,
-    flame: 2,
 
-
-    properties: {
-        0: { options: emitterOptions_rain, textures: ['assets/raindrop.png']},
-        1: { options: emitterOptions_rain2, textures: ['assets/raindrop.png']},
-        2: { options: emitterOptions_flame, textures: ['assets/flame.png','assets/solidCircle.png']}
-    },
-}
 
 
 
@@ -40,11 +29,12 @@ class Level_002 extends Level {
 
         // sounds        
         this.sounds = {}
+        let volume = SETTINGS.sound.volume
         this.music = new Howl({ src: ['assets/sounds/visions.mp3'],
             loop: true,
-            volume: 0.5,
+            volume: volume*0.5,
         })
-        this.ambientSound = new Howl({src: 'assets/sounds/nightBreeze.mp3',loop:true, volume: 0.2})
+        this.ambientSound = new Howl({src: 'assets/sounds/nightBreeze.mp3',loop:true, volume: volume*0.2})
 
 
         // Background
@@ -72,7 +62,6 @@ class Level_002 extends Level {
         
         if (this.complete) {return}
         this.combat.update(delta)
-        
         this.interface.update(delta)
     }
 
@@ -80,31 +69,16 @@ class Level_002 extends Level {
 
 
 
-    start() {
-        this.combat.addEnemy(this.knight)
-        this.combat.addHero(this.hero)
-        this.speech1() // first lets talk!
-        //this.combat.start()
-        // progression tree
-    }
+    start() { this.progress() }
 
-    restartLevel() {
-        //this.manager.transition(e_levels.lv_003)
-        this.manager.restartLevel()
-        this.end()
-        //this.manager.state.remove(e_levels.lv_002)
-
-        
-        //this.manager.loadMenu(e_menues.introScreen)
-    }
 
 
     end() {
-        this.scene.visible = false
+        
         this.complete = true
         this.music.stop()
         this.ambientSound.stop()
-        super.onExit()
+        this.onExit()
     }
 
 
@@ -132,13 +106,11 @@ class Level_002 extends Level {
         this.animations.breathing(this.hero.sprite)
 
 
-
+        this.combat.addEnemy(this.knight)
+        this.combat.addHero(this.hero)
 
         // this.weather(e_weather.rain2, e_zIndex.character - 0.1)
         // this.weather(e_weather.rain, e_zIndex.hero + 0.1)
-
-
-
 
 
         //this.music.play()
@@ -150,25 +122,57 @@ class Level_002 extends Level {
 
 
 
-    weather(type, zIndex) {
-
-        let layer = new Container()
-        layer.position.z = zIndex
-        this.addSprite(layer)
-
-        let options = e_weather.properties[type].options
-        let sprites = []
-        let textureUrls = e_weather.properties[type].textures
-
-        for (let url of textureUrls) {
-            let sprite = PIXI.Texture.fromImage(url)
-            sprites.push(sprite)
-        }
     
-        let emitter2 = new PIXI.particles.Emitter( layer, sprites, options )
 
-        emitter2.emit = true
-        this.emitters.push(emitter2)
+
+    progress() {
+        switch(this.phase) {
+            case 0:
+                this.introAnimation()
+                break;
+
+            case 1:
+                this.speech1()
+                break;
+
+            case 2:
+                this.startCombat()
+                break;
+
+            case 2.5: // lost
+                this.speech2(false)
+                break;
+
+            case 3: // won
+                this.speech2(true)
+                break;
+
+            case 4:
+                this.restartLevel()
+                break;
+        }
+    }
+
+
+
+
+    // Progression
+
+    introAnimation() {
+        this.interface.hide()
+        this.knight.hideHealthbar()
+        let callback = ()=>{ this.phase = 1; this.progress()}
+        this.scene.position.x = -WIDTH*1.5
+        this.animations.move(this.scene ,{time:6, x: WIDTH*0.0, y: 0, callback: callback})
+    }
+
+
+    startCombat() {
+        this.combat.start(); 
+        this.scene.interactive = false 
+        this.interface.show()
+        this.dialog.hide()
+        //this.phase = 2
     }
 
 
@@ -179,15 +183,11 @@ class Level_002 extends Level {
         let text = 'Who Dares Enter\nThese Woods?'
         let sb = this.dialog.speechBubble(text,style)
         this.addSprite(sb)
-        let callback = ()=>{ 
-            this.combat.start(); 
-            this.scene.interactive = false 
-            this.interface.show()
-            this.dialog.hide()
-        }
         this.scene.interactive = true
-        this.scene.on('pointerdown',callback.bind(this))
+        this.phase += 1
+        this.scene.on('pointerdown',this.progress.bind(this))
     }
+
 
     speech2(won) {
         this.interface.hide()
@@ -198,31 +198,35 @@ class Level_002 extends Level {
         let text = won ? 'I Will Have\nMy Revenge!' : 'Justice Has\nBeen Served!'
         let sb = this.dialog.speechBubble(text,style)
         this.addSprite(sb)
-        let callback = ()=>{ 
-            this.restartLevel()
-        }
         this.scene.interactive = true
-        this.scene.on('pointerdown',callback.bind(this))
+        this.phase += 1
+        this.scene.on('pointerdown',this.progress.bind(this))
     }
+
+
 
     event(eventID, options) {
         switch(eventID) {
             case e_eventIDs.defeat:
-                if (options == this.hero) { console.log('YOU LOST')}
-                if (options == this.knight) { 
-                    this.complete = true
-                    console.log('YOU WON')
+
+                if (options == this.hero) { 
+                    console.log('YOU LOST') 
+                    this.combat.end()
+                    this.phase += 0.5
+                    this.progress()
                 }
-                this.combat.end()
-                this.speech2(this.complete)
+                if (options == this.knight) { 
+                    console.log('YOU WON')
+                    this.combat.end()
+                    this.phase += 1
+                    this.progress()
+                }
                 break;
 
         }
     }
 
-    transition() {
-        console.log('pointerdown')
-        this.manager.loadMenu(e_menues.introScreen)
-    }
+
+    menu() { this.manager.loadMenu(e_menues.hero) }
 
 }

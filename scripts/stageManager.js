@@ -2,7 +2,7 @@
 
 
 
-class Manager extends Stage {
+class StageManager extends Stage { // StageManager
 
     constructor(manager, superScene) {
         super(manager, superScene)
@@ -19,7 +19,7 @@ class Manager extends Stage {
     onEntry() { this.scene.visible = true } // when focus changes to this manager
     onExit() { this.scene.visible = false }
 
-    progress(e,p) { 
+    loadingProgress(e,p) { 
         //console.log('progress',e.progress) 
     } // called while loading
 
