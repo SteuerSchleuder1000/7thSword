@@ -24,7 +24,7 @@ class AbilityButton extends Scene {
 
         this.emitters = [] // sparks
         this.sparksEmitter = null
-        loadJSON('assets/json/sparks3.json',this.setupEmitter.bind(this))
+        loadJSON('assets/json/sparks4.json',this.setupEmitter.bind(this))
     }
 
     loadingBar(delta) {

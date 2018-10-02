@@ -9,6 +9,23 @@ let e_eventIDs =  {
 
 
 
+class Progress { // state for statemachine
+    constructor(args) {
+        this.c = 0              // counter
+        this.n =        args.n  // number of steps
+        this.p =        args.p  // progression tree
+        this.entry =    args.entry 
+        this.exit =     args.exit  
+        this.keyNext =  args.next // next key
+
+        if (!this.entry) {this.entry = ()=>{}}
+        if (!this.exit)  {this.exit = ()=>{}}
+    }
+
+    step (c=1) { this.c += c } // progress
+    eval () { return this.c >= this.n }
+}
+
 
 
 
@@ -51,6 +68,17 @@ class Level_002 extends Level {
             'assets/raindrop.png',
         ]
 
+        this.progress = {
+            intro:      new Progress({ n: 1, entry: this.introAnimation,    next: 'dialog1'}),
+            dialog1:    new Progress({ n: 1, entry: this.speech1,           next: 'combat'}),
+            combat:     new Progress({ n: 5, entry: this.startCombat, exit: this.combat.end,       next: 'dialog2'}),
+            dialog2:    new Progress({ n: 1, entry: this.speech2,           next: 'restart'}),
+            restart:    new Progress({ n: 1, entry: this.restartLevel                       }),
+
+            current:    new Progress({ n: 1, next: 'intro'}),
+            next:       ()=>{ this.progress.current = this.progress[this.progress.current.keyNext] },
+        }
+        
 
     }
 
@@ -63,13 +91,20 @@ class Level_002 extends Level {
         if (this.complete) {return}
         this.combat.update(delta)
         this.interface.update(delta)
+
+        // progress -> level.js method?
+        if (this.progress.current.eval()) {         // checks if progress step is reached
+            this.progress.current.exit.call(this)   // exits current progress step
+            this.progress.next()                    // sets this.porgress.current to the next step
+            this.progress.current.entry.call(this)  // enters the current progress step
+        }
     }
 
 
 
 
 
-    start() { this.progress() }
+    start() { this.progress.current.step() }
 
 
 
@@ -122,47 +157,13 @@ class Level_002 extends Level {
 
 
 
-    
-
-
-    progress() {
-        switch(this.phase) {
-            case 0:
-                this.introAnimation()
-                break;
-
-            case 1:
-                this.speech1()
-                break;
-
-            case 2:
-                this.startCombat()
-                break;
-
-            case 2.5: // lost
-                this.speech2(false)
-                break;
-
-            case 3: // won
-                this.speech2(true)
-                break;
-
-            case 4:
-                this.restartLevel()
-                break;
-        }
-    }
-
-
-
-
     // Progression
 
     introAnimation() {
         this.interface.hide()
         this.knight.hideHealthbar()
-        let callback = ()=>{ this.phase = 1; this.progress()}
         this.scene.position.x = -WIDTH*1.5
+        let callback = ()=>{ this.progress.intro.step() }
         this.animations.move(this.scene ,{time:6, x: WIDTH*0.0, y: 0, callback: callback})
     }
 
@@ -172,20 +173,36 @@ class Level_002 extends Level {
         this.scene.interactive = false 
         this.interface.show()
         this.dialog.hide()
-        //this.phase = 2
     }
 
 
     speech1() {
         this.interface.hide()
         this.knight.hideHealthbar()
+        // wait 1 sec
         let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
         let text = 'Who Dares Enter\nThese Woods?'
         let sb = this.dialog.speechBubble(text,style)
         this.addSprite(sb)
         this.scene.interactive = true
-        this.phase += 1
-        this.scene.on('pointerdown',this.progress.bind(this))
+        let callback = ()=>{ this.progress.dialog1.step() }
+        this.scene.on('pointerdown',callback.bind(this))
+    }
+
+    displayQuest() {
+        /*
+            Display pergament with objective
+            text appears over time, quest slams onto paper
+        */
+    }
+
+    displayLoot() {
+
+        let lootBag = new Loot(this, this.scene)
+        this.objects.push(lootBag)
+        loot.fill('random', 5)
+
+
     }
 
 
@@ -212,14 +229,16 @@ class Level_002 extends Level {
                 if (options == this.hero) { 
                     console.log('YOU LOST') 
                     this.combat.end()
-                    this.phase += 0.5
-                    this.progress()
+                    //this.phase += 0.5
+                    //this.progress()
                 }
                 if (options == this.knight) { 
                     console.log('YOU WON')
-                    this.combat.end()
-                    this.phase += 1
-                    this.progress()
+                    //this.combat.end()
+                    //this.phase += 1
+                    //this.progress()
+                    this.progress.combat.step()
+                    this.knight.reset()
                 }
                 break;
 

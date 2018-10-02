@@ -17,19 +17,22 @@ let e_levels = {
 
 
 let e_weather = {
-    rain: 0,
-    rain2: 1,
-    flame: 2,
+    // rain: 0,
+    // rain2: 1,
+    // flame: 2,
 
 
-    properties: {
-        0: { options: emitterOptions_rain, textures: ['assets/raindrop.png']},
-        1: { options: emitterOptions_rain2, textures: ['assets/raindrop.png']},
-        2: { options: emitterOptions_flame, textures: ['assets/flame.png','assets/solidCircle.png']}
-    },
+    // properties: {
+    //     0: { options: emitterOptions_rain, textures: ['assets/raindrop.png']},
+    //     1: { options: emitterOptions_rain2, textures: ['assets/raindrop.png']},
+    //     2: { options: emitterOptions_flame, textures: ['assets/flame.png','assets/solidCircle.png']}
+    // },
 }
 
-
+let e_levelStates = {
+    idle: 0,
+    waiting: 1,
+}
 
 
 class Level extends Stage {
@@ -42,13 +45,35 @@ class Level extends Stage {
         this.complete = false
         this.phase = 0 // progression phase
 
+        this.state = e_levelStates.idle
+        this.t = 0
     }
 
     update(delta) {
         super.update(delta)
-        
+        // switch (this.state) {
+        //     case e_levelStates.watiting:
+        //         thist.t -= delta
+        //         if (this.t <= 0) { this.idle() }
+        //         break
+        // }
     }
+
+
+
+    // wait (t) { 
+    //     this.state = e_levelStates.waiting
+    //     this.t = t
+    // }
+
+    // idle () {
+    //     this.state = e_levelStates.idle
+    //     this.t = 0
+    // }
     
+
+
+
     onEntry() {
         if (!this.loaded) { this.concatAssets() }
         super.onEntry()
@@ -93,10 +118,9 @@ class Level extends Stage {
             sprites.push(sprite)
         }
     
-        let emitter2 = new PIXI.particles.Emitter( layer, sprites, options )
-
-        emitter2.emit = true
-        this.emitters.push(emitter2)
+        let emitter = new PIXI.particles.Emitter( layer, sprites, options )
+        emitter.emit = true
+        this.objects.push(emitter)
     }
 }
 

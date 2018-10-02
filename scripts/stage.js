@@ -9,7 +9,7 @@ class Stage extends Scene { // stage for menues, levels etc.
     constructor(manager, superScene) {
         super(manager, superScene)
         this.animations = null
-        this.emitters = []
+        this.objects = [] // all game objects
     }
 
     start() {}
@@ -20,7 +20,7 @@ class Stage extends Scene { // stage for menues, levels etc.
         super.update(delta)
         if (this.paused) {return}
         if (this.animations) { this.animations.update(delta) }
-        // for (let e of this.emitters) { e.update(delta) }
+        for (let o of this.objects) { o.update(delta) }
     }
 
 

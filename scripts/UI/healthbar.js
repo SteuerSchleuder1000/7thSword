@@ -87,6 +87,7 @@ class Healthbar_Hero extends Healthbar {
         if (d < 0) { this.damageAnimation(magnitude)}
         if (d > 0) { this.healAnimation(magnitude) }
     }
+    
 
     damageAnimation(magnitude) { 
         this.animations.shake(this.sprite, {time: 0.5, magnitude: magnitude})

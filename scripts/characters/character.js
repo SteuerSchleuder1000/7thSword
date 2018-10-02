@@ -1,48 +1,6 @@
 
 
 
-let e_combatStates = {
-    idle: 0,
-    casting: 1,
-    performing: 2, // performing attack/ animation
-    recovering: 3,
-    blocking: 4,
-    defeated: 5,
-    waiting: 6,
-}
-
-
-let e_soundIDs = {
-    intro: 0,
-    idle: 1,
-    cast: 2,
-    perform: 3,
-    execute: 4,
-    recover: 5,
-    block_start: 6,
-    block: 7,
-    block_super: 8,
-    takeDamage: 9,
-    armor: 10,
-    weapon: 11,
-    death: 12,
-
-    properties: {
-        0: 'intro',
-        1: 'idle',
-        2: 'cast',
-        3: 'perform',
-        4: 'execute',
-        5: 'recover',
-        6: 'block_start',
-        7: 'block',
-        8: 'block_super',
-        9: 'takeDamage',
-        10: 'armor',
-        11: 'weapon',
-        12: 'death',
-    }
-}
 
 
 class Character extends Scene {
@@ -320,7 +278,7 @@ class Character extends Scene {
 
     changeHealthBy(d) {
         this.stats.changeHealthBy(d)
-        if (this.healthbar) { this.healthbar.updateHealth(d, this.stats.health) }
+        this.healthbar.updateHealth(d)
     }
 
     changeComboBy(d) {
@@ -330,18 +288,20 @@ class Character extends Scene {
 
     changeEnergyBy(d) {
         this.stats.changeEnergyBy(d)
-        this.healthbar.updateCombo()
+        //this.healthbar.updateEnergy() // maybe later?
     }
 
 
 
-    // reset() { 
-    //     this.buffs = []
-    //     this.stats.reset()
-    // }
+    reset() { 
+        this.buffs = []
+        this.stats.reset()
+        this.idle()
+    }
 
     addBuff(buff) { this.buffs.push(buff) }
-    remove(buff) {
+
+    removeBuff(buff) {
         let idx = this.buffs.indexof(buff)
         if (idx != -1) { this.buffs.splice(idx, 1)}
     }
