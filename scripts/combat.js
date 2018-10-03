@@ -8,29 +8,45 @@ class Combat {
         //this.hero = this.manager.hero
         this.enemies = []
         this.log = []
-        this.running = false
+        this.shouldUpdate = false
     }
 
     start() { 
-        this.running = true
-        for (let e of this.enemies) { e.healthbar.show() }
+        this.shouldUpdate = true
+        for (let e of this.enemies) { 
+            e.healthbar.show()
+            e.setTarget()
+        }
+        this.hero.setTarget()
     }
-    end() { this.running = false }
+
+    end() { this.shouldUpdate = false }
 
     addEnemy(enemy) {
         this.enemies.push(enemy)
+        if(this.hero) { this.hero.setTarget() }
+    }
+
+    removeEnemy(enemy) {
+        let idx = this.enemies.indexOf(enemy)
+        if (idx != -1) { 
+            this.enemies.splice(idx,1) 
+            for (let e of this.enemies) { e.setTarget() }
+            this.hero.setTarget()
+        }
+        else { console.log('ERROR: Enemy could not be found in enemies',this)}
     }
 
     addHero( hero ) {
         this.hero = hero
-        this.hero.target = this.enemies[0]
+        // this.hero.setTarget()
+        // this.hero.target = this.enemies[0]
     }
 
     update(delta) {
-        if ( !this.running ) { return }
+        if ( !this.shouldUpdate ) { return }
 
         for (let e of this.enemies) { e.update(delta) }
-
         this.hero.update(delta)
         
     }
@@ -44,7 +60,5 @@ class Combat {
         target.takeDamage(damage, ability, caster)
 
     }
-
-    sortStack() {}
 
 }

@@ -96,7 +96,7 @@ class Attack_Fireball extends Ability {
             options,//emitterOptions_sparks
         )
         this.fireball.emit = false
-        this.emitters.push(this.fireball)
+        this.objects.push(this.fireball)
         this.emitterOptions = options
         this.manager.manager.zSort()
     }

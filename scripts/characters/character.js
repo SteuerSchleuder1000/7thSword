@@ -58,6 +58,9 @@ class Character extends Scene {
 
     update(delta) {
         super.update(delta) // updates all abilites && buffs
+        this.animations.update(delta)
+
+        //if (this.combat.shouldUpdate) { return } // if combat not running don't update comabt stats
 
         switch (this.state) {
 
@@ -96,11 +99,10 @@ class Character extends Scene {
         for (let a of this.abilities) { a.update(delta) }
         for (let b of this.buffs) { b.update(delta) }
         if (this.healthbar) {this.healthbar.update(delta)}
-        this.animations.update(delta)
     }
 
     decide() {}
-
+    setTarget() {} // decides target
 
     cast(ability) {
         // check if valid order
@@ -321,6 +323,13 @@ class Character extends Scene {
             x: this.x, y: this.y, z: this.z,
             addToScene: true,
         })
+    }
+
+    removeFromScene() {
+        super.removeFromScene()
+        for (let a of this.abilities) { a.removeFromScene() }
+        for (let b of this.buffs) { b.removeFromScene() }
+        this.shouldUpdate = false
     }
 
     scaleSprite(scale) {

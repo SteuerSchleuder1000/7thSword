@@ -19,7 +19,12 @@ class Enemy extends Character {
 
     hideHealthbar() {this.healthbar.hide() }
 
-    
+    setTarget() { 
+        if (this.combat.hero) { 
+            this.target = this.combat.hero
+            if (this.castingAbility) { this.castingAbility.target = this.target }
+        }
+    }
 
 }
 

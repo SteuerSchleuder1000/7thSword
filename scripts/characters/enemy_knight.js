@@ -8,7 +8,7 @@ class Enemy_Knight extends Enemy {
 
         // Stats
         this.stats = new Stats({
-            health: 200, 
+            health: 100, 
             power: 30,
         })
 
@@ -58,13 +58,13 @@ class Enemy_Knight extends Enemy {
     } // constructor
 
 
-    startPerforming() {
-        //this.sounds.perform.play()
+    setup() {
+        super.setup()
+        // this.animations.breathing(this.sprite) // find a better setup
     }
 
-
     decide() {
-        console.log('decide', this.stats.combo)
+        //console.log('decide', this.stats.combo)
         this.target = this.combat.hero
         let idle0 = this.abilities[0].state == e_abStates.idle
         let idle1 = this.abilities[1].state == e_abStates.idle

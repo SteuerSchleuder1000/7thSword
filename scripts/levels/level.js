@@ -35,6 +35,27 @@ let e_levelStates = {
 }
 
 
+class Progress { // state for statemachine
+    constructor(args) {
+        this.c = 0              // counter
+        this.n =        args.n  // number of adds
+        this.entry =    args.entry 
+        this.exit =     args.exit  
+        this.keyNext =  args.next // next key
+        this.onTime =   args.onTime || false // if true -> eval will ++this.c
+
+        if (!this.entry) {this.entry = ()=>{}}
+        if (!this.exit)  {this.exit = ()=>{}}
+    }
+
+    add (c=1) { this.c += c } // progress
+    eval (delta) { 
+        if (this.onTime) { this.c += delta }
+        return this.c >= this.n 
+    }
+}
+
+
 class Level extends Stage {
     constructor(manager, superScene) {
         super(manager, superScene)
@@ -51,6 +72,7 @@ class Level extends Stage {
 
     update(delta) {
         super.update(delta)
+        if (!this.shouldUpdate) { return }
         // switch (this.state) {
         //     case e_levelStates.watiting:
         //         thist.t -= delta
@@ -99,6 +121,7 @@ class Level extends Stage {
     end () {}
 
     restartLevel() {
+        console.log('restart level')
         this.end()
         this.manager.restartLevel()
     }

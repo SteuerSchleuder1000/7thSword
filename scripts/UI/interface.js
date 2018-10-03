@@ -102,7 +102,7 @@ class Interface extends Scene {
 
     restartLevel() { this.manager.restartLevel() }
 
-    greyOut(b) { for (let btn of this.buttons) { btn.sprite.alpha = b ? 0.5 : 1.0 } }
+    greyOut(b) { for (let btn of this.buttons) { btn.sprite.alpha = b ? 0.5 : 1 } }
     
 
     update(delta) { 

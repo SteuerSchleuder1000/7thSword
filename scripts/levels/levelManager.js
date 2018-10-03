@@ -31,6 +31,7 @@ class LevelManager extends StageManager {
     }
 
     restartLevel() {
+        this.state.current.removeFromScene()
         this.state.current = null
         this.loadLevel(this.state.currentID)
         this.transition(this.state.currentID)

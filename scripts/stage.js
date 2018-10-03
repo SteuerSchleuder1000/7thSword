@@ -18,7 +18,7 @@ class Stage extends Scene { // stage for menues, levels etc.
 
     update(delta) {
         super.update(delta)
-        if (this.paused) {return}
+        // if (this.paused) {return}
         if (this.animations) { this.animations.update(delta) }
         for (let o of this.objects) { o.update(delta) }
     }

@@ -111,6 +111,8 @@ class Hero extends Character {
     startIdle() {
         if (this.sprite) {this.sprite.tint = 0xFFFFFF}
         this.interface.greyOut(false)
+        if (this.blockSfx.visible) { this.blockSfx.visible = false }
+        this.setTarget() 
     }
 
     setup() {
@@ -136,6 +138,7 @@ class Hero extends Character {
             addToScene: true,
         })
 
+        this.animations.breathing(this.sprite)
     }
 
     takeDamage(damage, ability, caster) {
@@ -148,6 +151,19 @@ class Hero extends Character {
 
         } 
     }// take Damage
+
+    setTarget() {
+        if (!this.combat) { return }
+        let idx = this.combat.enemies.indexOf(this.target)
+        if (idx == -1) { 
+            let enemies = this.combat.enemies
+            // console.log('set target, idx:',idx, 'target:',this.target, 'enemies',enemies, 'enemies.length',enemies.length)
+
+            if (enemies.length > 0) { this.target = this.combat.enemies[0] }
+            else { this.target = null }
+            // console.log('new target:',this.target)
+        }
+    }
 }// hero
 
 

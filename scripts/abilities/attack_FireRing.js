@@ -90,7 +90,7 @@ class Attack_Firering extends Ability {
             options,//emitterOptions_sparks
         )
         this.fireRing.emit = false
-        this.emitters.push(this.fireRing)
+        this.objects.push(this.fireRing)
         this.emitterOptions = options
         this.manager.manager.zSort()
     }

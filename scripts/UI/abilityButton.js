@@ -144,8 +144,10 @@ class AbilityButton extends Scene {
         this.addSprite(layer)
 
         layer.position.z = e_zIndex.interface - 0.1
-        options.pos.x = this.sprite.position.x + 0.5*btnWidth //WIDTH/2
-        options.pos.y = this.sprite.position.y + 0.5*btnWidth //HEIGHT/2
+        options.pos.x = this.sprite.position.x //+ 0.5*btnWidth //WIDTH/2
+        options.pos.y = this.sprite.position.y //+ 0.5*btnWidth //HEIGHT/2
+        options.spawnRect.w = btnWidth*1.2
+        options.spawnRect.h = btnWidth*1.2
         options.emitterLifetime = 0.2
         this.sparksEmitter = new PIXI.particles.Emitter( 
             layer, 

@@ -51,7 +51,7 @@ class Ability extends Scene {
 
 
         this.animations = new Animations()
-        this.emitters = []
+        this.objects = []
         this.animationType = e_animationTypes.melee
         this.sounds = {}
     }
@@ -92,7 +92,7 @@ class Ability extends Scene {
         if (this.btn) { this.btn.update(delta) }
 
         this.animations.update(delta)
-        for (let e of this.emitters) { e.update(delta) }
+        for (let obj of this.objects) { obj.update(delta) }
     }
 
 
@@ -175,7 +175,7 @@ class Ability extends Scene {
         this.idle()
         //this.manager.cancelAbility() // !!! watch out for recursion
         this.animations.removeAll()
-        for (let e of this.sfxElements) { e.destroy() } // elements need .destroy method!!!
+        for (let obj of this.objects) { obj.destroy() } // elements need .destroy method!!!
     }
 
     playSound(soundID) {
@@ -189,7 +189,13 @@ class Ability extends Scene {
             return this.sounds[key].stop() 
         }
 
-        for (let key of Object.keys(this.sounds)) { this.sounds[key].stop() }
+        
+    }
+
+    removeFromScene() { 
+        super.removeFromScene() 
+        for (let obj of this.objects) { obj.destroy() }
+        // remove emitters
     }
 }
 

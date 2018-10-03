@@ -22,16 +22,23 @@ Todo:
     - game feel -> timers, animation, sound
 
     - sounds                    x
-    - emitter: fireball, sparks   x
+    - emitter: fireball, sparks x
     - emitter glow
     - rudimentary combat menu -> dev menu -> js console // dom element
-    - combat system
     - buff system               x
     - decisiontree 1            x
-    - level progression
-    - add enemies
+    - level progression         x
+    - load/ remove enemies
+    - design level 003
+    - class design             
+
+    - design enemies
     - coordinate system
-    - improve character animation !!
+    - improve character animation
+    - loot system        
+    - indexedDB
+    - Character menu
+
     
 
 
@@ -47,6 +54,15 @@ Todo:
 
         - multiple enemies
         -> priority?
+
+    - Swords
+        - Ember Blade
+        - Horizon Blade
+        - Mist Blade
+        - Ashen Blade
+        - Dawn Blade
+        - Moon Blade
+        - 
 */
 
 let currentLevel = null // for easy acces in console

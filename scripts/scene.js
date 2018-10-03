@@ -7,10 +7,11 @@ class Scene { // any game object with sprites
         this.assets = []
         this.loaded = false
         this.manager = manager
-        this.paused = false
+        this.shouldUpdate = true
         this.scene = new Container()
         this.scene.visible = false
         this.superScene = superScene
+        this.sounds = {}
 
         if (addToSuperScene) { this.superScene.addChild(this.scene) }
     }
@@ -18,8 +19,11 @@ class Scene { // any game object with sprites
     createSprite(opt) {
 
         let url = opt.url
-        if (!(url in resources)) { console.log('ERROR url not in resources', url, resources); return}
-        let sprite = new Sprite(resources[url].texture)
+        let sprite
+
+        if (url in resources) { sprite = new Sprite(resources[url].texture) }
+        else { sprite = new PIXI.Sprite.fromImage(url) }
+        
 
         if ('alpha'     in opt)         { sprite.alpha = opt.alpha}
         if ('anchor'    in opt)         { sprite.anchor.set(opt.anchor[0],opt.anchor[1]) }
@@ -96,7 +100,7 @@ class Scene { // any game object with sprites
     }
 
 
-    pause(b=true) { this.paused = b}
+    // pause(b=true) { this.paused = b}
 
     loadingProgress(e,p) { // called while loading
         if(this.manager) { this.manager.loadingProgress(e,p)}
@@ -106,10 +110,15 @@ class Scene { // any game object with sprites
         // update emitters, animations etc.
     }
 
-    remove() { this.superScene.removeChild(this.scene)}    
+    removeFromScene() { 
+        this.superScene.removeChild(this.scene); 
+        this.stopAllSounds()
+    }    
 
     hide() { this.scene.visible = false}
     show() {this.scene.visible = true}
+
+    stopAllSounds() { for (let key of Object.keys(this.sounds)) { this.sounds[key].stop() } }
 }
 
 
