@@ -16,7 +16,6 @@ class Attack_Fireball extends Ability {
         super(manager, superScene, combat)
         
         this.name = 'fireball'
-        this.scene.name = 'fireball'
         this.description = 'Attacks with a single strike'
         this.animationType = e_animationTypes.spell
 
@@ -46,7 +45,7 @@ class Attack_Fireball extends Ability {
         this.fireball = null
         this.fireballLayer = null
         this.emitterOptions = null
-        loadJSON('assets/json/fireball.json',this.setupEmitter.bind(this))
+        //loadJSON('assets/json/fireball.json',this.setupEmitter.bind(this))
 
     }
 

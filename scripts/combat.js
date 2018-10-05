@@ -14,16 +14,20 @@ class Combat {
     start() { 
         this.shouldUpdate = true
         for (let e of this.enemies) { 
-            e.healthbar.show()
-            e.setTarget()
+            //e.healthbar.show()
+            //e.setTarget()
+            e.startCombat(this)
         }
-        this.hero.setTarget()
+        this.hero.startCombat(this)
+        //this.hero.setTarget()
     }
 
     end() { this.shouldUpdate = false }
 
     addEnemy(enemy) {
+
         this.enemies.push(enemy)
+        if (this.shouldUpdate) { enemy.startCombat(this) }
         if(this.hero) { this.hero.setTarget() }
     }
 
@@ -39,6 +43,7 @@ class Combat {
 
     addHero( hero ) {
         this.hero = hero
+        if (this.shouldUpdate) { this.hero.startCombat(this) }
         // this.hero.setTarget()
         // this.hero.target = this.enemies[0]
     }

@@ -29,6 +29,7 @@ class Stage extends Scene { // stage for menues, levels etc.
         if (this.loaded) { 
             this.scene.visible = true; 
             this.start()
+            currentLevel = this
         }
         else { 
             let callback = _=> { this.onEntry() }

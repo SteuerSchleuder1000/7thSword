@@ -3,9 +3,9 @@
 
 class Hero extends Character {
 
-    constructor(manager, superScene, combat) {
+    constructor(manager, args) {
 
-        super(manager, superScene, combat)
+        super(manager)//, superScene, combat)
         this.scene.position.z = e_zIndex.hero
         this.name = 'Hero'
         this.playerControlled = true
@@ -20,11 +20,12 @@ class Hero extends Character {
 
 
         // Abilities
+        this.abilityIDs = args.abilityIDs
         this.abilities = [
-            new Attack_Fireball(this, superScene, combat),
-            new Attack_Swipe(this, superScene , combat), // 
+            new Attack_Fireball(this),//, superScene, combat),
+            new Attack_Swipe(this),//, superScene , combat), // 
             //new Attack_Emberblade(this, superScene , combat),
-            new Attack_Choice(this, superScene , combat),
+            new Attack_Choice(this),//, superScene , combat),
         ]
 
 
@@ -45,15 +46,16 @@ class Hero extends Character {
 
         // Sounds
         let volume = SETTINGS.sound.volume
+        let path = 'assets/sounds/'
         this.sounds = {
-            cast:                   new Howl({src: 'assets/sounds/hero/grunt3.ogg', volume: volume}),
-            perform:                new Howl({src: 'assets/sounds/hero/attack1.ogg', volume: volume}),
-            execute:                new Howl({src: 'assets/sounds/hero/grunt1.ogg', volume: volume}),
+            cast:                   new Howl({src: path+'hero/grunt3.ogg', volume: volume}),
+            perform:                new Howl({src: path+'hero/attack1.ogg', volume: volume}),
+            execute:                new Howl({src: path+'hero/grunt1.ogg', volume: volume}),
             takeDamage:             new Howl({src: ['assets/sounds/hero/wound1.ogg','assets/sounds/hero/wound4.ogg'], volume: volume}),
-            block:                  new Howl({src: 'assets/sounds/block1.ogg', volume: volume}),
-            block_super:            new Howl({src: 'assets/sounds/clank.wav', volume: volume}),
-            armor:                  new Howl({src: 'assets/sounds/armor1.ogg', volume: volume}),
-            death:                  new Howl({src: 'assets/sounds/hero/death1.ogg', volume: volume}),
+            block:                  new Howl({src: path+'block1.ogg', volume: volume}),
+            block_super:            new Howl({src: path+'clank.wav', volume: volume}),
+            armor:                  new Howl({src: path+'armor1.ogg', volume: volume}),
+            death:                  new Howl({src: path+'hero/death1.ogg', volume: volume}),
 
         }
               
@@ -115,8 +117,40 @@ class Hero extends Character {
         this.setTarget() 
     }
 
-    setup() {
+    // setup(args) {
 
+    //     args = args || {}
+    //     console.log('add to scene',this)
+
+    //     this.blockSfx = this.createSprite({
+    //         name: 'shield',
+    //         url: 'assets/shieldcomb.png',
+    //         anchor: [0.5,0.5],
+    //         scale: 0.5,
+    //         x: WIDTH*0.45, 
+    //         y: HEIGHT*0.7, 
+    //         z: this.z-0.1,
+    //         addToScene: true,
+    //         visible: false,
+    //     })
+
+
+    //     this.sprite = this.createSprite({
+    //         name: this.name,
+    //         url: this.assets[0],
+    //         anchor: [0.5, 1],
+    //         //x: this.x, y: this.y, z: this.z,
+    //         x: args.x, y: args.y, z: args.z,
+    //         height: args.height,
+    //         addToScene: true,
+    //     })
+
+    //     this.animations.breathing(this.sprite)
+    // }
+
+
+    start() { 
+        this.animations.breathing(this.sprite)
         this.blockSfx = this.createSprite({
             name: 'shield',
             url: 'assets/shieldcomb.png',
@@ -128,18 +162,7 @@ class Hero extends Character {
             addToScene: true,
             visible: false,
         })
-
-
-        this.sprite = this.createSprite({
-            name: this.name,
-            url: this.assets[0],
-            anchor: [0.5, 1],
-            x: this.x, y: this.y, z: this.z,
-            addToScene: true,
-        })
-
-        this.animations.breathing(this.sprite)
-    }
+     }
 
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
@@ -157,12 +180,24 @@ class Hero extends Character {
         let idx = this.combat.enemies.indexOf(this.target)
         if (idx == -1) { 
             let enemies = this.combat.enemies
-            // console.log('set target, idx:',idx, 'target:',this.target, 'enemies',enemies, 'enemies.length',enemies.length)
 
             if (enemies.length > 0) { this.target = this.combat.enemies[0] }
             else { this.target = null }
-            // console.log('new target:',this.target)
         }
+    }
+
+    frontView() {
+        this.animate('frontView')
+    }
+
+    save() {
+        let saveState = {
+            stats: this.stats,
+            abilityIDs: this.abilityIDs,
+            // the rest
+        }
+
+        saveHero(saveState)
     }
 }// hero
 

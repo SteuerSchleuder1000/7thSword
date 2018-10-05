@@ -15,7 +15,7 @@ class Attack_Basic extends Ability {
 
 
     constructor(manager, superScene, combat) {
-        super(manager, superScene, combat)
+        super(manager)//, superScene, combat)
         
         this.name = 'Basic Attack'
         this.description = 'Attacks with a single strike'

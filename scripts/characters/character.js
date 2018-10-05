@@ -4,25 +4,30 @@
 
 
 class Character extends Scene {
-    constructor(manager, superScene, combat) {
-        super(manager, superScene)
-        this.scene.visible = true
-        this.scene.position.z = e_zIndex.character
-        this.combat = combat
+    constructor(manager, args) {//, superScene, combat) {
+        super(manager)//, superScene)
+        args = args || {}
+
+        //this.scene.visible = true
+        //this.combat = combat        
+
+
+
+        this.sprite = null
+        this.stats = args.stats || new Stats()
+        this.assets = [] // images
+        this.buffs = []
+        this.frames = {} // animatino frames
+        this.sounds = {}
+        this.abilityIDs = args.abilityIDs || []
+        this.abilities = []
+        this.initAbilities()
+        
+
 
         this.name = ''
         this.state = e_combatStates.idle
         this.animations = new Animations()
-        
-
-        this.sprite = null
-        this.stats = new Stats()
-        this.assets = [] // images
-        this.frames = {} // animatino frames
-        this.sounds = {}
-        this.abilities = []
-        this.buffs = []
-
 
 
         this.x = 0
@@ -30,37 +35,86 @@ class Character extends Scene {
         this.z = 0
         this.t = 0 // cast bar
         this.t_superBlock = 0.5 // counts how long its been blocking
-
-
         this.t_recovery = 0.5 // normal recovery time
+        
+        
+        this.playerControlled = false
+        this.inCombat = false
+
+        this.healthbar = null
         this.target = null // in combat
         this.castingAbility = null // what ability is he casting?
-        this.playerControlled = false
-        this.healthbar = null
 
     }
 
-   
 
-    setPosition(x,y,z) {
-        this.x = x
-        this.y = y
-        this.z = z
-        if (this.sprite) {
-            if (x != undefined) { this.sprite.position.x = x}
-            if (y != undefined) { this.sprite.position.y = y}
-            if (z != undefined) { this.scene.position.z = z}
+    addToScene(args) {
+        console.log('addToScene')
+        args = args || {}
+
+        this.superScene = args.scene
+        this.scene.position.z = args.z || e_zIndex.character
+        this.superScene.addChild(this.scene)
+
+        this.sprite = this.createSprite({
+            name: this.name,
+            url: this.assets[0],
+            anchor: [0.5, 1],
+            height: args.height,
+            //x: this.x, y: this.y, z: this.z,
+            x: args.x, y: args.y, z:args.z,
+            addToScene: true,
+        })
+
+        for (let a of this.abilities) { a.addToScene(this.scene) }
+        this.start()
+    }
+
+
+
+    start() {} // start after added to scene
+
+    initAbilities() {
+        for (let i of this.abilityIDs) {
+            let a = e_attacks.init[i](this)
+            this.abilities.push(a)
+            this.assets.push(a.assets)
         }
-    }  
+    }
+
+    startCombat(combat) {
+        this.combat = combat
+        this.inCombat = true
+        for (let a of this.abilities) { a.combat = combat }
+        this.idle()
+        this.setTarget()
+        if(this.healthbar) {this.healthbar.show()}
+        // this.healthbar.show()
+    
+    }
+
+    endCombat() { this.inCombat = false }
+
+    // setPosition(x,y,z) {
+    //     this.x = x
+    //     this.y = y
+    //     this.z = z
+    //     if (this.sprite) {
+    //         if (x != undefined) { this.sprite.position.x = x}
+    //         if (y != undefined) { this.sprite.position.y = y}
+    //         if (z != undefined) { this.scene.position.z = z}
+    //     }
+    // }  
     
 
    
 
     update(delta) {
-        super.update(delta) // updates all abilites && buffs
+        super.update(delta) // updates all abilities && buffs
         this.animations.update(delta)
 
-        //if (this.combat.shouldUpdate) { return } // if combat not running don't update comabt stats
+        if (!this.inCombat) { return }
+
 
         switch (this.state) {
 
@@ -227,6 +281,12 @@ class Character extends Scene {
                 texture = resources[url].texture
                 this.sprite.texture = texture
                 break;
+
+            case 'frontView':
+                url = this.frames.front
+                texture = resources[url].texture
+                this.sprite.texture = texture
+                break;
         }
     }
 
@@ -295,11 +355,11 @@ class Character extends Scene {
 
 
 
-    reset() { 
-        this.buffs = []
-        this.stats.reset()
-        this.idle()
-    }
+    // reset() { 
+    //     this.buffs = []
+    //     this.stats.reset()
+    //     this.idle()
+    // }
 
     addBuff(buff) { this.buffs.push(buff) }
 
@@ -315,15 +375,7 @@ class Character extends Scene {
         this.recover()
     }
 
-    setup() {
-        this.sprite = this.createSprite({
-            name: this.name,
-            url: this.assets[0],
-            anchor: [0.5, 1],
-            x: this.x, y: this.y, z: this.z,
-            addToScene: true,
-        })
-    }
+    
 
     removeFromScene() {
         super.removeFromScene()

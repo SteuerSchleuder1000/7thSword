@@ -99,7 +99,7 @@ class Level extends Stage {
     onEntry() {
         if (!this.loaded) { this.concatAssets() }
         super.onEntry()
-        currentLevel = this
+        // currentLevel = this
     }
 
     concatAssets() { // !!! more general implementation
@@ -108,6 +108,7 @@ class Level extends Stage {
         if(this.hero) { this.assets = this.assets.concat(this.hero.assets) }
         if(this.bg) { this.assets = this.assets.concat(this.bg.assets) }
         for (let e of this.characters) {
+            if (!e) { console.log('ERROR character undefined'); continue }
             this.assets = this.assets.concat(e.assets)
         }
 

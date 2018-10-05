@@ -9,11 +9,11 @@ class Scene { // any game object with sprites
         this.manager = manager
         this.shouldUpdate = true
         this.scene = new Container()
-        this.scene.visible = false
+        //this.scene.visible = false // default invisible?
         this.superScene = superScene
         this.sounds = {}
 
-        if (addToSuperScene) { this.superScene.addChild(this.scene) }
+        if (addToSuperScene && this.superScene) { this.superScene.addChild(this.scene) }
     }
 
     createSprite(opt) {

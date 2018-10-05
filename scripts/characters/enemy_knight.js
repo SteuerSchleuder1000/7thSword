@@ -58,10 +58,10 @@ class Enemy_Knight extends Enemy {
     } // constructor
 
 
-    setup() {
-        super.setup()
-        // this.animations.breathing(this.sprite) // find a better setup
-    }
+    // setup() {
+    //     super.setup()
+    //     // this.animations.breathing(this.sprite) // find a better setup
+    // }
 
     decide() {
         //console.log('decide', this.stats.combo)

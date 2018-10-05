@@ -66,7 +66,13 @@ function keyboard(keyCode) {
 
 
 
+let checkSprite = (sprite,rec)=>{
 
+    console.log('-|'.repeat(rec) + ' ' + sprite.name)
+
+    let children = sprite.children
+    for (let s of children) { checkSprite(s,rec+1)}
+}
 
 
 

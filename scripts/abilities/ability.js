@@ -14,7 +14,23 @@ let e_animationTypes = {
     spell: 1,
 }
 
+let e_attacks = {
+    basic:          0,
+    choice:         1,
+    emberblade:     2,
+    fireball:       3,
+    fireRing:       4,
+    swipe:          5,
 
+    init: {
+        0: (m) => {return new Attack_Basic(m) },
+        1: (m) => {return new Attack_Choice(m) },
+        2: (m) => {return new Attack_Emberblade(m) },
+        3: (m) => {return new Attack_Fireball(m) },
+        4: (m) => {return new Attack_FireRing(m) },
+        5: (m) => {return new Attack_Swipe(m) },
+    },
+}
 
 /*
                                            execute(),
@@ -27,13 +43,14 @@ State:  idle    |   casting    |  performing  |  recovering  |   idle
 
 
 
-class Ability extends Scene {
-    constructor(character, superScene, combat) { // manager == character
+class Ability {
+    constructor(manager){//, superScene, combat) { // manager == character
 
-        super(character, superScene, false)
+        //super(character, superScene, false)
         //this.scene.position.z = this.character.scene.position.z
-        this.combat = combat
-        this.target = null
+        //this.combat = combat
+        
+        this.manager = manager
 
         this.state = e_abStates.idle
 
@@ -48,7 +65,8 @@ class Ability extends Scene {
 
         this.t = 0 // used for all
         this.btn = null // only for hero
-
+        this.combat = null // will be synced once character is added to comabt
+        this.target = null
 
         this.animations = new Animations()
         this.objects = []
@@ -56,6 +74,7 @@ class Ability extends Scene {
         this.sounds = {}
     }
 
+    addToScene(scene) { this.superScene = scene }
 
     update(delta) {
         this.t = Math.max(this.t, 0)

@@ -53,8 +53,8 @@ class Level_002 extends Level {
 
 
         // characters
-        this.knight = new Enemy_Knight(this, this.scene, this.combat)
-        this.characters = [this.knight]
+        let knight = new Enemy_Knight(this)//, this.scene, this.combat)
+        this.characters = [knight]
 
 
         // Special assets: only for special effects etc.! the rest init via this.concatAssets()
@@ -118,31 +118,12 @@ class Level_002 extends Level {
         this.bg.setup()
         this.interface.setup()
         
-        // let x = 0.7*WIDTH
-        // let y = 0.8*HEIGHT
-        // for (let c of this.characters) {
-        //     c.setPosition(x, y, e_zIndex.character)
-        //     c.setup()
-        //     c.fixHeight(HEIGHT*0.48)
-        // }
-
-        // this.knight.setPosition(0.7*WIDTH,0.8*HEIGHT,e_zIndex.character)
-        // this.knight.setup() // creates sprite and adds
-        // // this.knight.scaleSprite(this.knight.sprite.height/HEIGHT)
-        // this.knight.fixHeight(HEIGHT*0.48)
-        // this.animations.breathing(this.knight.sprite)
         
 
         this.addEnemy()
         
-        this.hero.setup()
-        // this.hero.scaleSprite(this.hero.sprite.height/HEIGHT)
-        this.hero.fixHeight(HEIGHT*0.7)
-        this.hero.setPosition(0.25*WIDTH,HEIGHT*1.0, e_zIndex.hero)
-        // this.animations.breathing(this.hero.sprite)
-
-
-        //this.combat.addEnemy(this.knight)
+        this.hero.addToScene({scene: this.scene, x: 0.25*WIDTH, y: 1.0*HEIGHT, z: e_zIndex.hero, height: 0.7*HEIGHT})
+        
         this.combat.addHero(this.hero)
 
         // this.weather(e_weather.rain2, e_zIndex.character - 0.1)
@@ -179,10 +160,10 @@ class Level_002 extends Level {
     addEnemy() {
         let x = 0.7*WIDTH
         let y = 0.8*HEIGHT
-        let knight = new Enemy_Knight(this, this.scene, this.combat)
-        knight.setPosition(x,y,e_zIndex.character)
-        knight.setup()
-        knight.fixHeight(HEIGHT*0.48)
+        let knight = new Enemy_Knight(this)//, this.scene, this.combat)
+        knight.addToScene({x:x, y:y, z:e_zIndex.character, height: 0.48*HEIGHT, scene: this.scene})
+        // knight.setup()
+        // knight.fixHeight(HEIGHT*0.48)
         this.combat.addEnemy(knight)
     }
 
@@ -256,6 +237,8 @@ class Level_002 extends Level {
                     this.addEnemy()
                     this.progress.combat.add()
                     console.log('progress',this.progress.combat)
+                    this.hero.save()
+                    // this.quest.save()
                 }
                 break;
 

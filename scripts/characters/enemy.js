@@ -17,6 +17,8 @@ class Enemy extends Character {
         this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.7, HEIGHT*0.39)
     }
 
+    start () { this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.7, HEIGHT*0.39) }
+
     hideHealthbar() {this.healthbar.hide() }
 
     setTarget() { 

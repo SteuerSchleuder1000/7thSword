@@ -28,7 +28,9 @@ Todo:
     - buff system               x
     - decisiontree 1            x
     - level progression         x
-    - load/ remove enemies
+    - load/ remove enemies      x
+    - load data
+    - load level 
     - design level 003
     - class design             
 
@@ -38,6 +40,10 @@ Todo:
     - loot system        
     - indexedDB
     - Character menu
+
+
+    - Screen transition
+    - Quest hub!!!
 
     
 
@@ -84,7 +90,9 @@ let e_gameStates = {
 
 class Game {
 
-    constructor() {
+    constructor(args) {
+
+        console.log('init game',args)
 
         this.scene = new Container()
         this.scene.name = 'Game'
@@ -112,8 +120,8 @@ class Game {
         
 
         this.loadingScreen(true)
-        // let callback = _=> { this.transition(e_gameStates.mainMenu, e_menues.introScreen); }
-        let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
+        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.introScreen); }
+        // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
         // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_000) } // test levl
 
         callback()

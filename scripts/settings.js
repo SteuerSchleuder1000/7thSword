@@ -40,13 +40,14 @@ let Container = PIXI.Container,
 
 
 let e_combatStates = {
-    idle: 0,
-    casting: 1,
+    idle: 0, // ready for attack
+    casting: 1, // charging up an attack
     performing: 2, // performing attack/ animation
-    recovering: 3,
-    blocking: 4,
-    defeated: 5,
-    waiting: 6,
+    recovering: 3, // recovering from an attack
+    blocking: 4, // blocks next opposing attack
+    defeated: 5, // is dead/ defeated
+    waiting: 6, // enemy waiting until next decision
+    dialog: 7, // talks or is talked to
 }
 
 

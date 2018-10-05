@@ -14,10 +14,9 @@ class Attack_Firering extends Ability {
 
 
     constructor(manager, superScene, combat) { // superScene = stage
-        super(manager, superScene, combat)
+        super(manager)//, superScene, combat)
         
         this.name = 'fireball'
-        this.scene.name = 'fireball'
         this.description = 'Attacks with a single strike'
         this.animationType = e_animationTypes.spell
 
@@ -46,7 +45,7 @@ class Attack_Firering extends Ability {
         this.firering = null
         this.fireringlLayer = null
         this.emitterOptions = null
-        loadJSON('assets/json/fireRing.json',this.setupEmitter.bind(this))
+        // loadJSON('assets/json/fireRing.json',this.setupEmitter.bind(this))
 
     }
 

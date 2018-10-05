@@ -1,0 +1,54 @@
+
+
+
+
+
+7th Sword
+
+
+
+
+Wthat is the "feel" this game wants to capture?
+
+Inspirations:
+
+- WoW -> grind, world design
+- Hearthstone -> texture design
+- clash royale -> UI
+- ninja slash -> UI
+
+- 
+
+How should the gameplay loop be? How to incorporate the story?
+
+possibilities:
+
+- map -> choose your destination and fulfill a quest
+- continuous scene after scene -> random
+- chapter selection
+- just story mode -> go
+
+
+UI design:
+
+    - List ?, Map ?, Button ?
+    - Quest hub design
+        - show quest list
+        - show quest giver
+        - show text
+        - show GO button
+
+
+
+
+
+Story
+
+
+Level 001
+A bounty hunter (you) hunts down a thief in the city of ____ 
+to retrieve a mysterious sword. The thief uses the sword and
+transforms.
+You defeat him and gain the EMBER BLADE
+
+L
