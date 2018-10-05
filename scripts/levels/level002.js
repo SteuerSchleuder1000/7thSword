@@ -23,7 +23,7 @@ let e_eventIDs =  {
 
 
 class Level_002 extends Level {
-    constructor(manager, superScene) {
+    constructor(manager, superScene, args) {
         console.log('level 002')
         super(manager, superScene)
         this.scene.name = 'First Fight lv002'
@@ -62,6 +62,9 @@ class Level_002 extends Level {
             'assets/raindrop.png',
         ]
 
+
+        // load from save file :
+        // this.progress = args.progress
         this.progress = {
             intro:      new Progress({ n: 1, entry: this.introAnimation,    next: 'dialog1'}),
             dialog1:    new Progress({ n: 1, entry: this.speech1,           next: 'combat'}),
@@ -72,6 +75,8 @@ class Level_002 extends Level {
             current:    new Progress({ n: 1, next: 'intro'}),
             next:       ()=>{ this.progress.current = this.progress[this.progress.current.keyNext] },
         }
+
+
         
 
     }

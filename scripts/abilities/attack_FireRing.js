@@ -51,15 +51,15 @@ class Attack_Firering extends Ability {
 
     startCasting() {
 
-        this.fireringlLayer.position.x = this.manager.sprite.position.x + 0.0*WIDTH
-        this.fireringlLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
-        this.fireRing.emit = true
+        // this.fireringlLayer.position.x = this.manager.sprite.position.x + 0.0*WIDTH
+        // this.fireringlLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
+        // this.fireRing.emit = true
     }
 
 
     startPerforming() {
         
-        this.fireRing.emit = false
+        // this.fireRing.emit = false
     }
     
 

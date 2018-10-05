@@ -25,8 +25,8 @@ class Menu_LevelSelection extends Menu {
         
        
         this.bg.setup()
-        this.scene.interactive = true
-        this.scene.on('pointerdown', this.transition.bind(this))
+        // this.scene.interactive = true
+        // this.scene.on('pointerdown', this.transition.bind(this))
 
 
         this.hero.addToScene({x: 0.7*WIDTH, y: 0.81*HEIGHT, z: e_zIndex.character, height: HEIGHT*0.6, scene: this.scene})
@@ -34,8 +34,10 @@ class Menu_LevelSelection extends Menu {
 
 
         for (let i=0; i<5; i++) {
-            let btn = new QuestButton(this, this.scene)
-            btn.setup({x: 0.05*WIDTH, y: HEIGHT*0.3 + i*WIDTH*0.15, z: e_zIndex.interface, width: WIDTH*0.4})
+            let quest = new Quest()
+            let btn = new QuestButton(this, {quest:quest})
+            btn.addToScene({x: 0.05*WIDTH, y: HEIGHT*0.3 + i*WIDTH*0.15, z: e_zIndex.interface, width: WIDTH*0.4, scene: this.scene})
+            console.log('questButton',btn)
         }
 
         //this.questButton.setup()
@@ -57,7 +59,7 @@ class Menu_LevelSelection extends Menu {
         super.setup(callback)
     }
 
-    transition() {
+    transition(levelID) {
         // Level 1
         this.manager.loadLevel(e_levels.lv_002)
     }

@@ -52,9 +52,9 @@ class Attack_Fireball extends Ability {
     startCasting() {
 
 
-        this.fireballLayer.position.x = this.manager.sprite.position.x + 0.2*WIDTH
-        this.fireballLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
-        this.fireball.emit = true
+        // this.fireballLayer.position.x = this.manager.sprite.position.x + 0.2*WIDTH
+        // this.fireballLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
+        // this.fireball.emit = true
     }
 
 
@@ -63,14 +63,14 @@ class Attack_Fireball extends Ability {
         let callback = ()=> {fb.emit = false}
         let x = this.target.sprite.position.x
         let y = this.target.sprite.position.y - 0.15*HEIGHT
-        this.animations.move(this.fireballLayer,{time: this.t_perform, x: x, y: y, reset: true, callback: callback})
+        // this.animations.move(this.fireballLayer,{time: this.t_perform, x: x, y: y, reset: true, callback: callback})
 
     }
     
 
 
     startExecuting () {
-        this.fireball.emit = false
+        // this.fireball.emit = false
         //this.sound.stop()
         this.combat.dealDamage(this.power, this.target, this, this.manager)
     }

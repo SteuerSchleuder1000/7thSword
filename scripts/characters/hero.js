@@ -69,6 +69,7 @@ class Hero extends Character {
 
 
     block(b) {
+        if (!this.inCombat) {return}
         switch(this.state) {
             case e_combatStates.idle:
                 if (b) { super.block() }

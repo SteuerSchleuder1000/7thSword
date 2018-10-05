@@ -49,7 +49,6 @@ class Character extends Scene {
 
 
     addToScene(args) {
-        console.log('addToScene')
         args = args || {}
 
         this.superScene = args.scene

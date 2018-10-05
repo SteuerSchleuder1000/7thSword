@@ -10,9 +10,9 @@
 
 class Button extends Scene {
 
-    constructor(manager, superScene, assets) {
+    constructor(manager, assets) {
 
-        super(manager,superScene)
+        super(manager)
         this.scene.visible = true
         this.scene.position.z = e_zIndex.interface //e_zIndex.bg + 0.1
 
@@ -48,16 +48,17 @@ class Button extends Scene {
     // }
 
 
-    setup(x,y,z,width) {
+    addToScene(args) {
         
+        this.superScene = args.scene
         this.sprite = this.createSprite({
             name: 'buttonSprite',
             url: this.assets[0],
             anchor: [0.5,0.5],
-            width: width,
-            x: x,
-            y: y,
-            z: z,
+            width: args.width,
+            x: args.x,
+            y: args.y,
+            z: args.z,
             addToScene: true,
         })
 

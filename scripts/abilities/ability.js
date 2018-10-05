@@ -212,10 +212,12 @@ class Ability {
     }
 
     removeFromScene() { 
-        super.removeFromScene() 
         for (let obj of this.objects) { obj.destroy() }
-        // remove emitters
+        //this.superScene.removeChild(this.scene); 
+        this.stopAllSounds()
     }
+
+    stopAllSounds() { for (let key of Object.keys(this.sounds)) { this.sounds[key].stop() } }
 }
 
 

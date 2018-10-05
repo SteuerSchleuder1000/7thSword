@@ -57,7 +57,7 @@ class Progress { // state for statemachine
 
 
 class Level extends Stage {
-    constructor(manager, superScene) {
+    constructor(manager, superScene, args) {
         super(manager, superScene)
 
         this.interface = null
