@@ -1,18 +1,19 @@
 
 
-class Buff extends Scene{
+class Buff extends Scene{ // scene?
 
-    constructor(manager, superScene, combat, owner) {
-        super(manager, superScene)
+    constructor(target, superScene, combat, creator) {
+        super(target, superScene)
+        this.target = target
         this.combat = combat
-        this.owner = owner
+        this.creator = creator
 
         this.t_tick = 0
         this.n_ticks = 0
         this.t = 0
         this.n = 0
 
-        manager.addBuff(this)
+        target.addBuff(this)
     }
 
     update(delta) {
@@ -28,8 +29,9 @@ class Buff extends Scene{
     }
 
     tick() {}
+    end() {}
 
-    remove() { this.manager.removeBuff(this) }
+    remove() { this.end(); this.target.removeBuff(this) }
 }
 
 
@@ -37,8 +39,8 @@ class Buff extends Scene{
 
 class Buff_Burn extends Buff{
 
-    constructor(manager, superScene, combat, owner) {
-        super(manager, superScene, combat, owner)
+    constructor(target, superScene, combat, creator) {
+        super(target, superScene, combat, creator)
 
 
 
@@ -56,7 +58,7 @@ class Buff_Burn extends Buff{
 
     tick() {
         let damage = this.power
-        this.manager.takeDamage(damage, this, this.owner)
+        this.target.takeDamage(damage, this, this.creator)
     }
 
 
@@ -65,7 +67,11 @@ class Buff_Burn extends Buff{
 
 
 
-
+class Buff_Stun extends Buff {
+    constructor() {
+        super()
+    }
+}
 
 
 

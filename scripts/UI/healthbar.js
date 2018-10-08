@@ -41,7 +41,7 @@ class Healthbar_Hero extends Healthbar {
             width: hbWidth,
             anchor: (0, 0.5),
             x: 0.1*WIDTH,
-            y: 0.95*HEIGHT,
+            y: 0.95*HEIGHT,//0.95*HEIGHT,
             z: 3,
             addToScene: true,
         })
@@ -136,7 +136,7 @@ class Healthbar_Enemy { // added onto sprite
         this.superScene = superScene
         this.manager = manager
 
-        this.x = x | 0
+        this.x = x | 0 //-0.01*WIDTH
         this.y = y | 0
 
         let width = WIDTH*0.15

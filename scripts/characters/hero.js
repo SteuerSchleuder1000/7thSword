@@ -24,12 +24,13 @@ class Hero extends Character {
         this.abilities = [
             new Attack_Fireball(this),//, superScene, combat),
             new Attack_Swipe(this),//, superScene , combat), // 
-            //new Attack_Emberblade(this, superScene , combat),
+            new Attack_Emberblade(this),// superScene , combat),
             new Attack_Choice(this),//, superScene , combat),
         ]
 
 
         // Animation
+        let path = 'assets/images/hero/'
         this.frames = {
             idle:               'assets/images/hero/hero01.png',
             casting_melee:      'assets/images/hero/hero02.png',
@@ -40,13 +41,13 @@ class Hero extends Character {
             front:              'assets/images/hero/hero05.png',
 
             // sfx assets
-            blockSfx:           'assets/shieldcomb.png',
+            blockSfx:           'assets/images/hero/shieldcomb.png',
         }
 
 
         // Sounds
         let volume = SETTINGS.sound.volume
-        let path = 'assets/sounds/'
+        path = 'assets/sounds/'
         this.sounds = {
             cast:                   new Howl({src: path+'hero/grunt3.ogg', volume: volume}),
             perform:                new Howl({src: path+'hero/attack1.ogg', volume: volume}),
@@ -118,43 +119,14 @@ class Hero extends Character {
         this.setTarget() 
     }
 
-    // setup(args) {
-
-    //     args = args || {}
-    //     console.log('add to scene',this)
-
-    //     this.blockSfx = this.createSprite({
-    //         name: 'shield',
-    //         url: 'assets/shieldcomb.png',
-    //         anchor: [0.5,0.5],
-    //         scale: 0.5,
-    //         x: WIDTH*0.45, 
-    //         y: HEIGHT*0.7, 
-    //         z: this.z-0.1,
-    //         addToScene: true,
-    //         visible: false,
-    //     })
-
-
-    //     this.sprite = this.createSprite({
-    //         name: this.name,
-    //         url: this.assets[0],
-    //         anchor: [0.5, 1],
-    //         //x: this.x, y: this.y, z: this.z,
-    //         x: args.x, y: args.y, z: args.z,
-    //         height: args.height,
-    //         addToScene: true,
-    //     })
-
-    //     this.animations.breathing(this.sprite)
-    // }
+   
 
 
     start() { 
         this.animations.breathing(this.sprite)
         this.blockSfx = this.createSprite({
             name: 'shield',
-            url: 'assets/shieldcomb.png',
+            url: 'assets/images/hero/shieldcomb.png',
             anchor: [0.5,0.5],
             scale: 0.5,
             x: WIDTH*0.45, 

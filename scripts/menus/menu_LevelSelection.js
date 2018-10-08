@@ -1,16 +1,16 @@
 
 
 class Menu_LevelSelection extends Menu {
-    constructor(manager, superScene) {
+    constructor(manager, superScene, args) {
         super(manager, superScene)
         this.menuID = e_menus.levelSelect
         this.back = e_menus.introScreen
 
         let path = 'assets/images/backgrounds/'
-        this.bg = new Background(this, this.scene, path+'menuscreen.png')
+        this.bg = new Background(this, {assets: [path+'menuscreen.png']})
         this.assets.push(path+'menuscreen.png')
         
-        this.hero = new Hero(this, this.scene, null)
+        this.hero = args.hero //new Hero(this, this.scene, null)
         this.hero.state = e_combatStates.dialog // does not update comabt stuff
         this.assets = this.assets.concat(this.hero.assets)
 
@@ -24,7 +24,7 @@ class Menu_LevelSelection extends Menu {
     setup(callback) {
         
        
-        this.bg.setup()
+        this.bg.addToScene({scene:this.scene})
         // this.scene.interactive = true
         // this.scene.on('pointerdown', this.transition.bind(this))
 

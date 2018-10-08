@@ -2,21 +2,12 @@
 
 let e_eventIDs =  {
     defeat: 0,
+    dialog: 1,
 }
 
-
-/*
-    QUestions:
-        - How to update chars?
-        - What to pause, exit, disable combat
-        - remove enmey
-
-*/
-
-
-
-
-
+let textStyles = {
+    normal: {fontFamily : 'Garamond', fontSize: 24, align : 'center'},
+}
 
 
 
@@ -24,17 +15,20 @@ let e_eventIDs =  {
 
 class Level_002 extends Level {
     constructor(manager, superScene, args) {
-        console.log('level 002')
-        super(manager, superScene)
+        console.log('level 002',args)
+
+        args = args || {}
+        super(manager, superScene, args)
         this.scene.name = 'First Fight lv002'
+
         
 
         // standard
         this.combat = new Combat(this)
-        this.dialog = new Dialog()
-        this.animations = new Animations()
-        this.hero = this.manager.loadHero(this)
-        this.interface = new Interface(this, this.scene, this.hero)
+        this.dialog = new Dialog(this)
+
+        this.hero = args.hero //this.manager.loadHero(this)
+        this.interface = args.interface //new Interface(this, this.hero) //this.scene, this.hero)
         
 
         // sounds        
@@ -49,18 +43,19 @@ class Level_002 extends Level {
 
 
         // Background
-        this.bg = new Background(this,this.scene,'assets/forestbackground.png')
+        path = 'assets/images/backgrounds/'
+        this.bg = new Background(this,{assets: [path+'forestbackground.png']})
 
 
         // characters
-        let knight = new Enemy_Knight(this)//, this.scene, this.combat)
+        let knight = new Enemy_Knight(this)
         this.characters = [knight]
 
 
         // Special assets: only for special effects etc.! the rest init via this.concatAssets()
-        this.assets = [
-            'assets/raindrop.png',
-        ]
+        // this.assets = [
+        //     'assets/raindrop.png',
+        // ]
 
 
         // load from save file :
@@ -68,11 +63,11 @@ class Level_002 extends Level {
         this.progress = {
             intro:      new Progress({ n: 1, entry: this.introAnimation,    next: 'dialog1'}),
             dialog1:    new Progress({ n: 1, entry: this.speech1,           next: 'combat'}),
-            combat:     new Progress({ n: 3, entry: this.startCombat, exit: this.combat.end,       next: 'dialog2'}),
+            combat:     new Progress({ n: 3, entry: this.startCombat, exit: this.endCombat,       next: 'dialog2'}),
             dialog2:    new Progress({ n: 1, entry: this.speech2,           next: 'restart'}),
             restart:    new Progress({ n: 0, entry: this.restartLevel                       }),
 
-            current:    new Progress({ n: 1, next: 'intro'}),
+            current:    new Progress({ n: 1, next: 'intro'}), // load current via args.currentProgress
             next:       ()=>{ this.progress.current = this.progress[this.progress.current.keyNext] },
         }
 
@@ -120,9 +115,9 @@ class Level_002 extends Level {
 
     setup(callback) {
 
-        this.bg.setup()
-        this.interface.setup()
-        
+        this.bg.addToScene({scene: this.scene})
+        this.interface.addToScene({scene:this.scene})
+        this.dialog.addToScene({scene:this.scene})
         
 
         this.addEnemy()
@@ -146,12 +141,24 @@ class Level_002 extends Level {
 
     // Progression
 
-    introAnimation() {
+    introAnimation() { // general level method -> diverse selection
+
+        let time = 3
         this.interface.hide()
-        //this.knight.hideHealthbar()
         this.scene.position.x = -WIDTH*1.5
         let callback = ()=>{ this.progress.intro.add() }
-        this.animations.move(this.scene ,{time:3, x: WIDTH*0.0, y: 0, callback: callback})
+        this.animations.move(this.scene ,{time:time, x: WIDTH*0.0, y: -0.18*WIDTH, callback: callback})
+
+
+        // forground -> do via this.bg.introAnimationRight({time: time})
+        let tree = new PIXI.Sprite.fromImage('assets/images/backgrounds/tree.png')
+        tree.height = HEIGHT
+        tree.position.set(-WIDTH,0.1*HEIGHT)
+        tree.position.z = e_zIndex.interface - 0.1
+        this.addSprite(tree)
+        let callback2 = ()=> { tree.visible = false }
+        this.animations.move(tree, {time:time, x: WIDTH*2, y: 0, callback: callback2})
+        this.zSort()
     }
 
 
@@ -161,40 +168,49 @@ class Level_002 extends Level {
         this.dialog.hide()
     }
 
+    endCombat() {
+        this.combat.end()
+    }
+
+    startDialog() {
+        this.combat.end()
+        this.interface.hide()
+        this.dialog.show()
+    }
+
 
     addEnemy() {
         let x = 0.7*WIDTH
         let y = 0.8*HEIGHT
-        let knight = new Enemy_Knight(this)//, this.scene, this.combat)
+        let knight = new Enemy_Knight(this)
         knight.addToScene({x:x, y:y, z:e_zIndex.character, height: 0.48*HEIGHT, scene: this.scene})
-        // knight.setup()
-        // knight.fixHeight(HEIGHT*0.48)
         this.combat.addEnemy(knight)
     }
 
 
     speech1() {
-        this.interface.hide()
+
+        this.startDialog()
+        // add bubbles -> start
+        this.dialog.display('Who Dares Enter\nThese Woods?', textStyles.normal)
+
+
+        // this.interface.hide()
         //this.knight.hideHealthbar()
         // wait 1 sec
-        let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
-        let text = 'Who Dares Enter\nThese Woods?'
-        let sb = this.dialog.speechBubble(text,style)
-        this.addSprite(sb)
-        this.scene.interactive = true
-        let callback = ()=>{ 
-            this.progress.dialog1.add()
-            this.scene.interactive = false 
-        }
-        this.scene.on('pointerdown',callback.bind(this))
+        // let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
+        // let text = 'Who Dares Enter\nThese Woods?'
+        // let sb = this.dialog.speechBubble(text,style)
+        // this.addSprite(sb)
+        // this.scene.interactive = true
+        // let callback = ()=>{ 
+        //     this.progress.dialog1.add()
+        //     this.scene.interactive = false 
+        // }
+        // this.scene.on('pointerdown',callback.bind(this))
     }
 
-    displayQuest() {
-        /*
-            Display pergament with objective
-            text appears over time, quest slams onto paper
-        */
-    }
+   
 
     displayLoot() {
 
@@ -206,39 +222,44 @@ class Level_002 extends Level {
     }
 
 
-    speech2(won) {
-        this.interface.hide()
-        this.hero.idle()
-        //this.knight.idle()
-        //this.knight.hideHealthbar()
-        let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
-        let text = won ? 'I Will Have\nMy Revenge!' : 'Justice Has\nBeen Served!'
-        let sb = this.dialog.speechBubble(text,style)
-        this.addSprite(sb)
-        this.scene.interactive = true
-        let callback = ()=>{ 
-            this.progress.dialog1.add()
-            this.scene.interactive = false 
-        }
-        this.scene.on('pointerdown',callback.bind(this))
+    speech2() {
+
+        this.startDialog()
+        this.dialog.display('I Will Have\nMy Revenge!', textStyles.normal)
+
+
+        // this.interface.hide()
+        // this.hero.idle()
+        // //this.knight.idle()
+        // //this.knight.hideHealthbar()
+        // let style = {fontFamily : 'Garamond', fontSize: 24, align : 'center'}
+        // let text = won ? 'I Will Have\nMy Revenge!' : 'Justice Has\nBeen Served!'
+        // let sb = this.dialog.speechBubble(text,style)
+        // this.addSprite(sb)
+        // this.scene.interactive = true
+        // let callback = ()=>{ 
+        //     this.progress.dialog1.add()
+        //     this.scene.interactive = false 
+        // }
+        // this.scene.on('pointerdown',callback.bind(this))
     }
 
 
 
-    event(eventID, options) {
-        options = options || {}
+    event(eventID, trigger) {
+        trigger = trigger || {}
         switch(eventID) {
             case e_eventIDs.defeat:
 
-                if (options.name == 'Hero') { 
+                if (trigger.name == 'Hero') { 
                     console.log('YOU LOST') 
                     this.combat.end()
                     this.restartLevel()
                 }
-                if (options.name == 'Knight') { 
+                if (trigger.name == 'Knight') { 
                     console.log('YOU WON')
-                    options.removeFromScene()
-                    this.combat.removeEnemy(options)
+                    trigger.removeFromScene()
+                    this.combat.removeEnemy(trigger)
                     this.addEnemy()
                     this.progress.combat.add()
                     console.log('progress',this.progress.combat)
@@ -247,8 +268,12 @@ class Level_002 extends Level {
                 }
                 break;
 
-        }
-    }
+            case e_eventIDs.dialog:
+                this.progress.current.add()
+                break;
+
+        }// switch
+    } // event
 
 
     menu() { this.manager.loadMenu(e_menues.hero) }

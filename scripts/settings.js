@@ -1,12 +1,21 @@
 
 
-let testObj = {a:()=>console.log(this.b), b: 2}
+let game, app // Global Objects
+let HEIGHT = window.innerHeight //1334
+let WIDTH = window.innerWidth //750 
+
+
+
 
 let SETTINGS = {
     sound: {
         master: 1,
         volume: 1, // effects etc.
         music: 0,  // music
+    },
+    ui: {
+        layout: 'bottom', // 'left, right, bottom'
+        btnWidth: 0.18*WIDTH,
     },
 
     fps: 60,
@@ -23,9 +32,6 @@ let e_zIndex = {
 
 }
 
-let game, app // Global Objects
-let HEIGHT = window.innerHeight //1334
-let WIDTH = window.innerWidth //750 
 
 
 

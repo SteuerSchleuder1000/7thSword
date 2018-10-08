@@ -36,13 +36,13 @@ class Menu extends Stage {
 
 class MenuManager extends StageManager { 
 
-    constructor(manager, superScene) {
+    constructor(manager, superScene, args) {
         super(manager, superScene)
         this.scene.name = 'menuManager'
         this.assets = []
         
         this.state.add(e_menus.introScreen, new Menu_IntroScreen(this, this.scene))
-        this.state.add(e_menus.levelSelect, new Menu_LevelSelection(this, this.scene))
+        this.state.add(e_menus.levelSelect, new Menu_LevelSelection(this, this.scene, args))
         
         //this.state.change(e_menus.introScreen)
     }

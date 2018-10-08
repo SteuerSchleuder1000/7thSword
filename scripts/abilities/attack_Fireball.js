@@ -26,7 +26,7 @@ class Attack_Fireball extends Ability {
             path+'burning-dotB.png',    // cooldown
         ]
 
-        this.state = e_abStates.idle
+        // this.state = e_abStates.idle
         this.power = 49
         this.t_cast = 2
         this.t_perform = 0.5
@@ -42,62 +42,77 @@ class Attack_Fireball extends Ability {
             execute:    new Howl({src: 'assets/sounds/fireball_impact.ogg', volume: volume})
         }
 
-        this.fireball = null
-        this.fireballLayer = null
-        this.emitterOptions = null
-        //loadJSON('assets/json/fireball.json',this.setupEmitter.bind(this))
+
+        this.fireball = null // = { emitter: __, layer: ___, options: ___}
+
+        //this.fireball = null // emitter
+        // this.fireballLayer = null // emitter layer
+        // this.emitterOptions = null // emitter options
+        loadJSON('assets/json/fireball.json',this.setupEmitter.bind(this))
 
     }
 
     startCasting() {
 
-
-        // this.fireballLayer.position.x = this.manager.sprite.position.x + 0.2*WIDTH
-        // this.fireballLayer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
-        // this.fireball.emit = true
+        this.fireball.layer.position.x = this.manager.sprite.position.x + 0.2*WIDTH
+        this.fireball.layer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
+        this.fireball.emitter.emit = true
     }
 
 
     startPerforming() {
-        let fb = this.fireball
+        let fb = this.fireball.emitter
         let callback = ()=> {fb.emit = false}
         let x = this.target.sprite.position.x
         let y = this.target.sprite.position.y - 0.15*HEIGHT
-        // this.animations.move(this.fireballLayer,{time: this.t_perform, x: x, y: y, reset: true, callback: callback})
+        this.animations.move(this.fireball.layer,{time: this.t_perform, x: x, y: y, reset: true, callback: callback})
 
     }
     
 
 
     startExecuting () {
-        // this.fireball.emit = false
-        //this.sound.stop()
+        this.fireball.emitter.emit = false
         this.combat.dealDamage(this.power, this.target, this, this.manager)
     }
     
+    addToScene(scene) { 
+        this.superScene = scene
+        this.superScene.addChild(this.fireball.layer)
+    }
 
     setupEmitter(options) {
-        let emitterSprites = ['assets/pixel100px.png'] // ['assets/solidCircle.png']
+        let emitterSprites = ['assets/images/particles/pixel100px.png'] // ['assets/solidCircle.png']
 
-        let layer = new Container()
-        layer.position.z = e_zIndex.character + 0.1
-        this.superScene.addChild(layer)
+        let layer = new PIXI.Container()
         layer.name = 'fireball layer'
-        this.fireballLayer = layer
+        layer.position.z = e_zIndex.character + 0.1
+        if (this.superScene) { this.superScene.addChild(layer) }
+        
 
         
         options.pos.x = 0
         options.pos.y = 0
         options.emitterLifetime = -1
-        this.fireball = new PIXI.particles.Emitter( 
+
+
+        let emitter = new PIXI.particles.Emitter( 
             layer, 
             emitterSprites, 
             options,//emitterOptions_sparks
         )
-        this.fireball.emit = false
+        emitter.emit = false
+
+
+        this.fireball = { // SFX OBJECT
+            emitter: emitter,
+            layer: layer,
+            options: options,
+            update: (delta)=>emitter.update(delta)
+        }
+
         this.objects.push(this.fireball)
-        this.emitterOptions = options
-        this.manager.manager.zSort()
+        //this.manager.manager.zSort() // more elegant!!!
     }
     
 

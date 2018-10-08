@@ -50,8 +50,10 @@ class Character extends Scene {
 
     addToScene(args) {
         args = args || {}
+        // this.removeFromScene()
 
         this.superScene = args.scene
+        this.scene = new Container() // clean house
         this.scene.position.z = args.z || e_zIndex.character
         this.superScene.addChild(this.scene)
 
@@ -66,6 +68,8 @@ class Character extends Scene {
         })
 
         for (let a of this.abilities) { a.addToScene(this.scene) }
+
+        this.shouldUpdate = true
         this.start()
     }
 
@@ -217,7 +221,8 @@ class Character extends Scene {
 
     defeat() {
 
-        this.manager.event(e_eventIDs.defeat,this)
+        // this.manager.event(e_eventIDs.defeat,this)
+        this.combat.event(e_eventIDs.defeat,this)
         this.state = e_combatStates.defeated
         this.t = 0
         this.playSound(e_soundIDs.death)
@@ -354,11 +359,11 @@ class Character extends Scene {
 
 
 
-    // reset() { 
-    //     this.buffs = []
-    //     this.stats.reset()
-    //     this.idle()
-    // }
+    reset() { 
+        this.buffs = []
+        this.stats.reset()
+        this.idle()
+    }
 
     addBuff(buff) { this.buffs.push(buff) }
 

@@ -111,6 +111,7 @@ class Scene { // any game object with sprites
     }
 
     removeFromScene() { 
+        if (!this.superScene) {return}
         this.superScene.removeChild(this.scene); 
         this.stopAllSounds()
     }    

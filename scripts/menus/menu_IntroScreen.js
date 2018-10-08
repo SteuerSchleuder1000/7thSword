@@ -12,7 +12,7 @@ class Menu_IntroScreen extends Menu {
         //this.assets = ['assets/menuscreen.png']
 
         let path = 'assets/images/backgrounds/'
-        this.bg = new Background(this, this.scene, path+'menuscreen.png')
+        this.bg = new Background(this, {assets: [path+'menuscreen.png']})
         this.assets.push(path+'menuscreen.png')
 
     }
@@ -24,12 +24,8 @@ class Menu_IntroScreen extends Menu {
 
     setup(callback) {
 
-        // let bg = new Sprite(resources['assets/menuscreen.png'].texture)
-
-        // let scale = HEIGHT /bg.height
-        // bg.height *= scale
-        // bg.width *= scale
-        this.bg.setup()
+        
+        this.bg.addToScene({scene:this.scene})
 
         this.scene.interactive = true
         this.scene.on('pointerdown', this.transition.bind(this))

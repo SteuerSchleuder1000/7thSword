@@ -3,16 +3,19 @@
 
 
 class Background extends Scene {
-    constructor(manager, superScene, imgUrl) {
-        super(manager, superScene)
+    constructor(manager, args) {
+        super(manager)
 
-        this.assets = [imgUrl]
+        this.assets = args.assets
         this.scene.position.z = e_zIndex.bg
         this.scene.visible = true
+        this.sprite = null
     }
 
 
-    setup() {
+    addToScene(args) {
+        this.superScene = args.scene
+        this.superScene.addChild(this.scene)
 
         this.sprite = this.createSprite({
             name: 'bg',

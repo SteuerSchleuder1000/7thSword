@@ -25,7 +25,7 @@ class Enemy_Knight extends Enemy {
             front:              path+'knight01.png',
 
             // sfx assets
-            blockSfx:           'assets/shieldcomb.png',
+            blockSfx:           'assets/images/hero/shieldcomb.png',
         }
 
 

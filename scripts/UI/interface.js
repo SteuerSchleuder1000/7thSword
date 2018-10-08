@@ -5,8 +5,8 @@
 
 // INterface sets up icon at the right place
 class Interface extends Scene {
-    constructor(manager, superScene, hero) {
-        super(manager,superScene)
+    constructor(manager, hero) {
+        super(manager)
         this.scene.position.z = e_zIndex.interface
         this.scene.visible = true
 
@@ -57,7 +57,10 @@ class Interface extends Scene {
     
 
 
-    setup() {
+    addToScene(args) {
+
+        this.superScene =  args.scene
+        this.superScene.addChild(this.scene)
 
         this.healthbar.setup()
 
@@ -68,7 +71,10 @@ class Interface extends Scene {
         key.press = this.block.bind(this)
         key.release = this.block.bind(this)
 
-        for (let i=0; i<3;i++) {
+        let key2 = keyboard(27) // esc button
+        key2.press = this.restartLevel.bind(this)
+
+        for (let i=0; i<4;i++) {
 
             // use setup function here
             let ab = this.heroAbilities[i]
@@ -77,8 +83,8 @@ class Interface extends Scene {
                 name: 'btn'+i,
                 url: ab.assets[0],
                 width: btnWidth,
-                x: 0.03*WIDTH,
-                y: btnGap*1.5 + i*(btnWidth+btnGap),
+                x: btnGap*0.5 + i*(btnWidth+btnGap), //0.03*WIDTH,
+                y: HEIGHT, //- btnWidth - 0.5*btnGap ,//btnGap*1.5 + i*(btnWidth+btnGap),
                 z: e_zIndex.interface,
                 visible: true,
             })

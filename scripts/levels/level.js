@@ -8,10 +8,10 @@ let e_levels = {
     lv_005: 5,
 
     init: {
-        0: (m,s) => {return new Level_Test(m, s)},
-        1: (m,s) => {return new Level_001(m, s)},
-        2: (m,s) => {return new Level_002(m, s)},
-        3: (m,s) => {return new Level_002(m, s)},
+        0: (m,s,args) => {return new Level_Test(m, s,args)},
+        1: (m,s,args) => {return new Level_001(m, s,args)},
+        2: (m,s,args) => {return new Level_002(m, s,args)},
+        3: (m,s,args) => {return new Level_002(m, s,args)},
     },
 }
 
@@ -65,6 +65,7 @@ class Level extends Stage {
         this.characters = []
         this.complete = false
         this.phase = 0 // progression phase
+        this.animations = new Animations()
 
         this.state = e_levelStates.idle
         this.t = 0

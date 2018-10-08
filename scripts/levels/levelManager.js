@@ -2,10 +2,13 @@
 
 class LevelManager extends StageManager {
 
-    constructor(manager, superScene) {
+    constructor(manager, superScene, args) {
         super(manager, superScene)
         this.scene.name = 'levelManager'
 
+        console.log('levelManager',args)
+        this.hero = args.hero
+        this.interface = new Interface(this, this.hero)
         
     }
 
@@ -26,11 +29,14 @@ class LevelManager extends StageManager {
     }
 
     loadLevel(levelID) { // !!!
-        console.log('load level',levelID)
-        this.state.add(levelID, e_levels.init[levelID](this, this.scene))
+        let options = {hero: this.hero, interface: this.interface}
+        console.log('load level',levelID,options)
+        
+        this.state.add( levelID, e_levels.init[levelID](this, this.scene, options))
     }
 
     restartLevel() {
+        this.hero.reset()
         this.state.current.removeFromScene()
         this.state.current = null
         this.loadLevel(this.state.currentID)

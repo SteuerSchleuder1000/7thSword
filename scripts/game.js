@@ -93,16 +93,19 @@ class Game {
     constructor(args) {
 
         console.log('init game',args)
+        this.loaded = false // needed?
+
+        this.hero = new Hero(this, {abilityIDs:[]}) // from args
 
         this.scene = new Container()
         this.scene.name = 'Game'
         app.stage.addChild(this.scene)
         
-        this.loaded = false 
+        
 
         this.state = new Statemachine()
-        this.state.add( e_gameStates.mainMenu,   new MenuManager(this, this.scene))
-        this.state.add( e_gameStates.world,      new LevelManager(this, this.scene))
+        this.state.add( e_gameStates.mainMenu,   new MenuManager(this, this.scene, {hero: this.hero}))
+        this.state.add( e_gameStates.world,      new LevelManager(this, this.scene, {hero: this.hero}))
 
         this.soundSettings = {volume: 1}
 

@@ -14,7 +14,7 @@ class Enemy extends Character {
 
     setup() {
         super.setup()
-        this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.7, HEIGHT*0.39)
+        this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.2, HEIGHT*0.39)
     }
 
     start () { this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.7, HEIGHT*0.39) }

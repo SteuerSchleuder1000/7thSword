@@ -22,7 +22,10 @@ class Combat {
         //this.hero.setTarget()
     }
 
-    end() { this.shouldUpdate = false }
+    end() { this.shouldUpdate = false; this.hideHealthbars() }
+
+
+    hideHealthbars() { for (let e of this.enemies) { e.hideHealthbar() } }
 
     addEnemy(enemy) {
 
@@ -57,7 +60,13 @@ class Combat {
     }
 
 
-
+    event(eventID, trigger) {
+        switch(eventID) {
+            case e_eventIDs.defeat:
+                this.manager.event(eventID, trigger)
+                break;
+        }
+    }
 
     dealDamage(damage, target, ability, caster) {
         if (!target) { console.log('ERROR: no target for ability:', damage, ability, caster); return }
