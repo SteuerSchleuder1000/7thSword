@@ -54,7 +54,7 @@ class Level_002 extends Level {
         this.progress = {
             intro:      new Progress({ n: 1, entry: this.introAnimation,    next: 'dialog1'}),
             dialog1:    new Progress({ n: 1, entry: this.speech1,           next: 'combat'}),
-            combat:     new Progress({ n: 3, entry: this.startCombat, exit: this.endCombat,       next: 'dialog2'}),
+            combat:     new Progress({ n: 100, entry: this.startCombat, exit: this.endCombat,       next: 'dialog2'}),
             dialog2:    new Progress({ n: 1, entry: this.speech2,           next: 'restart'}),
             restart:    new Progress({ n: 0, entry: this.restartLevel                       }),
 
@@ -110,7 +110,7 @@ class Level_002 extends Level {
         this.interface.addToScene({scene:this.scene})
         this.dialog.addToScene({scene:this.scene})
 
-        this.addBannerText('0/3 Knights Slain')
+        this.addBannerText('0/100 Knights Slain')
         
         
 
@@ -164,7 +164,8 @@ class Level_002 extends Level {
     addEnemy() {
         let x = 0.7*WIDTH
         let y = 0.8*HEIGHT
-        let knight = new Enemy_Knight(this)
+        let lv = this.progress.combat.c
+        let knight = new Enemy_Knight(this,{level:lv})
         knight.addToScene({x:x, y:0, z:e_zIndex.character, height: 0.48*HEIGHT, scene: this.scene})
         this.zSort()
 
