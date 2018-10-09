@@ -3,29 +3,66 @@
 class Dialog { // not really extension needed
 
     constructor(manager, superScene) {
-        //super(manager, superScene)
         this.manager = manager
         this.bubbles = []
+        this.nodes = {}
+    }
+
+    addNode(node) {
+        let nodeID = node.id
+        this.nodes[nodeID] = node
+    }
+
+
+    displayNode(nodeID, callback) {
+        if (!(nodeID in this.nodes)) {console.log('ERROR nodeID not in dialog tree:', nodeID); return}
+        let node = this.nodes[nodeID]
+
+        if (node.choice) {} // TODO: implement choice
+        if (node.time) {} // TODO: implement timed
+        // TODO: correct callback
+            
+        this.clear()
+        let bubble = this.speechBubble(node.text, node.style, node.position)
+        this.superScene.addChild(bubble)
+        this.superScene.interactive = true
+
+        let nextNodeID = node.next
+        // let callback = ()=>{}
+
+        if (nextNodeID) {
+            let self = this
+            callback = callback ? callback : ()=>{ self.displayNode(nextNodeID) }
+            this.superScene.once('pointerdown', callback)
+        }
+
+        else {
+            let manager = this.manager
+            callback = callback ? callback : ()=>{ manager.event(e_eventIDs.dialog) }
+            this.superScene.once('pointerdown', callback)
+        }
+        
 
     }
+
 
     addToScene(args) {
         this.superScene = args.scene
     }
 
-    clear() { for (let b of this.bubbles) { this.superScene.removeChild(b) } }
+    clear() { for (let b of this.bubbles) { this.superScene.removeChild(b) }; }
+    reset() {this.clear(); this.bubbles = []; this.nodes = {}}
 
+    // display(text, style) {
+    //     this.clear()
+    //     let bubble = this.speechBubble(text, style)
+    //     this.superScene.addChild(bubble)
 
-    display(text, style) {
-        this.clear()
-        let bubble = this.speechBubble(text, style)
-        this.superScene.addChild(bubble)
-
-        this.superScene.interactive = true
-        let callback = ()=> {this.manager.event(e_eventIDs.dialog)}
-        this.superScene.on('pointerdown', callback.bind(this))
+    //     this.superScene.interactive = true
+    //     let callback = ()=> {this.manager.event(e_eventIDs.dialog)}
+    //     this.superScene.on('pointerdown', callback.bind(this))
         
-    }
+    // }
 
     speechBubble(text,style) {
 
@@ -53,17 +90,10 @@ class Dialog { // not really extension needed
         return speechBubble
     }
 
-    hide() {
-        for (let obj of this.bubbles) {obj.visible = false}
-    }
-    show() {
-        for (let obj of this.bubbles) {obj.visible = true}
-    }
+    hide() { for (let obj of this.bubbles) {obj.visible = false} }
+    show() { for (let obj of this.bubbles) {obj.visible = true} }
 
-    displayNext() {}
-    update(delta) {
-
-    }
+    update(delta) { }
 
 
 }

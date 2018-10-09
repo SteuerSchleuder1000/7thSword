@@ -42,10 +42,11 @@ class Character extends Scene {
         this.inCombat = false
 
         this.healthbar = null
-        this.target = null // in combat
         this.castingAbility = null // what ability is he casting?
+        this.target = null // in combat
+        
+    } // constructor
 
-    }
 
 
     addToScene(args) {
@@ -67,7 +68,7 @@ class Character extends Scene {
             addToScene: true,
         })
 
-        for (let a of this.abilities) { a.addToScene(this.scene) }
+        for (let a of this.abilities) { a.addToScene(this.superScene) }
 
         this.shouldUpdate = true
         this.start()
@@ -290,6 +291,9 @@ class Character extends Scene {
                 url = this.frames.front
                 texture = resources[url].texture
                 this.sprite.texture = texture
+                break;
+
+            case e_combatStates.dialog:
                 break;
         }
     }

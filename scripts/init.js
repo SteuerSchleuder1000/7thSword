@@ -37,10 +37,9 @@ function loadGame() {
     // get hero
     DB.userData
         .get('hero')
-        .then( (hero)=> { console.log('hero found?', this,hero);
+        .then( (hero)=> { 
                              game = new Game (hero)
                          } )
-        //.catch( (error)=> { console.log('Ooops:',error)})
 
 }
 

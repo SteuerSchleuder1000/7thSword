@@ -65,7 +65,7 @@ class Attack_Fireball extends Ability {
         let callback = ()=> {fb.emit = false}
         let x = this.target.sprite.position.x
         let y = this.target.sprite.position.y - 0.15*HEIGHT
-        this.animations.move(this.fireball.layer,{time: this.t_perform, x: x, y: y, reset: true, callback: callback})
+        this.animations.move(this.fireball.layer,{time: this.t_perform, x: x, y: y, reset: false, callback: callback})
 
     }
     

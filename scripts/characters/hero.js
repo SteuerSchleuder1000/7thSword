@@ -16,16 +16,17 @@ class Hero extends Character {
         this.stats = new Stats({
             health: 100, 
             power: 30,
+            exp: 0,
         })
 
 
         // Abilities
         this.abilityIDs = args.abilityIDs
         this.abilities = [
-            new Attack_Fireball(this),//, superScene, combat),
-            new Attack_Swipe(this),//, superScene , combat), // 
-            new Attack_Emberblade(this),// superScene , combat),
-            new Attack_Choice(this),//, superScene , combat),
+            new Attack_Fireball(this),
+            new Attack_Swipe(this),
+            new Attack_Emberblade(this),
+            new Attack_Choice(this),
         ]
 
 

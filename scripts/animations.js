@@ -78,13 +78,16 @@ class Animations {
         args = args || {}
         // let speed = args.speed || 0.01
         let time = args.time || 0
-        let x = args.x //|| obj.position.x
-        let y = args.y //|| obj.position.y
+        let x = args.x
+        let y = args.y
         let reset = args.reset || false
         let callback = args.callback
 
         let x0 = obj.position.x
         let y0 = obj.position.y
+
+        if (x == undefined) { x = x0 }
+        if (y == undefined) { y = y0 }
 
         let duration = time
 

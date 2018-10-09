@@ -9,7 +9,7 @@ class Interface extends Scene {
         super(manager)
         this.scene.position.z = e_zIndex.interface
         this.scene.visible = true
-
+        this.spritesLoaded = false
 
         this.assets = []
         this.buttons = []
@@ -37,7 +37,7 @@ class Interface extends Scene {
         this.menuBtn.position.z = 3
         this.menuBtn.interactive = true
         this.menuBtn.on('pointerdown',this.restartLevel.bind(this))
-        this.addSprite(this.menuBtn)
+        //this.addSprite(this.menuBtn)
 
 
         this.blockBtn = new Graphics()
@@ -61,6 +61,9 @@ class Interface extends Scene {
 
         this.superScene =  args.scene
         this.superScene.addChild(this.scene)
+
+        if(this.spritesLoaded) { return }
+        this.spritesLoaded = true
 
         this.healthbar.setup()
 
@@ -88,7 +91,6 @@ class Interface extends Scene {
                 z: e_zIndex.interface,
                 visible: true,
             })
-
             let btn = new AbilityButton(ab, this.scene, btnSprite, this.hero)
             this.buttons.push(btn)
 

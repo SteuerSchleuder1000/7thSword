@@ -27,6 +27,15 @@ class Menu_IntroScreen extends Menu {
         
         this.bg.addToScene({scene:this.scene})
 
+
+        //TEST 
+        // let shaderCode = 'void main(){ gl_FragColor = vec4(1.0,1.0,1.0,1.0); }'
+        // let shader = new PIXI.Filter('',shaderCode);
+        // let shader = new PIXI.filters.BlurFilter()
+        // this.bg.sprite.filter = [shader]
+
+        // console.log('shader:',shader)
+
         this.scene.interactive = true
         this.scene.on('pointerdown', this.transition.bind(this))
 

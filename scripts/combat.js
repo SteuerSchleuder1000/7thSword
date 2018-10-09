@@ -72,6 +72,7 @@ class Combat {
         if (!target) { console.log('ERROR: no target for ability:', damage, ability, caster); return }
 
         target.takeDamage(damage, ability, caster)
+        this.manager.damageText(damage)
 
     }
 

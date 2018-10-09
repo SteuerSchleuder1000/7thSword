@@ -13,6 +13,7 @@ let SETTINGS = {
         volume: 1, // effects etc.
         music: 0,  // music
     },
+    
     ui: {
         layout: 'bottom', // 'left, right, bottom'
         btnWidth: 0.18*WIDTH,

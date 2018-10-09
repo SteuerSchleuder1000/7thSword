@@ -48,11 +48,10 @@ class QuestButton extends Button {
         bg.beginFill(0xFFFFFF);
         bg.drawRect(0,0, width, height)
         bg.alpha = 0.5
-        //bg.anchor.set(0,0.5)
         bg.interactive = true
         bg.name = this.quest.title
         bg.on('pointerdown', this.buttonEvent.bind(this))
-        bg.defaultCursor = 'pointer';
+        bg.buttonMode = true
 
         this.addSprite(bg)
         this.bg = bg

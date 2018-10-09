@@ -37,7 +37,7 @@ class Menu_LevelSelection extends Menu {
             let quest = new Quest()
             let btn = new QuestButton(this, {quest:quest})
             btn.addToScene({x: 0.05*WIDTH, y: HEIGHT*0.3 + i*WIDTH*0.15, z: e_zIndex.interface, width: WIDTH*0.4, scene: this.scene})
-            console.log('questButton',btn)
+            // console.log('questButton',btn)
         }
 
         //this.questButton.setup()
