@@ -35,9 +35,9 @@ let e_weather = {
 // }
 
 let textStyles = {
-    normal: {fontFamily : 'Garamond', fontSize: 24, align : 'center'},
-    banner: {fontFamily : 'Impact', fontSize: 20, align : 'center', fill: 0xFFFFFF, fontWeight: 'bold'},
-    damage: {fontFamily : 'Impact', fontSize: 30, align : 'center', fill: 0x960f0d, fontWeight: 'bold'},
+    normal: {fontFamily : 'Arial', fontSize: 24, align : 'center'},
+    banner: {fontFamily : 'Arial', fontSize: 20, align : 'center', fill: 0xFFFFFF, fontWeight: 'bold'},
+    damage: {fontFamily : 'Arial', fontSize: 30, align : 'center', fill: 0x960f0d, fontWeight: 'bold'},
 }
 
 

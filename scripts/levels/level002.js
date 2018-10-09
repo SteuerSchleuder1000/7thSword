@@ -185,7 +185,7 @@ class Level_002 extends Level {
         // death animation
         enemy.removeFromScene()
 
-        let c = this.progress.combat.c + 1
+        let c = this.progress.combat.c
         this.updateBannerText(c+'/3 Knights Defeated')
     }
 
@@ -240,15 +240,13 @@ class Level_002 extends Level {
                 }
                 if (trigger.name == 'Knight') { 
                     console.log('YOU WON')
+                    this.progress.combat.add()
+                    this.hero.stats.gainExp(80)
                     this.removeEnemy(trigger)
                     this.addEnemy()
-                    this.progress.combat.add()
+                    
 
-                    // DEATH ANIMATION
-                    // let callback = ()=>{ this.progress.combat.add() }
-                    // this.dialog.reset()
-                    // this.dialog.addNode({text:'UUUURGGGH!!', style: textStyles.normal, id: 0, next: false})
-                    // this.dialog.displayNode(0, callback.bind(this))
+                   
 
                     console.log('progress',this.progress.combat)
                     this.hero.save()
