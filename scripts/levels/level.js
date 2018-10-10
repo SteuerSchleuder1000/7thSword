@@ -158,6 +158,7 @@ class Level extends Stage {
 
     startDialog() {
         this.combat.end()
+        this.hero.idle()
         this.interface.hide()
         this.dialog.show()
     }

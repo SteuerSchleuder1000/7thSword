@@ -7,11 +7,13 @@ let e_menus = {
     levelSelection: 1,
     options: 2,
     hero: 3,
+    talents: 4,
     init: {
         0: (m,s,o)=>{ return new Menu_IntroScreen(m,s,o) },
         1: (m,s,o)=>{ return new Menu_LevelSelection(m,s,o) },
         2: (m,s,o)=>{ },
         3: (m,s,o)=>{ return new Menu_Hero(m,s,o) },
+        4: (m,s,o)=>{ return new Menu_Talents(m,s,o) },
 
     }
 }

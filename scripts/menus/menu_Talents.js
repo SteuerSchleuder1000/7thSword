@@ -2,7 +2,7 @@
 
 
 
-class Menu_Hero extends Menu {
+class Menu_Talents extends Menu {
     constructor(manager, superScene, args) {
         super(manager, superScene)
         this.menuID = e_menus.levelSelect
@@ -14,6 +14,12 @@ class Menu_Hero extends Menu {
         
         this.hero = args.hero 
         this.assets = this.assets.concat(this.hero.assets)
+
+        path = 'assets/images/abilities/'
+        this.assets.push(path+'choice.png')
+        this.assets.push(path+'emberblade.png')
+        this.assets.push(path+'swipe.png')
+        this.assets.push(path+'burning-dot.png')
 
         this.allSetup = false
         
@@ -27,21 +33,33 @@ class Menu_Hero extends Menu {
        
         this.bg.addToScene({scene:this.scene})
 
-        this.hero.addToScene({x: 0.7*WIDTH, y: 0.81*HEIGHT, z: e_zIndex.character, height: HEIGHT*0.6, scene: this.scene})
-        this.hero.frontView()
+        let path = 'assets/images/abilities/'
+        let images = [ path+'choice.png', path+'burning-dot.png', path+'swipe.png', path+'emberblade.png']
 
-        let z = e_zIndex.interface
-        let stats = this.hero.stats
-        this.createText('HERO',{style: textStyles.title, anchor: [0.5,0.5], x:0.5*WIDTH, y: 0.1*HEIGHT, z:z})
-        this.text_level = this.createText('Lv. '+stats.level,{style: textStyles.banner, anchor: [0.5,0.5], x:0.5*WIDTH, y: 0.13*HEIGHT, z:z})
-        this.text_health = this.createText('Health: '+stats.health_init, {style: textStyles.banner, x:0.1*WIDTH, y:0.3*HEIGHT, z:z})
-        this.text_power = this.createText('Power: '+stats.power_init, {style: textStyles.banner, x:0.1*WIDTH, y:0.4*HEIGHT, z:z})
-        
+        let rowGap = 0.08*HEIGHT
+        let gap = 0.1*WIDTH
         let btnWidth = SETTINGS.ui.btnWidth
-        let btn = this.createButton({x:0,y:0,z:10,width:btnWidth,height:btnWidth})
+        let x0 = (WIDTH-3*btnWidth)/4
+        let y0 = 0.1*HEIGHT
+
+        for (let row =0; row< 5; row++) {
+            for (let i=0; i< 3; i++) {
+                let url = randChoice(images)
+                let x = x0 + i*(btnWidth+gap)
+                let y = y0 + row*(btnWidth+ rowGap)
+                let sprite = this.createSprite({ url: url, x: x, y: y, z: 1, width: btnWidth, addToScene: true,})
+                sprite.id = 'row:'+row+'_t:'+i
+                //let trigger = (e)=>{ console.log(e) }
+                sprite.interactive = true
+                sprite.on('pointerdown', this.selectTalent.bind(this))
+            }
+        }
+        
+        
+        let btn = this.createButton({x:0,y:0,width:btnWidth,height:btnWidth})
         btn.on('pointerdown',this.transition.bind(this))
 
-        let btn2 = this.createButton({x:WIDTH-btnWidth,y:0,z:10,width:btnWidth,height:btnWidth})
+        let btn2 = this.createButton({x:WIDTH-btnWidth,y:0,width:btnWidth,height:btnWidth})
         btn2.on('pointerdown',this.goBack.bind(this))
 
         this.allSetup = true
@@ -57,7 +75,7 @@ class Menu_Hero extends Menu {
         // this.heroInCombat = this.hero.inCombat
         // this.hero.inCombat = false
         // this.hero.state = e_combatStates.dialog
-        if (this.allSetup) { this.updateData() }
+        // if (this.allSetup) { this.updateData() }
         console.log('hero inCombat2:',this.heroInCombat, this.hero.inCombat)
     }
 
@@ -70,14 +88,11 @@ class Menu_Hero extends Menu {
         super.onExit()
     }
 
-    updateData() {
-        let stats = this.hero.stats
-        this.text_level.text = 'Lv. '+stats.level
-        this.text_health.text = 'Health '+stats.health_init
-        this.text_power.text = 'Power '+stats.power
+    selectTalent(e) {
+        console.log('talent selected',e.target.id)
     }
 
     transition() { this.manager.loadLevel(e_levels.lv_002) }
-    goBack() { this.manager.transition(e_menus.talents)}
+    goBack() { this.manager.transition(e_menus.hero) }
 }
 

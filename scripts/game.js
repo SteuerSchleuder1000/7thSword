@@ -125,7 +125,7 @@ class Game {
         
 
         this.loadingScreen(true)
-        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.hero); }
+        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.talents); }
 
         // let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.introScreen); }
         // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
