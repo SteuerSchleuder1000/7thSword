@@ -118,12 +118,12 @@ class Ability {
 
 
     cast(target) {
-        if (!target) { console.log('ERROR: No Target for Ability', this.name); return false}
-        if (target.state == e_combatStates.defeated) { console.log('ERROR: Target defeated'); return false}
-        if (this.state != e_abStates.idle) { console.log('ERROR: Ability not idle. State:', this.state, e_abStates); return false}
-        if (this.manager.state != e_combatStates.idle) { console.log('ERROR: Character not idle. State:', this.manager.state, e_combatStates); return false}
-        if (this.manager.stats.combo < this.cost_combo) {console.log('ERROR: Character not enough combo', this.manager.stats.combo, this.cost_combo); return false}
-        if (this.manager.stats.energy < this.cost_energy) {console.log('ERROR: Character not enough energy', this.manager.stats.energy, this.cost_energy); return false}
+        if (!target) { return console.log('ERROR: No Target for Ability', this.name)}
+        if (target.state == e_combatStates.defeated) { return console.log('ERROR: Target defeated')}
+        if (this.state != e_abStates.idle) { return console.log('ERROR: Ability not idle. State:')}//, this.state, e_abStates)}
+        if (this.manager.state != e_combatStates.idle) { return console.log('ERROR: Character not idle. State:')}//, this.manager.state, e_combatStates)}
+        if (this.manager.stats.combo < this.cost_combo) { return console.log('ERROR: Character not enough combo')}//, this.manager.stats.combo, this.cost_combo)}
+        if (this.manager.stats.energy < this.cost_energy) { return console.log('ERROR: Character not enough energy')}//, this.manager.stats.energy, this.cost_energy)}
 
         this.target = target
         this.t = this.t_cast

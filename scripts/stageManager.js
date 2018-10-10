@@ -17,7 +17,9 @@ class StageManager extends Stage { // StageManager
     }
 
     onEntry() { this.scene.visible = true } // when focus changes to this manager
-    onExit() { this.scene.visible = false }
+    onExit() { 
+        // if( this.state.current ) { this.state.current.onExit() }
+        this.scene.visible = false }
 
     loadingProgress(e,p) { 
         //console.log('progress',e.progress) 

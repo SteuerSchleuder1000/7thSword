@@ -26,8 +26,7 @@ class Attack_Fireball extends Ability {
             path+'burning-dotB.png',    // cooldown
         ]
 
-        // this.state = e_abStates.idle
-        this.power = 49
+        this.power = 4
         this.t_cast = 2
         this.t_perform = 0.5
         this.t_performAnimation = 0.5 // time for character animation
@@ -35,7 +34,6 @@ class Attack_Fireball extends Ability {
         this.t = 0
 
 
-        //this.sound = new Howl({src: 'assets/sounds/fireloop.mp3', loop: true, volume: 1})
         let volume = SETTINGS.sound.volume
         this.sounds = {
             cast:       new Howl({src: 'assets/sounds/fireLoop.ogg', volume: volume}),
@@ -44,10 +42,6 @@ class Attack_Fireball extends Ability {
 
 
         this.fireball = null // = { emitter: __, layer: ___, options: ___}
-
-        //this.fireball = null // emitter
-        // this.fireballLayer = null // emitter layer
-        // this.emitterOptions = null // emitter options
         loadJSON('assets/json/fireball.json',this.setupEmitter.bind(this))
 
     }
@@ -73,7 +67,8 @@ class Attack_Fireball extends Ability {
 
     startExecuting () {
         this.fireball.emitter.emit = false
-        this.combat.dealDamage(this.power, this.target, this, this.manager)
+        let damage = parseInt(this.power * this.manager.stats.power)
+        this.combat.dealDamage(damage, this.target, this, this.manager)
     }
     
     addToScene(scene) { 
@@ -112,7 +107,6 @@ class Attack_Fireball extends Ability {
         }
 
         this.objects.push(this.fireball)
-        //this.manager.manager.zSort() // more elegant!!!
     }
     
 

@@ -55,17 +55,31 @@ class Scene { // any game object with sprites
 
     addSprite(sprite) {
         if (!sprite) { console.log('ERROR no sprite to be added', this, sprite); return}
-        for (let i=0; i<this.scene.children;i++) {
-            if (sprite.position.z > this.scene.children[i].position.z) {
-                this.scene.addChildAt(sprite, i)
-                return
-            }
-        }
         this.scene.addChild(sprite)
+        this.zSort()
     }
 
 
+    createText(t, args) {
+        let text = new PIXI.Text(t, args.style)
+        // text.anchor.set(0.5,0.5)
+        text.position.set(args.x, args.y)
+        text.position.z = args.z
+        if (args.anchor) { text.anchor.set(args.anchor[0],args.anchor[1])}
+        this.addSprite(text)
+        return text
+    }
 
+    createButton(args) {
+        let btn = new PIXI.Graphics()
+        btn.beginFill(0xFFFFFF)
+        btn.drawRect(0, 0, args.width, args.height)
+        btn.position.set(args.x,args.y)
+        btn.position.z = args.z
+        btn.interactive = true
+        this.addSprite(btn)
+        return btn
+    }
 
     zSort() {
         let zSort = function(a,b) {
@@ -99,8 +113,6 @@ class Scene { // any game object with sprites
         if (callback) { callback() } 
     }
 
-
-    // pause(b=true) { this.paused = b}
 
     loadingProgress(e,p) { // called while loading
         if(this.manager) { this.manager.loadingProgress(e,p)}

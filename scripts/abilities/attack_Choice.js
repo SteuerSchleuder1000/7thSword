@@ -8,7 +8,7 @@ class Attack_Choice extends Ability {
     constructor(manager, superScene, combat) {
         super(manager, superScene, combat)
         
-        this.name = 'Basic Attack'
+        this.name = 'CHOICE'
         this.description = 'Attacks with a single strike. Adds 1 combo'
         this.animationType = e_animationTypes.melee
 
@@ -20,7 +20,7 @@ class Attack_Choice extends Ability {
         ]
 
         this.state = e_abStates.idle
-        this.power = 10
+        this.power = 1.0
         this.t_cast = 1
         this.t_perform = 0.5
         this.t_performAnimation = 1.0 // time for character animation
@@ -35,7 +35,7 @@ class Attack_Choice extends Ability {
 
     startExecuting() {
         let comboPoints = this.manager.stats.combo
-        let damage = this.power
+        let damage = parseInt(this.power*this.manager.stats.power)
 
         if (Math.random() < 0.1*comboPoints || comboPoints == 5) {
             this.manager.changeComboBy(-comboPoints) // gain 1 combo
@@ -43,7 +43,7 @@ class Attack_Choice extends Ability {
         } 
         else {this.manager.changeComboBy(1)}
         
-        this.combat.dealDamage(this.power, this.target, this, this.manager)
+        this.combat.dealDamage(damage, this.target, this, this.manager)
     }
 
 

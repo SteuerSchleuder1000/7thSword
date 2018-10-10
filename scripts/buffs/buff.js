@@ -1,19 +1,20 @@
 
 
-class Buff extends Scene{ // scene?
+class Buff { // scene?
 
-    constructor(target, superScene, combat, creator) {
-        super(target, superScene)
-        this.target = target
-        this.combat = combat
-        this.creator = creator
+    constructor(args){//target, superScene, combat, creator) {
+
+        this.target = args.target
+        this.combat = args.combat
+        this.creator = args.creator
+
+        this.target.addBuff(this)
 
         this.t_tick = 0
         this.n_ticks = 0
         this.t = 0
         this.n = 0
 
-        target.addBuff(this)
     }
 
     update(delta) {
@@ -32,15 +33,49 @@ class Buff extends Scene{ // scene?
     end() {}
 
     remove() { this.end(); this.target.removeBuff(this) }
+    removeFromScene() {}
 }
 
+
+class Debuff_Stun extends Buff {
+    constructor(args) {
+        super(args)
+
+        this.t = args.time || 0
+        this.target.cancelAbility()
+        this.target.state = e_combatStates.stunned
+
+        let btnWidth = SETTINGS.ui.btnWidth
+        let path = 'assets/images/abilities/'
+        let x = this.target.healthbar.x
+        let y = this.target.healthbar.y
+        this.sprite = new PIXI.Sprite.fromImage(path+'stun.png')
+        this.sprite.position.set(x,y)//0.5*WIDTH, 0.5*HEIGHT)
+        this.sprite.width = btnWidth
+        this.sprite.height = btnWidth
+
+        
+
+        this.target.scene.addChild(this.sprite)
+
+
+    }
+
+
+    end() {
+        this.target.scene.removeChild(this.sprite)
+        this.target.idle()
+    }
+
+    removeFromScene() { this.target.sprite.removeChild(this.sprite) }
+} // Stun Debuff
 
 
 
 class Buff_Burn extends Buff{
 
-    constructor(target, superScene, combat, creator) {
-        super(target, superScene, combat, creator)
+    constructor(args) {
+        super(args)
 
 
 

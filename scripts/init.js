@@ -37,7 +37,7 @@ function loadGame() {
     // get hero
     DB.userData
         .get('hero')
-        .then( (hero)=> { 
+        .then( (hero)=> {   console.log('load game Hero:',hero)
                              game = new Game (hero)
                          } )
 
@@ -50,8 +50,25 @@ function loadGame() {
 let saveHero = (hero)=> {
     DB.userData
         .put(hero)
-        .catch( (error)=> { console.log('Ooops: ',error)})
+        .catch( (error)=> { console.log('Ooops: ',error, DB)})
 }
+
+
+
+
+
+
+
+
+
+
+// DEXIE JS Tutorial -> what's a primary key, index etc?
+
+
+
+
+
+
 
 
 

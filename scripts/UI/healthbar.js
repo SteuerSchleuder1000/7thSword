@@ -31,7 +31,11 @@ class Healthbar_Hero extends Healthbar {
     }
 
 
-    setup() {
+    addToScene(args) {
+
+        this.superScene = args.scene
+        this.superScene.addChild(this.scene)
+        this.scene.position.set(args.x, args.y)
 
         let hbWidth = 0.8*WIDTH
         let path = 'assets/images/UI/'
@@ -40,8 +44,8 @@ class Healthbar_Hero extends Healthbar {
             url: path + 'healthbar.png',
             width: hbWidth,
             anchor: (0, 0.5),
-            x: 0.1*WIDTH,
-            y: 0.95*HEIGHT,//0.95*HEIGHT,
+            x: 0,//0.1*WIDTH,
+            y: 0, //0.95*HEIGHT,//0.95*HEIGHT,
             z: 3,
             addToScene: true,
         })
@@ -65,8 +69,8 @@ class Healthbar_Hero extends Healthbar {
                 url: path+'combo.png',
                 width: comboWidth,
                 anchor: [0, 0.25],
-                x: 0.1*WIDTH + hbGap + hbW*i,
-                y: 0.95*HEIGHT,
+                x: hbGap + hbW*i, //0.1*WIDTH + hbGap + hbW*i,
+                y: 0,//0.95*HEIGHT,
                 z: 3,
                 visible: false,
                 addToScene: true,
@@ -131,16 +135,21 @@ class Healthbar_Hero extends Healthbar {
 
 
 
+
+
 class Healthbar_Enemy { // added onto sprite
     constructor(manager,superScene,x,y) {
         this.superScene = superScene
         this.manager = manager
 
-        this.x = x | 0 //-0.01*WIDTH
-        this.y = y | 0
-
         let width = WIDTH*0.15
         let height = HEIGHT*0.02
+
+        this.x = x ? x : 0 //-0.01*WIDTH
+        this.y = y ? y : 0
+
+        this.x -= width*0.5
+       
 
         this.originalWidth = width
 
@@ -153,6 +162,10 @@ class Healthbar_Enemy { // added onto sprite
 
         this.castbar = new Graphics()
         this.superScene.addChild(this.castbar)
+    }
+
+    addToScene(args) {
+
     }
 
     updateCastbar() {

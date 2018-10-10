@@ -11,22 +11,22 @@ class Stats {
         this.energy_init = 0
         this.combo_init = 0
         this.exp = 0
-        this.level = 1
+        this.level = arg.level || 1
 
 
         this.combo_max = 5
         this.energy_max = 100
 
 
-        
+        this.scaleToLevel(this.level)
         this.reset()
+        // for (let i=1; i<this.level; i++) { this.levelUp() }
         
     }
 
     reset() {
         this.power = this.power_init
         this.health = this.health_init
-        this.health_max = this.health_init
         this.combo = this.combo_init
     }
 
@@ -39,7 +39,7 @@ class Stats {
     changeHealthBy(d) {
         if (!d) {return}
         this.health += d
-        this.health = floorCeil(this.health, 0, this.health_max)
+        this.health = floorCeil(this.health, 0, this.health_init)
     }
 
     changeEnergyBy(d) {
@@ -50,19 +50,32 @@ class Stats {
 
     gainExp(exp) {
         this.exp += exp
-        if (this.exp >= 100) {
-            console.log('LEVEL UP')
+        let lvUp = false
+        while (this.exp >= 100) {
+            this.exp -= 100
             this.levelUp()
+            lvUp = true
         }
+        return lvUp
     }
 
     levelUp() {
         this.level += 1
-        this.health_init *= 1.1
-        this.power_init *= 1.1
+        this.scaleToLevel(this.level)
+        // this.health_init *= 1.1
+        // this.power_init *= 1.1
 
-        this.health = this.health_init
+        // this.health = this.health_init
+        // this.power = this.power_init
+    }
+
+    scaleToLevel(lv) {
+        this.level = lv
+        this.health_init = parseInt(Math.pow(1.1,lv)*100)
+        this.power_init = parseInt(Math.pow(1.1,lv)*10)
+
         this.power = this.power_init
+        this.health = this.health_init
     }
     
 

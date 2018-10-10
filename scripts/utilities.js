@@ -66,8 +66,9 @@ function keyboard(keyCode) {
 
 
 
-let checkSprite = (sprite,rec)=>{
+let checkSprite = (sprite,rec)=>{ // prints out all children of sprite
 
+    if(rec == undefined) {rec = 1}
     console.log('-|'.repeat(rec) + ' ' + sprite.name)
 
     let children = sprite.children

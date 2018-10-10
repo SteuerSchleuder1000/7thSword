@@ -34,11 +34,6 @@ let e_weather = {
 //     waiting: 1,
 // }
 
-let textStyles = {
-    normal: {fontFamily : 'Arial', fontSize: 24, align : 'center'},
-    banner: {fontFamily : 'Arial', fontSize: 20, align : 'center', fill: 0xFFFFFF, fontWeight: 'bold'},
-    damage: {fontFamily : 'Arial', fontSize: 30, align : 'center', fill: 0x960f0d, fontWeight: 'bold'},
-}
 
 
 
@@ -77,48 +72,29 @@ class Level extends Stage {
         this.combat = null
         this.dialog = null
 
-        // this.worldLayer = new PIXI.Container()
-        // this.worldLayer.position.z = e_zIndex.bg
-        // this.addSprite(this.worldLayer)
+        this.interfaceLayer = new PIXI.Container()
+        this.interfaceLayer.position.z = e_zIndex.interface
+        this.interfaceLayer.name = 'interfaceLayer'
+        this.superScene.addChild(this.interfaceLayer)
 
-        // this.interfaceLayer = new PIXI.Container()
-        // this.interfaceLayer.position.z = e_zIndex.interface
-        // this.addSprite(this.interfaceLayer)
-
-        // this.state = e_levelStates.idle
-        // this.t = 0
     }
 
-    update(delta) {
-        super.update(delta)
-        if (!this.shouldUpdate) { return }
-        // switch (this.state) {
-        //     case e_levelStates.watiting:
-        //         thist.t -= delta
-        //         if (this.t <= 0) { this.idle() }
-        //         break
-        // }
-    }
-
-
-
-    // wait (t) { 
-    //     this.state = e_levelStates.waiting
-    //     this.t = t
+    // update(delta) {
+    //     super.update(delta)
+    //     if (!this.shouldUpdate) { return }
     // }
-
-    // idle () {
-    //     this.state = e_levelStates.idle
-    //     this.t = 0
-    // }
-    
-
 
 
     onEntry() {
         if (!this.loaded) { this.concatAssets() }
+        this.interfaceLayer.visible = true
         super.onEntry()
         // currentLevel = this
+    }
+
+    onExit() {
+        this.interfaceLayer.visible = false
+        super.onExit()
     }
 
     concatAssets() { // !!! more general implementation
@@ -192,11 +168,12 @@ class Level extends Stage {
 
     addBannerText(text) {
         this.bannerText = new PIXI.Text(text,textStyles.banner)
-        let displacement = SETTINGS.ui.btnWidth *1.5
+        let displacement = 0.05*HEIGHT //SETTINGS.ui.btnWidth *1.5
         this.bannerText.position.set(0.5*WIDTH, displacement)
         this.bannerText.position.z = e_zIndex.interface + 0.2
         this.bannerText.anchor.set(0.5,0)
-        this.addSprite(this.bannerText)
+        //this.addSprite(this.bannerText)
+        this.interfaceLayer.addChild(this.bannerText)
     }
 
     updateBannerText(text) {
@@ -208,12 +185,13 @@ class Level extends Stage {
         text.position.set(0.5*WIDTH,0.5*HEIGHT)
         text.position.z = e_zIndex.character +0.1
         this.addSprite(text)
-
-        let callback = ()=> { this.superScene.removeChild(text)}
+        let scene = this.scene
+        let callback = ()=> { scene.removeChild(text)}
         let time = 2
-        this.animations.move(text,{time:time, y: 0.2*HEIGHT, callback: callback.bind(this)})
+        this.animations.move(text,{time:time, y: 0.2*HEIGHT, callback: callback})
         this.animations.alpha(text,{time:time, alpha: 0})
     }
+
 }
 
 

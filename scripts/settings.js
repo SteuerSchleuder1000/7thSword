@@ -33,6 +33,13 @@ let e_zIndex = {
 
 }
 
+let textStyles = {
+    normal: {fontFamily : 'Arial', fontSize: 24, align : 'center'},
+    banner: {fontFamily : 'Arial', fontSize: 20, align : 'center', fill: 0xFFFFFF, fontWeight: 'bold'},
+    damage: {fontFamily : 'Arial', fontSize: 30, align : 'center', fill: 0x960f0d, fontWeight: 'bold'},
+    title: {fontFamily : 'Arial', fontSize: 20, align : 'center', fill: 0xFFFFFF, fontWeight: 'bold'},
+}
+
 
 
 
@@ -47,14 +54,15 @@ let Container = PIXI.Container,
 
 
 let e_combatStates = {
-    idle: 0, // ready for attack
-    casting: 1, // charging up an attack
-    performing: 2, // performing attack/ animation
-    recovering: 3, // recovering from an attack
-    blocking: 4, // blocks next opposing attack
-    defeated: 5, // is dead/ defeated
-    waiting: 6, // enemy waiting until next decision
-    dialog: 7, // talks or is talked to
+    idle: 'idle', // ready for attack
+    casting: 'casting', // charging up an attack
+    performing: 'performing', // performing attack/ animation
+    recovering: 'recovering', // recovering from an attack
+    blocking: 'blocking', // blocks next opposing attack
+    defeated: 'defeated', // is dead/ defeated
+    waiting: 'waiting', // enemy waiting until next decision
+    dialog: 'dialog', // talks or is talked to
+    stunned: 'stunned', // can not do anything
 }
 
 

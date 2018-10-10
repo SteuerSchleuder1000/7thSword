@@ -12,8 +12,6 @@ class LevelManager extends StageManager {
         
     }
 
-    loadHero(stage) { return new Hero(stage, stage.scene, stage.combat) }
-
     transition(levelID) { 
         if (!this.state.contains(levelID)) { this.loadLevel(levelID) }
         this.state.change(levelID) 
@@ -21,11 +19,6 @@ class LevelManager extends StageManager {
 
     loadMenu(menuID) {
         this.manager.transition(e_gameStates.mainMenu, menuID)
-    }
-
-    update(delta) {
-        super.update(delta)
-        //console.log('levelManager update',delta, this.state)
     }
 
     loadLevel(levelID) { // !!!

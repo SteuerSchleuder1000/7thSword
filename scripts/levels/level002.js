@@ -107,10 +107,10 @@ class Level_002 extends Level {
     setup(callback) {
 
         this.bg.addToScene({scene: this.scene})
-        this.interface.addToScene({scene:this.scene})
+        this.interface.addToScene({scene:this.interfaceLayer})
         this.dialog.addToScene({scene:this.scene})
 
-        this.addBannerText('0/100 Knights Slain')
+        this.addBannerText('')
         
         
 
@@ -137,6 +137,7 @@ class Level_002 extends Level {
 
     // Progression
 
+
     introAnimation() { // general level method -> diverse selection
 
         let time = 3
@@ -155,6 +156,13 @@ class Level_002 extends Level {
         let callback2 = ()=> { tree.visible = false }
         this.animations.move(tree, {time:time, x: WIDTH*2, y: 0, callback: callback2})
         this.zSort()
+    }
+
+    startCombat() {
+        super.startCombat()
+        let c = this.progress.combat.c
+        let n = this.progress.combat.n
+        this.updateBannerText(c+'/'+n+' Knights Defeated')
     }
 
 
@@ -187,7 +195,8 @@ class Level_002 extends Level {
         enemy.removeFromScene()
 
         let c = this.progress.combat.c
-        this.updateBannerText(c+'/3 Knights Defeated')
+        let n = this.progress.combat.n
+        this.updateBannerText(c+'/'+n+' Knights Defeated')
     }
 
     speech1() {
@@ -228,7 +237,7 @@ class Level_002 extends Level {
     }
 
 
-
+    // TODO: streamline!!!
     event(eventID, trigger) {
         trigger = trigger || {}
         switch(eventID) {
@@ -242,14 +251,10 @@ class Level_002 extends Level {
                 if (trigger.name == 'Knight') { 
                     console.log('YOU WON')
                     this.progress.combat.add()
-                    this.hero.stats.gainExp(80)
+                    this.hero.gainExp(30)
                     this.removeEnemy(trigger)
-                    this.addEnemy()
-                    
+                    this.addEnemy()                   
 
-                   
-
-                    console.log('progress',this.progress.combat)
                     this.hero.save()
                     // this.quest.save()
                 }

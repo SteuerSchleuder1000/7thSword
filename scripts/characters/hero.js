@@ -6,6 +6,7 @@ class Hero extends Character {
     constructor(manager, args) {
 
         super(manager)//, superScene, combat)
+        console.log('new hero', args)
         this.scene.position.z = e_zIndex.hero
         this.name = 'Hero'
         this.playerControlled = true
@@ -13,10 +14,12 @@ class Hero extends Character {
         this.interface = null
 
         // STATS
+        let level = args.level
         this.stats = new Stats({
             health: 100, 
             power: 30,
             exp: 0,
+            level: level,
         })
 
 
@@ -24,8 +27,9 @@ class Hero extends Character {
         this.abilityIDs = args.abilityIDs
         this.abilities = [
             new Attack_Fireball(this),
-            new Attack_Swipe(this),
+            // new Attack_Swipe(this),
             new Attack_Emberblade(this),
+            new Attack_StunBlow(this),
             new Attack_Choice(this),
         ]
 
@@ -75,7 +79,7 @@ class Hero extends Character {
         switch(this.state) {
             case e_combatStates.idle:
                 if (b) { super.block() }
-                this.blockSfx.visible = true
+                this.blockSfx.visible = b
                 break;
 
             case e_combatStates.blocking:
@@ -121,9 +125,8 @@ class Hero extends Character {
     }
 
    
-
-
-    start() { 
+    addToScene(args) {
+        super.addToScene(args)
         this.animations.breathing(this.sprite)
         this.blockSfx = this.createSprite({
             name: 'shield',
@@ -132,11 +135,14 @@ class Hero extends Character {
             scale: 0.5,
             x: WIDTH*0.45, 
             y: HEIGHT*0.7, 
-            z: this.z-0.1,
+            z: e_zIndex.hero-0.1,
             addToScene: true,
             visible: false,
         })
-     }
+
+    }
+
+    start() { }
 
     takeDamage(damage, ability, caster) {
         super.takeDamage(damage, ability, caster)
@@ -166,7 +172,8 @@ class Hero extends Character {
 
     save() {
         let saveState = {
-            stats: this.stats,
+            name: 'hero',
+            level: this.stats.level,
             abilityIDs: this.abilityIDs,
             // the rest
         }

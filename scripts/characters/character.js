@@ -361,6 +361,13 @@ class Character extends Scene {
         //this.healthbar.updateEnergy() // maybe later?
     }
 
+    gainExp(exp) {
+        let lvUp = this.stats.gainExp(exp)
+        if (lvUp) { 
+            this.healthbar.updateHealth()
+            console.log('LEVEL UP ',this.name, this.stats.level)
+        }
+    }
 
 
     reset() { 
@@ -372,14 +379,15 @@ class Character extends Scene {
     addBuff(buff) { this.buffs.push(buff) }
 
     removeBuff(buff) {
-        let idx = this.buffs.indexof(buff)
+        let idx = this.buffs.indexOf(buff)
         if (idx != -1) { this.buffs.splice(idx, 1)}
     }
 
     cancelAbility() {
         if (this.castingAbility) { this.castingAbility.cancel() }
         this.castingAbility = null
-        //this.idle()
+        this.healthbar.castbar.clear()
+        // this.animate(e_combatStates.idle)
         this.recover()
     }
 
@@ -392,17 +400,17 @@ class Character extends Scene {
         this.shouldUpdate = false
     }
 
-    scaleSprite(scale) {
-        if (!this.sprite) {console.log('ERROR no sprite to scale',this); return}
-        this.sprite.scale = scale
-    }
+    // scaleSprite(scale) {
+    //     if (!this.sprite) {console.log('ERROR no sprite to scale',this); return}
+    //     this.sprite.scale = scale
+    // }
 
-    fixHeight(height) {
-        if (!this.sprite) {console.log('ERROR no sprite to fix height',this); return}
-        let scale = height/ this.sprite.height
-        this.sprite.height *= scale
-        this.sprite.width *= scale
-    }
+    // fixHeight(height) {
+    //     if (!this.sprite) {console.log('ERROR no sprite to fix height',this); return}
+    //     let scale = height/ this.sprite.height
+    //     this.sprite.height *= scale
+    //     this.sprite.width *= scale
+    // }
 
 }
 

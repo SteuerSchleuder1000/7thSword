@@ -93,9 +93,11 @@ class Game {
     constructor(args) {
 
         console.log('init game',args)
-        this.loaded = false // needed?
+        args = args || {}
+        
+        // this.loaded = false // needed?
 
-        this.hero = new Hero(this, {abilityIDs:[]}) // from args
+        this.hero = new Hero(this, args) // from args
 
         this.scene = new Container()
         this.scene.name = 'Game'
@@ -123,7 +125,9 @@ class Game {
         
 
         this.loadingScreen(true)
-        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.introScreen); }
+        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.hero); }
+
+        // let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.introScreen); }
         // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
         // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_000) } // test levl
 

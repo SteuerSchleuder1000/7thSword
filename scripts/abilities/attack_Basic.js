@@ -29,7 +29,7 @@ class Attack_Basic extends Ability {
         ]
 
         this.state = e_abStates.idle
-        this.power = 10
+        this.power = 1
         this.t_cast = 5
         this.t_perform = 0.2
         this.t_performAnimation = 0.2 // time for character animation
@@ -48,7 +48,8 @@ class Attack_Basic extends Ability {
 
 
     startExecuting() {
-        this.combat.dealDamage(this.power, this.target, this, this.manager)
+        let damage = parseInt(this.power * this.manager.stats.power)
+        this.combat.dealDamage(damage, this.target, this, this.manager)
         //this.sound.play()
     }   
 

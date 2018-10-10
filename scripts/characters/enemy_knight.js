@@ -58,13 +58,16 @@ class Enemy_Knight extends Enemy {
     } // constructor
 
 
+
+    start() { this.animations.breathing(this.sprite) }
+
     // setup() {
     //     super.setup()
     //     // this.animations.breathing(this.sprite) // find a better setup
     // }
 
     decide() {
-        //console.log('decide', this.stats.combo)
+        
         this.target = this.combat.hero
         let idle0 = this.abilities[0].state == e_abStates.idle
         let idle1 = this.abilities[1].state == e_abStates.idle
@@ -74,6 +77,8 @@ class Enemy_Knight extends Enemy {
         }
         else if (idle0) { this.abilities[0].cast(this.target); this.changeComboBy(1) }
         else { this.wait(1.0) }
+
+        // console.log('decide', this.state, idle0, idle1)
     }
 
     takeDamage(damage, ability, caster) {

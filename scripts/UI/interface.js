@@ -18,38 +18,22 @@ class Interface extends Scene {
         this.heroAbilities = this.hero.abilities
         for (let a of this.heroAbilities) { this.assets = this.assets.concat(a.assets) }
 
-        this.healthbar = new Healthbar_Hero(this.hero, this.scene)
+        this.healthbar = new Healthbar_Hero(this.hero)//, this.scene)
         this.hero.healthbar = this.healthbar
         this.hero.interface = this
         this.assets = this.assets.concat(this.healthbar.assets)
 
 
 
-
-
-        
-        // CRUDE UI BUTTONS -> make more elegant!!!!
-        let btnWidth = 0.2*WIDTH
-        this.menuBtn = new Graphics()
-        this.menuBtn.beginFill(0xFFFFFF);
-        this.menuBtn.drawRect(WIDTH - btnWidth, HEIGHT - btnWidth, btnWidth, btnWidth)
-        this.menuBtn.alpha = 0.5
-        this.menuBtn.position.z = 3
-        this.menuBtn.interactive = true
-        this.menuBtn.on('pointerdown',this.restartLevel.bind(this))
-        //this.addSprite(this.menuBtn)
-
-
-        this.blockBtn = new Graphics()
-        this.blockBtn.beginFill(0xFFFFFF)
-        this.blockBtn.drawRect(0,HEIGHT*0.5,WIDTH*0.5,HEIGHT)
+        this.blockBtn = this.createButton({x:0,y:HEIGHT*0.4,z:10,width:0.5*WIDTH,height:0.45*HEIGHT})
         this.blockBtn.alpha = 0
-        this.blockBtn.name = 'blockBtn'
-        this.blockBtn.position.z = 10
-        this.blockBtn.interactive = true
         this.blockBtn.on('pointerdown', this.block.bind(this))
         this.blockBtn.on('pointerup', this.block.bind(this))
-        this.addSprite(this.blockBtn)
+
+        let btnWidth = SETTINGS.ui.btnWidth*0.9
+        this.menuBtn = this.createButton({x:0, y:0, z:10, width:btnWidth, height:btnWidth })
+        this.menuBtn.alpha = 0.8
+        this.menuBtn.on('pointerdown', this.heroMenu.bind(this))
     }
 
 
@@ -65,7 +49,6 @@ class Interface extends Scene {
         if(this.spritesLoaded) { return }
         this.spritesLoaded = true
 
-        this.healthbar.setup()
 
         let btnWidth = 0.18*WIDTH
         let btnGap = 0.07*WIDTH
@@ -75,7 +58,7 @@ class Interface extends Scene {
         key.release = this.block.bind(this)
 
         let key2 = keyboard(27) // esc button
-        key2.press = this.restartLevel.bind(this)
+        key2.press = this.heroMenu.bind(this) //this.restartLevel.bind(this)
 
         for (let i=0; i<4;i++) {
 
@@ -87,7 +70,7 @@ class Interface extends Scene {
                 url: ab.assets[0],
                 width: btnWidth,
                 x: btnGap*0.5 + i*(btnWidth+btnGap), //0.03*WIDTH,
-                y: HEIGHT, //- btnWidth - 0.5*btnGap ,//btnGap*1.5 + i*(btnWidth+btnGap),
+                y: HEIGHT - btnWidth*1.1, //- btnWidth - 0.5*btnGap ,//btnGap*1.5 + i*(btnWidth+btnGap),
                 z: e_zIndex.interface,
                 visible: true,
             })
@@ -99,6 +82,7 @@ class Interface extends Scene {
             key.press = btn.buttonEvent.bind(btn)
         }
 
+        this.healthbar.addToScene({x:0.1*WIDTH, y:HEIGHT - btnWidth*1.5, scene: this.scene })
 
     } // setup
 
@@ -107,7 +91,7 @@ class Interface extends Scene {
 
     block(e) { this.hero.block(e.type == 'pointerdown' || e.type == 'keydown') }
 
-
+    heroMenu() { this.manager.loadMenu(e_menus.hero) }
     restartLevel() { this.manager.restartLevel() }
 
     greyOut(b) { for (let btn of this.buttons) { btn.sprite.alpha = b ? 0.5 : 1 } }

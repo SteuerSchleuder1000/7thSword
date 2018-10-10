@@ -62,6 +62,7 @@ class AbilityButton extends Scene {
         this.line.clear()        
         this.line.lineStyle(lineWidth, 0xFFFFFF, 1);
         this.line.moveTo(x,y);
+        this.line.alpha = progress*2
 
 
         if (progress > 0.25) { this.line.lineTo(x,y+w) }
