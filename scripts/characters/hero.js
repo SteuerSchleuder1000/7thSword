@@ -5,7 +5,7 @@ class Hero extends Character {
 
     constructor(manager, args) {
 
-        super(manager)//, superScene, combat)
+        super(manager, args)
         console.log('new hero', args)
         this.scene.position.z = e_zIndex.hero
         this.name = 'Hero'
@@ -21,6 +21,12 @@ class Hero extends Character {
             exp: 0,
             level: level,
         })
+
+        this.kp = { // keypoints
+            overhead: {x: 0.2, y: 1},
+            head: {x:0.2, y: 0.8 },
+            middle: {x: 0.4, y: 0.5},
+        }
 
 
         // Abilities

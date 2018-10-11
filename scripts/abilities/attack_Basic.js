@@ -30,7 +30,7 @@ class Attack_Basic extends Ability {
 
         this.state = e_abStates.idle
         this.power = 1
-        this.t_cast = 5
+        this.t_cast = 3
         this.t_perform = 0.2
         this.t_performAnimation = 0.2 // time for character animation
         this.t_recovery = 1.0

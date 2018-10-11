@@ -54,7 +54,7 @@ class Menu_LevelSelection extends Menu {
     }
 
     transition(levelID) {
-        this.manager.loadLevel(e_levels.lv_002)
+        this.manager.transition(e_stages.lv_002)
     }
 }
 

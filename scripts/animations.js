@@ -141,7 +141,19 @@ class Animations {
         let reset = args.reset || false
 
 
-        let scale0 = obj.scale.x
+        let scaleX0 = obj.scale.x
+        let scaleY0 = obj.scale.x
+        let callback = args.callback
+
+        let scaleX, scaleY
+        if (args.x != undefined) { scaleX = args.x }
+        if (args.y != undefined) { scaleY = args.y }
+        if (scaleX == undefined && scaleY != undefined) { scaleX = 1 }
+        if (scaleY == undefined && scaleX != undefined) { scaleY = 1 }
+        if (scaleY == undefined && scaleX == undefined) { scaleX = 1; scaleY = 1 }
+        if (args.scale != undefined) { scaleX = args.scale; scaleY = args.scale }
+
+        // let scale0 = obj.scale.x
         let progress = 0
         let duration = time
 
@@ -150,15 +162,16 @@ class Animations {
         f = (delta)=> { 
 
             if (time <= 0) { 
-                if(reset) { obj.scale.x = scale0; obj.scale.y = scale0 }
+                if(reset) { obj.scale.x = scaleX0; obj.scale.y = scaleY0 }
 
-                obj.animationList = obj.animationList.filter(item => item !== f) 
+                obj.animationList = obj.animationList.filter(item => item !== f)
+                if (callback) { return callback() }
                 return
             }
 
             progress = (duration-time)/duration
-            obj.scale.x = scale0 + progress*(scale*scale0 - scale0)
-            obj.scale.y = scale0 + progress*(scale*scale0 - scale0)
+            obj.scale.x = scaleX0 * (1 + progress*(scaleX - 1)) // progress*(scale*scale0 - scale0)
+            obj.scale.y = scaleY0 * (1 + progress*(scaleY - 1)) //scale0 + progress*(scale*scale0 - scale0)
             time -= delta
 
             return f
@@ -169,7 +182,7 @@ class Animations {
         obj.animationList.push(f)
         this.add(obj)
         return f
-    }
+    } // scale
 
 
 
@@ -294,6 +307,7 @@ class Animations {
         let magnitude = args.magnitude || 0.01
         let time = args.time || 0
         let loop = args.loop || false
+        let callback = args.callback
 
         let duration = time
         let x0 = obj.position.x
@@ -306,7 +320,8 @@ class Animations {
 
             if (time <= 0 && !loop) { 
                 obj.position.set(x0, y0)
-                obj.animationList = obj.animationList.filter(item => item !== f) 
+                obj.animationList = obj.animationList.filter(item => item !== f)
+                if (callback) { return callback() }
                 return
             }
 

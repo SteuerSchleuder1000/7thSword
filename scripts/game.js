@@ -103,17 +103,14 @@ class Game {
         this.scene.name = 'Game'
         app.stage.addChild(this.scene)
         
-        
+        this.stageManager = new StageManager( this, this.scene, { hero: this.hero})
 
-        this.state = new Statemachine()
-        this.state.add( e_gameStates.mainMenu,   new MenuManager(this, this.scene, {hero: this.hero}))
-        this.state.add( e_gameStates.world,      new LevelManager(this, this.scene, {hero: this.hero}))
-
-        this.soundSettings = {volume: 1}
+        // this.state = new Statemachine()
+        // this.state.add( e_gameStates.mainMenu,   new MenuManager(this, this.scene, {hero: this.hero}))
+        // this.state.add( e_gameStates.world,      new LevelManager(this, this.scene, {hero: this.hero}))
 
 
         this.load()
-        
 
         let update = delta => { this.update(delta) }
         app.ticker.add(update.bind(this))
@@ -125,7 +122,10 @@ class Game {
         
 
         this.loadingScreen(true)
-        let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.talents); }
+        let callback = _=> { 
+            // this.transition(e_gameStates.mainMenu, e_menus.talents);
+            this.stageManager.transition(e_stages.talents)
+        }
 
         // let callback = _=> { this.transition(e_gameStates.mainMenu, e_menus.introScreen); }
         // let callback = _=> { this.transition(e_gameStates.world, e_levels.lv_002) }
@@ -151,7 +151,7 @@ class Game {
         delta /= SETTINGS.fps
         
         //console.log('update?', this.state.update)
-        this.state.update(delta)
+        this.stageManager.update(delta)
 
     }
 

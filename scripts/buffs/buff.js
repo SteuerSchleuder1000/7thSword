@@ -47,12 +47,14 @@ class Debuff_Stun extends Buff {
 
         let btnWidth = SETTINGS.ui.btnWidth
         let path = 'assets/images/abilities/'
-        let x = this.target.healthbar.x
-        let y = this.target.healthbar.y
+        let point = this.target.keyPoints.overhead()
+        // let x = this.target.healthbar.x // !!! key points
+        // let y = this.target.healthbar.y
         this.sprite = new PIXI.Sprite.fromImage(path+'stun.png')
-        this.sprite.position.set(x,y)//0.5*WIDTH, 0.5*HEIGHT)
+        this.sprite.position.set(point.x, point.y)
         this.sprite.width = btnWidth
         this.sprite.height = btnWidth
+        this.sprite.anchor.set(0.5, 0)
 
         
 
@@ -99,14 +101,6 @@ class Buff_Burn extends Buff{
 
 }// buff burn
 
-
-
-
-class Buff_Stun extends Buff {
-    constructor() {
-        super()
-    }
-}
 
 
 

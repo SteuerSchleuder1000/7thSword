@@ -2,24 +2,26 @@
 
 
 class Enemy extends Character {
-    constructor(manager, superScene, combat) {
-        super(manager, superScene, combat)       
+    constructor(manager, args) {
+        super(manager, args)       
         this.healthbar = null
         this.t_recovery = 0.5
         this.playerControlled = false
+        
+
+        this.kp = {
+            overhead: {x: 0, y: 0.8},
+            head: {x:0, y: 0.6 },
+            middle: {x: 0, y: 0.4},
+        }
     }
-
-
     
-
-    setup() {
-        super.setup()
-        this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.2, HEIGHT*0.39)
-    }
 
     addToScene(args) {
         super.addToScene(args)
-        this.healthbar = new Healthbar_Enemy(this, this.scene, WIDTH*0.7, HEIGHT*0.39) 
+        let point = this.keyPoints.overhead()
+        this.healthbar = new Healthbar_Enemy(this, this.scene, point.x, point.y)
+        this.healthbar.hide()
     }
 
     hideHealthbar() {this.healthbar.hide() }

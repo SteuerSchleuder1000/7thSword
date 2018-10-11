@@ -85,20 +85,43 @@ class Healthbar_Hero extends Healthbar {
     updateHealth(d) { 
         let health_init = this.manager.stats.health_init
         let health = this.manager.stats.health
+        
         this.sprite.width = health/health_init*this.originalWidth
+        //let magnitude =  Math.abs(d/health_init)*20
+        if (d < 0) { this.damageAnimation(d, health_init)}
+        if (d > 0) { this.healAnimation(d, health_init) }
 
-        let magnitude =  Math.abs(d/health_init)*20
-        if (d < 0) { this.damageAnimation(magnitude)}
-        if (d > 0) { this.healAnimation(magnitude) }
+        
     }
     
 
-    damageAnimation(magnitude) { 
+    damageAnimation(d, health) {
+        let ratio = Math.abs(d/health)
+        let magnitude = ratio*20
+
+        let scaleX = this.sprite.scale.x
+        let scaleY = this.sprite.scale.y
+        let f = 0 //this.originalWidth/scaleX*0.01
+
+        let dmgSprite = this.createGraphics({
+            x: this.sprite.width/scaleX - f, 
+            y: 0, 
+            z: 10, 
+            height: this.sprite.height/scaleY,
+            width: ratio*this.originalWidth/scaleX + f,
+        })
+
+        
+        this.sprite.addChild(dmgSprite)
+
+        let callback = ()=>{ this.sprite.removeChild(dmgSprite)}
         this.animations.shake(this.sprite, {time: 0.5, magnitude: magnitude})
+        this.animations.scale(dmgSprite, {time:1, x:0, callback: callback.bind(this)})
     }
 
-    healAnimation(magnitude) {
-        
+    healAnimation(d, health) {
+        let magnitude =  Math.abs(d/health)*20
+        // this.sprite.width = d/health*this.originalWidth
     }
 
     updateCombo() { // animate new ones

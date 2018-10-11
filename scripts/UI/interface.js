@@ -91,7 +91,7 @@ class Interface extends Scene {
 
     block(e) { this.hero.block(e.type == 'pointerdown' || e.type == 'keydown') }
 
-    heroMenu() { this.manager.loadMenu(e_menus.hero) }
+    heroMenu() { this.manager.transition(e_stages.hero) }
     restartLevel() { this.manager.restartLevel() }
 
     greyOut(b) { for (let btn of this.buttons) { btn.sprite.alpha = b ? 0.5 : 1 } }

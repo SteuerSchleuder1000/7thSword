@@ -1,6 +1,11 @@
 
 
-
+let KEYPOINTS = {
+    overhead: 0,
+    ground: 1,
+    head: 2,
+    middle: 3,
+}
 
 
 class Character extends Scene {
@@ -44,6 +49,31 @@ class Character extends Scene {
         this.healthbar = null
         this.castingAbility = null // what ability is he casting?
         this.target = null // in combat
+
+        this.kp = {overhead:{x:0,y:0},head:{x:0,y:0},ground:{x:0,y:0},middle:{x:0,y:0}}
+        this.keyPoints = { // points for sprite attachements
+
+            overhead: ()=>{
+                let kp = this.kp.overhead
+                return {x: this.sprite.width* kp.x , y: -this.sprite.height* kp.y}
+            },
+
+            head: ()=>{
+                let kp = this.kp.head
+                return {x: this.sprite.width* kp.x , y: -this.sprite.height* kp.y}
+            },
+
+            ground: ()=>{
+                let kp = this.kp.ground
+                return {x: this.sprite.width* kp.x , y: -this.sprite.height* kp.y}
+            },
+
+            middle: ()=>{
+                let kp = this.kp.middle
+                return {x: this.sprite.width* kp.x , y: -this.sprite.height* kp.y}
+            },
+
+        } // this.keypoints
         
     } // constructor
 
@@ -55,16 +85,18 @@ class Character extends Scene {
 
         this.superScene = args.scene
         this.scene = new Container() // clean house
+        this.scene.position.set(args.x, args.y)
         this.scene.position.z = args.z || e_zIndex.character
         this.superScene.addChild(this.scene)
+
 
         this.sprite = this.createSprite({
             name: this.name,
             url: this.assets[0],
             anchor: [0.5, 1],
             height: args.height,
-            //x: this.x, y: this.y, z: this.z,
-            x: args.x, y: args.y, z:args.z,
+            // x: args.x, y: args.y, z:args.z,
+            x: 0, y: 0, z:args.z,
             addToScene: true,
         })
 
@@ -92,8 +124,7 @@ class Character extends Scene {
         for (let a of this.abilities) { a.combat = combat }
         this.idle()
         this.setTarget()
-        if(this.healthbar) {this.healthbar.show()}
-        // this.healthbar.show()
+        this.healthbar.show()// {this.healthbar.show()}
     
     }
 

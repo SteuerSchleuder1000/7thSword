@@ -36,31 +36,31 @@ class Menu extends Stage {
 
 
 
-class MenuManager extends StageManager { 
+// class MenuManager extends StageManager { 
 
-    constructor(manager, superScene, args) {
-        super(manager, superScene)
-        this.scene.name = 'MenuManager'
+//     constructor(manager, superScene, args) {
+//         super(manager, superScene)
+//         this.scene.name = 'MenuManager'
 
-        console.log('MenuManager',args)
-        this.hero = args.hero
-    }
+//         console.log('MenuManager',args)
+//         this.hero = args.hero
+//     }
 
-    transition(menuID) { 
-        if (!this.state.contains(menuID)) { this.loadMenu(menuID) }
-        this.state.change(menuID) 
-    }
+//     transition(menuID) { 
+//         if (!this.state.contains(menuID)) { this.loadMenu(menuID) }
+//         this.state.change(menuID) 
+//     }
 
-    loadMenu(menuID) {
-        let options = {hero: this.hero}        
-        this.state.add( menuID, e_menus.init[menuID](this, this.scene, options))
-    }
+//     loadMenu(menuID) {
+//         let options = {hero: this.hero}        
+//         this.state.add( menuID, e_menus.init[menuID](this, this.scene, options))
+//     }
 
-    loadLevel(levelID) {
-        this.manager.transition(e_gameStates.world, levelID)
-    }
+//     loadLevel(levelID) {
+//         this.manager.transition(e_gameStates.world, levelID)
+//     }
 
-} // menuManager
+// } // menuManager
 
 
 

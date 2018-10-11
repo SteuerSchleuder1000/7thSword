@@ -1,32 +1,75 @@
 
 
+let e_stages = {
+
+    // menus
+    introScreen: 0,
+    levelSelection: 1,
+    options: 2,
+    hero: 3,
+    talents: 4,
+
+    // levels
+    lv_002: 5,
+
+    init: {
+        // menus
+        0: (m,s,o)=>{ return new Menu_IntroScreen(m,s,o) },
+        1: (m,s,o)=>{ return new Menu_LevelSelection(m,s,o) },
+        2: (m,s,o)=>{ },
+        3: (m,s,o)=>{ return new Menu_Hero(m,s,o) },
+        4: (m,s,o)=>{ return new Menu_Talents(m,s,o) },
+
+        // levels
+        5: (m,s,o) => {return new Level_002(m,s,o)},
+
+    },
+}
 
 
 class StageManager extends Stage { // StageManager
 
-    constructor(manager, superScene) {
+    constructor(manager, superScene, args) {
         super(manager, superScene)
-        this.manager = manager
-        this.scene = new Container()
-        this.state = new Statemachine()
-        this.superScene = superScene
+        // this.scene.visible = false
 
-        this.scene.visible = false
+        this.stage = new Statemachine()
 
-        this.superScene.addChild(this.scene)
+        this.hero = args.hero
+        this.interface = new Interface(this, this.hero)
     }
 
-    onEntry() { this.scene.visible = true } // when focus changes to this manager
-    onExit() { 
-        // if( this.state.current ) { this.state.current.onExit() }
-        this.scene.visible = false }
+
+
+    transition(stageID) {
+        if (!this.stage.contains(stageID)) { this.loadStage(stageID) }
+        this.stage.change(stageID) 
+    }
+
+    loadStage(stageID) {
+        let options = {hero: this.hero, interface: this.interface}
+        console.log('load level',stageID, options)
+        
+        this.stage.add( stageID, e_stages.init[stageID](this, this.scene, options))
+    }
+
+
+    restartLevel() {
+        this.hero.reset()
+        this.stage.current.removeFromScene()
+        this.stage.current = null
+        this.loadStage(this.stage.currentID)
+        this.transition(this.stage.currentID)
+    }
+
 
     loadingProgress(e,p) { 
         //console.log('progress',e.progress) 
-    } // called while loading
+    }
 
-    update(delta) { this.state.update(delta) }
-
-    transition() {}
+    update(delta) { 
+        this.stage.update(delta)
+    }
 
 }
+

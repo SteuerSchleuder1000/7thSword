@@ -1,8 +1,8 @@
 
 class Enemy_Knight extends Enemy {
 
-    constructor(manager, superScene, combat) {
-        super(manager, superScene, combat)
+    constructor(manager, args) {
+        super(manager, args)
         this.name = 'Knight'
 
 
@@ -46,13 +46,11 @@ class Enemy_Knight extends Enemy {
 
         // Abilities
         this.abilities = [
-            new Attack_Basic(this, superScene, combat),
-            new Attack_Firering(this, superScene, combat),
+            new Attack_Basic(this),//, superScene, combat),
+            new Attack_Firering(this),//, superScene, combat),
         ]
 
 
-
-        this.state = e_combatStates.idle
         for (let key of Object.keys(this.frames)) { this.assets.push(this.frames[key]) } // concat assets
 
     } // constructor
@@ -61,10 +59,6 @@ class Enemy_Knight extends Enemy {
 
     start() { this.animations.breathing(this.sprite) }
 
-    // setup() {
-    //     super.setup()
-    //     // this.animations.breathing(this.sprite) // find a better setup
-    // }
 
     decide() {
         

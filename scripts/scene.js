@@ -74,10 +74,21 @@ class Scene { // any game object with sprites
         let btn = new PIXI.Graphics()
         btn.beginFill(0xFFFFFF)
         btn.drawRect(0, 0, args.width, args.height)
-        btn.position.set(args.x,args.y)
+        btn.position.set(args.x, args.y)
         btn.position.z = args.z
         btn.interactive = true
         this.addSprite(btn)
+        return btn
+    }
+
+    createGraphics(args) {
+        let btn = new PIXI.Graphics()
+        btn.beginFill(0xFFFFFF)
+        btn.drawRect(0, 0, args.width, args.height)
+        btn.position.set(args.x,args.y)
+        btn.position.z = args.z
+        btn.interactive = true
+        // this.addSprite(btn)
         return btn
     }
 

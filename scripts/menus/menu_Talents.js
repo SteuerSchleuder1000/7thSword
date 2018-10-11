@@ -71,8 +71,8 @@ class Menu_Talents extends Menu {
         console.log('hero inCombat:',this.heroInCombat, this.hero.inCombat)
         super.onEntry()
         
-        // this.heroState = this.hero.state
-        // this.heroInCombat = this.hero.inCombat
+        this.heroState = this.hero.state
+        this.heroInCombat = this.hero.inCombat
         // this.hero.inCombat = false
         // this.hero.state = e_combatStates.dialog
         // if (this.allSetup) { this.updateData() }
@@ -83,8 +83,8 @@ class Menu_Talents extends Menu {
     onExit() {
         console.log('ON EXIT')
 
-        // this.hero.state = this.heroState
-        // this.hero.inCombat = true//this.heroInCombat
+        this.hero.state = this.heroState
+        this.hero.inCombat = this.heroInCombat
         super.onExit()
     }
 
@@ -92,7 +92,7 @@ class Menu_Talents extends Menu {
         console.log('talent selected',e.target.id)
     }
 
-    transition() { this.manager.loadLevel(e_levels.lv_002) }
-    goBack() { this.manager.transition(e_menus.hero) }
+    transition() { this.manager.transition(e_stages.lv_002) }
+    goBack() { this.manager.transition(e_stages.hero) }
 }
 

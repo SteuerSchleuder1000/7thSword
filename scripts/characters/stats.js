@@ -3,15 +3,18 @@
 
 class Stats {
 
-    constructor(arg) {
+    constructor(args) {
 
-        arg = arg || {}
-        this.power_init = arg.power || 10
-        this.health_init = arg.health || 100
+        args = args || {}
+        this.id = args.id
+        this.manager = args.manager
+        this.power_init = args.power || 10
+        this.health_init = args.health || 100
         this.energy_init = 0
         this.combo_init = 0
         this.exp = 0
-        this.level = arg.level || 1
+        this.level = args.level || 1
+        this.modifiers = [] // objects like equipments, buffs, talents, or story
 
 
         this.combo_max = 5
@@ -23,6 +26,13 @@ class Stats {
         // for (let i=1; i<this.level; i++) { this.levelUp() }
         
     }
+
+    init() {
+        this.power = this.power_init
+        this.health = this.health_init
+        this.combo = this.combo_init   
+    }
+
 
     reset() {
         this.power = this.power_init
@@ -73,11 +83,38 @@ class Stats {
         this.level = lv
         this.health_init = parseInt(Math.pow(1.1,lv)*100)
         this.power_init = parseInt(Math.pow(1.1,lv)*10)
+        this.speed_init = 1.0
 
         this.power = this.power_init
         this.health = this.health_init
+        this.speed = this.speed_init
     }
     
+
+
+
+    update() { // when to update? -> add buff, equipment, start combat, 
+        
+        let health = this.health
+        this.scaleToLevel(this.level)
+
+        for (let obj  of this.manager.buffs) { this.addStats(obj.stats) }
+        for (let obj  of this.manager.equipments) { this.addStats(obj.stats) }
+        for (let obj  of this.manager.talents) { this.addStats(obj.stats) }
+        for (let obj  of this.manager.talents) { this.addStats(obj.stats) }
+
+        this.health = health // reset
+        
+    }// update
+
+    addStats(stats) {
+        this.power += stats.power
+    }
+
+
+
+
+
 
 
 } // stats

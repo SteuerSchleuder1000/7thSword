@@ -77,7 +77,7 @@ class Menu_Hero extends Menu {
         this.text_power.text = 'Power '+stats.power
     }
 
-    transition() { this.manager.loadLevel(e_levels.lv_002) }
-    goBack() { this.manager.transition(e_menus.talents)}
+    transition() { this.manager.transition(e_stages.lv_002) }
+    goBack() { this.manager.transition(e_stages.talents)}
 }
 
