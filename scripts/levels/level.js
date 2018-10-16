@@ -40,7 +40,7 @@ let e_weather = {
 class Progress { // state for statemachine
     constructor(args) {
         this.c = 0              // counter
-        this.n =        args.n  // number of adds
+        this.n = args.n != undefined ? args.n : 1 // number of adds
         this.entry =    args.entry 
         this.exit =     args.exit  
         this.keyNext =  args.next // next key

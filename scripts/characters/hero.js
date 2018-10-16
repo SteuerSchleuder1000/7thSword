@@ -26,6 +26,7 @@ class Hero extends Character {
             overhead: {x: 0.2, y: 1},
             head: {x:0.2, y: 0.8 },
             middle: {x: 0.4, y: 0.5},
+            hand: {x: 0.5, y: 0.5},
         }
 
 

@@ -41,7 +41,8 @@ class Level_002 extends Level {
 
         // Background
         path = 'assets/images/backgrounds/'
-        this.bg = new Background(this,{assets: [path+'forestbackground.png']})
+        // this.bg = new Background(this,{assets: [path+'forestbackground.png']})
+        this.bg = new Background(this,{assets: [path+'highlands.jpg']})
 
 
         // characters
@@ -114,12 +115,12 @@ class Level_002 extends Level {
         
         
 
-        let x = 0.7*WIDTH
+        let x = 0.75*WIDTH
         let y = 0.8*HEIGHT
         let knight = new Enemy_Knight(this)
         knight.addToScene({x:x, y:y, z:e_zIndex.character, height: 0.48*HEIGHT, scene: this.scene})
         this.combat.addEnemy(knight)
-
+        this.addEnemy()
 
         this.hero.addToScene({scene: this.scene, x: 0.25*WIDTH, y: 1.0*HEIGHT, z: e_zIndex.hero, height: 0.7*HEIGHT})
         this.combat.addHero(this.hero)
@@ -158,11 +159,35 @@ class Level_002 extends Level {
         this.zSort()
     }
 
+    speech1() {
+
+        this.startDialog()
+        this.dialog.reset()
+        let s = textStyles.normal
+        this.dialog.addNode({text: 'I have found you!\nNo more running', style: s, position: 1, id: 0, next: 1})
+        this.dialog.addNode({text: 'Hand over the blade\nand I might let you live', style: s, position: 1, id: 1, next: 2})
+        this.dialog.addNode({text: "The stars are aligning\nThe kings return destiny\nforetold centuries ago", style: s, position: 2, id: 2, next: 3})
+        this.dialog.addNode({text: "You pathetic mortal will not\nbe able to change anything!", style: s, position: 2, id: 3, next: 4})
+        this.dialog.addNode({text: 'You leave me no choice', style: s, position: 1, id: 4, next: false})
+        this.dialog.displayNode(0)
+
+    }
+
+    speech2() {
+
+        this.startDialog()
+        this.dialog.reset()
+        let s = textStyles.normal
+        this.dialog.addNode({text: "Sacrileg!\nI WILL BURN YOU TO ASHES!", style: s, position: 2, id: 0, next: false})
+        this.dialog.displayNode(0)
+
+    }
+
     startCombat() {
         super.startCombat()
-        let c = this.progress.combat.c
         let n = this.progress.combat.n
-        this.updateBannerText(c+'/'+n+' Knights Defeated')
+        let c = this.progress.combat.c
+        this.updateBannerText(c+'/'+n+' Knights defeated')
     }
 
 
@@ -170,19 +195,20 @@ class Level_002 extends Level {
 
 
     addEnemy() {
-        let x = 0.7*WIDTH
+        let x = 0.5*WIDTH // 0.7
         let y = 0.8*HEIGHT
         let lv = this.progress.combat.c
         let knight = new Enemy_Knight(this,{level:lv})
-        knight.addToScene({x:x, y:0, z:e_zIndex.character, height: 0.48*HEIGHT, scene: this.scene})
+        // knight.addToScene({x:x, y:0, z:e_zIndex.character, height: 0.48*HEIGHT, scene: this.scene})
+        knight.addToScene({x:x, y:y, z:e_zIndex.character, height: 0.48*HEIGHT, scene: this.scene})
         this.zSort()
 
         let callback = ()=>{
             this.combat.addEnemy(knight)
             this.shakeScreen()
         }
-
-        this.animations.move(knight.sprite,{time: 1.0, y: y, callback: callback.bind(this)})
+        callback()
+        // this.animations.move(knight.sprite,{time: 1.0, y: y, callback: callback.bind(this)})
         
     }
 
@@ -199,42 +225,10 @@ class Level_002 extends Level {
         this.updateBannerText(c+'/'+n+' Knights Defeated')
     }
 
-    speech1() {
-
-        this.startDialog()
-        this.dialog.reset()
-        this.dialog.addNode({text: 'Who Dares Enter\nThese Woods?', style: textStyles.normal, position: 0, id: 0, next: false})
-        this.dialog.displayNode(0)
-
-    }
+    
 
    
 
-    // displayLoot() {
-
-    //     let lootBag = new Loot(this, this.scene)
-    //     this.objects.push(lootBag)
-    //     loot.fill('random', 5)
-
-
-    // }
-
-
-    speech2() {
-
-        this.startDialog()
-
-        let s = textStyles.normal
-        this.dialog.reset()
-        this.dialog.addNode({text: 'hello', style: s, position: 1, id: 0, next: 1})
-        this.dialog.addNode({text: 'I said HELLO!', style: s, position: 1, id: 1, next: false})
-        this.dialog.displayNode(0)
-       
-        // tree structure
-
-        // this.dialog.display('I Will Have\nMy Revenge!', textStyles.normal)
-
-    }
 
 
     // TODO: streamline!!!

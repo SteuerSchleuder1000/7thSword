@@ -50,7 +50,7 @@ class Character extends Scene {
         this.castingAbility = null // what ability is he casting?
         this.target = null // in combat
 
-        this.kp = {overhead:{x:0,y:0},head:{x:0,y:0},ground:{x:0,y:0},middle:{x:0,y:0}}
+        this.kp = {overhead:{x:0,y:0},head:{x:0,y:0},ground:{x:0,y:0},middle:{x:0,y:0},hand:{x:0,y:0},}
         this.keyPoints = { // points for sprite attachements
 
             overhead: ()=>{
@@ -70,6 +70,11 @@ class Character extends Scene {
 
             middle: ()=>{
                 let kp = this.kp.middle
+                return {x: this.sprite.width* kp.x , y: -this.sprite.height* kp.y}
+            },
+
+            hand: ()=>{
+                let kp = this.kp.hand
                 return {x: this.sprite.width* kp.x , y: -this.sprite.height* kp.y}
             },
 

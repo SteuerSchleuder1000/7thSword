@@ -48,8 +48,9 @@ class Attack_Fireball extends Ability {
 
     startCasting() {
 
-        this.fireball.layer.position.x = this.manager.sprite.position.x + 0.2*WIDTH
-        this.fireball.layer.position.y = this.manager.sprite.position.y - 0.3*HEIGHT
+        let point = this.manager.keyPoints.hand()
+        this.fireball.layer.position.x = point.x //this.manager.sprite.position.x + 0.2*WIDTH
+        this.fireball.layer.position.y = point.y //this.manager.sprite.position.y - 0.3*HEIGHT
         this.fireball.emitter.emit = true
     }
 
@@ -57,9 +58,10 @@ class Attack_Fireball extends Ability {
     startPerforming() {
         let fb = this.fireball.emitter
         let callback = ()=> {fb.emit = false}
-        let x = this.target.sprite.position.x
-        let y = this.target.sprite.position.y - 0.15*HEIGHT
-        this.animations.move(this.fireball.layer,{time: this.t_perform, x: x, y: y, reset: false, callback: callback})
+        let point = this.target.keyPoints.middle()
+        // let x = this.target.sprite.position.x
+        // let y = this.target.sprite.position.y - 0.15*HEIGHT
+        this.animations.move(this.fireball.layer,{time: this.t_perform, x: point.x, y: point.y, reset: false, callback: callback})
 
     }
     
