@@ -59,11 +59,11 @@ class Level_001 extends Level {
             dialog1:    new Progress({ n: 1, entry: this.speech1,           next: 'combat'}),   // confront the stranger
             combat:     new Progress({ n: 1, entry: this.startCombat, exit: this.endCombat,       next: 'dialog2'}), // defeat the stranger
             dialog2:    new Progress({ n: 1, entry: this.speech2,           next: 'combat2'}), // monolog
-            combat2:    new Progress({ n: 1, entry: this.startCombat2, exit: this.endCombat,       next: 'dialog3'}) // defate the ember blade
+            combat2:    new Progress({ n: 1, entry: this.startCombat, exit: this.endCombat,       next: 'dialog3'}), // defate the ember blade
             dialog3:    new Progress({ n: 1, entry: this.speech3,           next: 'emberblade'}), // end remarks
             emberblade: new Progress({ n: 1, entry: this.emberblade,        next: 'cityGuards'}), // inspect the emberblade
             cityGuards: new Progress({ n: 1, entry: this.speech4,           next: 'combat3'}), // city guards enter
-            combat3:    new Progress({ n: 2, entry: this.startCombat2, exit: this.endCombat,       next: 'dialog4'}) // defate the cityguards
+            combat3:    new Progress({ n: 2, entry: this.startCombat, exit: this.endCombat,       next: 'dialog4'}), // defate the cityguards
             dialog4:    new Progress({ n: 1, entry: this.speech5,           next: false}), // end remarks, flee the scene
 
 
@@ -71,7 +71,6 @@ class Level_001 extends Level {
             current:    new Progress({ n: 1, next: 'intro'}),
             next:       ()=>{ this.progress.current = this.progress[this.progress.current.keyNext] },
         }
-
 
         
 
@@ -156,7 +155,7 @@ class Level_001 extends Level {
 
 
         // forground -> do via this.bg.introAnimationRight({time: time})
-        let tree = new PIXI.Sprite.fromImage('assets/images/backgrounds/tree.png')
+        let tree = new PIXI.Sprite.from('assets/images/backgrounds/tree.png')
         tree.height = HEIGHT
         tree.position.set(-WIDTH,0.1*HEIGHT)
         tree.position.z = e_zIndex.interface - 0.1

@@ -1,6 +1,6 @@
 
 
-let e_eventIDs =  {
+e_eventIDs =  {
     defeat: 0,
     dialog: 1,
 }
@@ -41,8 +41,8 @@ class Level_002 extends Level {
 
         // Background
         path = 'assets/images/backgrounds/'
-        // this.bg = new Background(this,{assets: [path+'forestbackground.png']})
-        this.bg = new Background(this,{assets: [path+'highlands.jpg']})
+        this.bg = new Background(this,{assets: [path+'forestbackground.png']})
+        // this.bg = new Background(this,{assets: [path+'highlands.jpg']})
 
 
         // characters

@@ -13,7 +13,7 @@ let e_stages = {
     lv_002: 5,
 
     init: {
-        // menus
+        // menus (stageManager, scene, options)
         0: (m,s,o)=>{ return new Menu_IntroScreen(m,s,o) },
         1: (m,s,o)=>{ return new Menu_LevelSelection(m,s,o) },
         2: (m,s,o)=>{ },
@@ -21,8 +21,8 @@ let e_stages = {
         4: (m,s,o)=>{ return new Menu_Talents(m,s,o) },
 
         // levels
-        5: (m,s,o) => {return new Level_002(m,s,o)},
-
+        5: (m,s,o) => {return new Level_001(m,s,o)}, // starting level
+        6: (m,s,o) => {return new Level_002(m,s,o)},
     },
 }
 
@@ -50,7 +50,8 @@ class StageManager extends Stage { // StageManager
         let options = {hero: this.hero, interface: this.interface}
         console.log('load level',stageID, options)
         
-        this.stage.add( stageID, e_stages.init[stageID](this, this.scene, options))
+        let stage = e_stages.init[stageID](this, this.scene, options);
+        this.stage.add( stageID, stage);
     }
 
 

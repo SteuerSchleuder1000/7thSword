@@ -41,5 +41,4 @@ class Stage extends Scene { // stage for menues, levels etc.
         this.scene.visible = false
     }
 
-
 }

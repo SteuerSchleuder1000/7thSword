@@ -1,0 +1,33 @@
+
+ideas
+
+
+tile based planets -> 
+civ + procedual city generation
+
+
+combat ideas
+    - uno
+    - snake
+    - guitar hero
+    - beat agent
+    - mario golf
+    - tetris
+
+
+stances
+    vigilant
+    defensive
+    offensive
+    focused
+
+
+Path travelling:
+    AB > A
+    find shortest
+    
+
+
+
+
+
